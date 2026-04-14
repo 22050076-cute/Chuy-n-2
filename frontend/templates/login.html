@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập | EduNext Aurora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: { edunext: { blue: '#3b82f6', purple: '#a855f7', pink: '#ec4899', dark: '#0f172a' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; font-size: 14px; letter-spacing: -0.01em; }
+        .bg-main { background: linear-gradient(135deg, #1e40af 0%, #4338ca 50%, #6d28d9 100%); overflow: hidden; }
+        .stacked-container { position: relative; padding: 20px; }
+        .layer-2 { position: absolute; top: 35px; left: 35px; right: 5px; bottom: 5px; background: rgba(255, 255, 255, 0.35); border-radius: 24px; z-index: 5; }
+        .layer-3 { position: absolute; top: 50px; left: 50px; right: -10px; bottom: -10px; background: rgba(255, 255, 255, 0.15); border-radius: 24px; z-index: 0; }
+        .glass-card { background: white; border-radius: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); position: relative; z-index: 10; }
+        .slide-content { display: none; animation: fadeIn 0.8s ease-in-out; }
+        .slide-content.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .dot { transition: all 0.3s ease; width: 8px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 99px; cursor: pointer; }
+        .dot.active { width: 24px; background: white; }
+        .separator { display: flex; align-items: center; text-align: center; color: #94a3b8; margin: 24px 0; }
+        .separator::before, .separator::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
+        .separator:not(:empty)::before { margin-right: 1rem; }
+        .separator:not(:empty)::after { margin-left: 1rem; }
+        /* Hiệu ứng Progress Bar cho Dot */
+.dot.active .progress-line {
+    width: 100% !important;
+}
+
+/* Hiệu ứng Fade In mượt mà hơn */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.slide-content.active {
+    display: flex;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+    </style>
+</head>
+<body class="bg-main h-screen w-full flex items-center justify-center p-4">
+
+    <div class="max-w-7xl w-full grid lg:grid-cols-2 items-center gap-12 z-10">
+        <div class="hidden lg:flex flex-col items-center text-center text-white p-12 min-h-[600px] justify-between relative">
+    
+    <div class="flex flex-col items-center gap-3 mb-6 relative z-10">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-white/10 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/20 shadow-xl">
+                <i class="ph-fill ph-graduation-cap text-3xl text-white"></i>
+            </div>
+            <span class="text-4xl font-black tracking-tighter uppercase">Edu<span class="text-blue-400">Next</span></span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="h-[1px] w-8 bg-gradient-to-r from-transparent to-white/50"></span>
+            <p class="text-xs uppercase tracking-[0.3em] font-bold text-blue-200/80">Kiến tạo tương lai số</p>
+            <span class="h-[1px] w-8 bg-gradient-to-l from-transparent to-white/50"></span>
+        </div>
+    </div>
+
+    <div class="flex-1 flex items-center justify-center w-full relative">
+        
+        <div id="slide-1" class="slide-content active flex-col items-center">
+            <div class="relative w-80 h-80 mb-12 flex items-center justify-center">
+                <div class="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full animate-pulse"></div>
+                
+                <div class="absolute inset-0 border border-white/10 rounded-full animate-[spin_40s_linear_infinite]"></div>
+                <div class="absolute inset-8 border border-white/20 rounded-full animate-[spin_30s_linear_infinite_reverse]"></div>
+                <div class="absolute inset-16 border border-blue-400/30 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                
+                <div class="w-36 h-36 p-1.5 bg-gradient-to-br from-white/40 to-transparent backdrop-blur-md rounded-full z-10 shadow-2xl">
+                    <div class="w-full h-full rounded-full overflow-hidden border-2 border-white/80">
+                         <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=400" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <div class="absolute top-4 right-10 bg-white p-3 rounded-2xl shadow-2xl animate-bounce" style="animation-duration: 3s;">
+                    <i class="ph-fill ph-book-open text-blue-600 text-2xl"></i>
+                </div>
+                <div class="absolute bottom-10 left-4 bg-white p-3 rounded-2xl shadow-2xl animate-bounce" style="animation-duration: 4s;">
+                    <i class="ph-fill ph-pencil-circle text-purple-600 text-2xl"></i>
+                </div>
+                <div class="absolute top-1/2 -right-6 bg-white p-3 rounded-2xl shadow-2xl animate-bounce" style="animation-duration: 5s;">
+                    <i class="ph-fill ph-bounding-box text-pink-600 text-2xl"></i>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <h2 class="text-3xl font-black uppercase leading-none">Kết nối <span class="text-blue-300 italic">vô hạn</span></h2>
+                <p class="max-w-xs text-sm leading-relaxed text-blue-100/70 font-medium">"Giáo dục không phải là việc đổ đầy một cái bình, mà là việc thắp sáng một ngọn lửa."</p>
+            </div>
+        </div>
+
+        <div id="slide-2" class="slide-content flex-col items-center">
+            <div class="grid grid-cols-2 gap-6 mb-12">
+                <div class="group bg-white/10 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 flex flex-col items-center w-40 transition-all hover:bg-white hover:scale-105 shadow-xl">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors">
+                        <i class="ph-fill ph-chalkboard-teacher text-4xl text-blue-300 group-hover:text-white"></i>
+                    </div>
+                    <span class="text-[11px] font-black uppercase tracking-wider text-blue-100 group-hover:text-slate-900">Giáo viên</span>
+                </div>
+                <div class="group bg-white/10 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 flex flex-col items-center w-40 transition-all hover:bg-white hover:scale-105 shadow-xl mt-8">
+                    <div class="w-16 h-16 rounded-2xl bg-pink-500/20 flex items-center justify-center mb-4 group-hover:bg-pink-600 transition-colors">
+                        <i class="ph-fill ph-student text-4xl text-pink-300 group-hover:text-white"></i>
+                    </div>
+                    <span class="text-[11px] font-black uppercase tracking-wider text-pink-100 group-hover:text-slate-900">Học sinh</span>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <h2 class="text-3xl font-black uppercase">Đa <span class="text-pink-300 italic">nền tảng</span></h2>
+                <p class="max-w-xs text-sm leading-relaxed text-blue-100/70 font-medium">Hệ sinh thái đồng nhất giúp tối ưu hóa mọi công tác quản lý và giảng dạy.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-4 mt-8">
+        <div class="dot active w-12 h-1.5 rounded-full bg-white/20 overflow-hidden cursor-pointer" id="dot-1" onclick="showSlide(1)">
+            <div class="progress-line h-full bg-blue-400 w-0 transition-all duration-[5000ms] linear"></div>
+        </div>
+        <div class="dot w-12 h-1.5 rounded-full bg-white/20 overflow-hidden cursor-pointer" id="dot-2" onclick="showSlide(2)">
+            <div class="progress-line h-full bg-blue-400 w-0 transition-all duration-[5000ms] linear"></div>
+        </div>
+    </div>
+</div>
+
+        <div class="flex justify-center">
+            <div class="stacked-container w-full max-w-[480px]">
+                <div class="layer-2"></div><div class="layer-3"></div>
+                <div class="glass-card p-10 lg:p-12">
+                    <h2 class="text-2xl font-extrabold text-slate-800 text-center mb-8 uppercase tracking-tight">Đăng nhập</h2>
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center justify-center gap-3 py-3 px-4 bg-blue-50 text-blue-700 rounded-xl font-semibold border border-blue-100 hover:bg-blue-100">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5"> Đăng nhập bằng Google
+                        </button>
+                        <button class="w-full flex items-center justify-center gap-3 py-3 px-4 bg-sky-50 text-sky-700 rounded-xl font-semibold border border-sky-100 hover:bg-sky-100">
+                            <span class="font-bold text-sky-600">Zalo</span> Đăng nhập bằng Zalo
+                        </button>
+                    </div>
+                    <div class="separator">Hoặc</div>
+
+                    <form onsubmit="handleLogin(event)" class="space-y-5">
+                        <div class="relative flex items-center">
+                            <i class="ph-bold ph-user absolute left-4 text-slate-400"></i>
+                            <input type="text" id="email" placeholder="Nhập email/Tên đăng nhập" class="w-full bg-slate-50 px-5 py-4 pl-12 rounded-xl border border-slate-200 outline-none font-medium focus:border-blue-500 transition-all" required>
+                        </div>
+                        <div class="relative flex items-center">
+                            <i class="ph-bold ph-lock absolute left-4 text-slate-400"></i>
+                            <input type="password" id="password" placeholder="Nhập mật khẩu" class="w-full bg-slate-50 px-5 py-4 pl-12 rounded-xl border border-slate-200 outline-none font-medium focus:border-blue-500 transition-all" required>
+                            <button type="button" onclick="togglePassword()" class="absolute right-5 text-slate-300 hover:text-blue-500">
+                                <i id="eye-icon" class="ph-bold ph-eye text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mt-2">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="remember" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                                <label for="remember" class="text-slate-600 font-medium cursor-pointer text-sm">Ghi nhớ mật khẩu</label>
+                            </div>
+                            <a href="/forgot-password" class="text-blue-600 font-bold text-sm hover:underline">Quên mật khẩu?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn-login w-full bg-blue-600 text-white py-4 rounded-xl font-bold uppercase shadow-lg hover:bg-blue-700 transition-all active:scale-95">Đăng nhập</button>
+                    </form>
+
+                    <div class="mt-8 text-center text-slate-600 font-medium">
+                        Bạn chưa có tài khoản? 
+                        <a href="/register" class="text-blue-600 font-bold hover:underline">Đăng ký</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('ph-eye', 'ph-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('ph-eye-slash', 'ph-eye');
+            }
+        }
+
+        let currentSlide = 1;
+        function showSlide(index) {
+            currentSlide = index;
+            document.querySelectorAll('.slide-content').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+            document.getElementById(`slide-${index}`).classList.add('active');
+            document.getElementById(`dot-${index}`).classList.add('active');
+        }
+        setInterval(() => { currentSlide = currentSlide >= 2 ? 1 : currentSlide + 1; showSlide(currentSlide); }, 5000);
+
+        // LOGIC ĐĂNG NHẬP THẬT KẾT NỐI VỚI BACKEND
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.querySelector('.btn-login');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="ph-bold ph-spinner-gap animate-spin"></i> Đang xác thực...';
+            btn.disabled = true;
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, password: password })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    // Lưu thông tin user vào localStorage nếu cần
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = data.redirect;
+                } else {
+                    alert("⚠️ " + data.message);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("❌ Lỗi kết nối server!");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

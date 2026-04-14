@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">EduNext Pro | Teacher Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            primary: '#E11D48',
+                            dark: '#0F172A',
+                            surface: '#F1F5F9',
+                            accent: '#FB7185'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f1f5f9;
+            letter-spacing: -0.01em;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-item.active {
+            background: #E11D48;
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.3);
+            font-weight: 700;
+        }
+
+        .ai-gradient {
+            background: linear-gradient(135deg, #4F46E5 0%, #E11D48 100%);
+        }
+
+        #ai-panel {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            clip-path: circle(0% at 100% 0%);
+        }
+
+        #ai-panel.open {
+            clip-path: circle(150% at 100% 0%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            font-style: normal !important;
+        }
+
+        /* RESOURCE REPOSITORY STYLES */
+        .resource-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-card:hover .resource-cover img {
+            transform: scale(1.1);
+        }
+
+        .resource-cover {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            background: #f8fafc;
+        }
+
+        .resource-cover img {
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .resource-badge {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* FILE TYPE COVERS */
+        .cover-ppt {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+
+        .cover-word {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .cover-pdf {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .cover-video {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        }
+
+        .cover-generic {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        }
+    </style>
+</head>
+
+<body class="flex h-screen overflow-hidden text-slate-900">
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-30 shadow-sm">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 ai-gradient rounded-2xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i class="ph-fill ph-circles-four text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-black text-2xl tracking-tighter text-brand-dark uppercase leading-none">Edu<span
+                            class="text-brand-primary">Next</span></span>
+                    <p class="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em] mt-1">Teacher Pro</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-6 space-y-8 overflow-y-auto py-8">
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hệ thống</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_teacher" id="nav-dashboard"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-brand-primary text-white shadow-lg shadow-rose-200 font-bold text-sm transition-all">
+                        <i class="ph-fill ph-house-line text-xl"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">Nghiệp vụ
+                    Chủ nhiệm</p>
+                <div class="space-y-1">
+                    <a href="/teacher/attendance" id="nav-attendance"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Điểm danh lớp
+                    </a>
+                    <a href="/teacher/leave-requests" id="nav-leave"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative group">
+                        <i class="ph-bold ph-envelope-open text-xl"></i> Duyệt đơn xin nghỉ
+                        <span id="badge-leave"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-rose-500 text-white text-[8px] flex items-center justify-center rounded-full hidden">0</span>
+                    </a>
+                    <a href="/teacher/announcements" id="nav-announcements"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-megaphone text-xl"></i> Thông báo lớp
+                    </a>
+                    <a href="/teacher/messages" id="nav-messages"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative">
+                        <i class="ph-bold ph-chat-circle-dots text-xl"></i> Tin nhắn
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học tập & Tài
+                    nguyên</p>
+                <div class="space-y-1">
+                    <a href="/teacher/schedule" id="nav-schedule"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Thời khóa biểu
+                    </a>
+                    <a href="/teacher/gradebook" id="nav-gradebook"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-notebook text-xl"></i> Sổ điểm & Nề nếp
+                    </a>
+                    <a href="/teacher/resources" id="nav-resources"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-folder-notched-plus text-xl"></i> Kho học liệu
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-50">
+            <button onclick="window.location.href='/login'"
+                class="w-full flex items-center gap-3 p-3.5 text-slate-400 hover:text-brand-primary hover:bg-rose-50 rounded-2xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-xl"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 bg-brand-surface relative overflow-hidden">
+        <header
+            class="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 px-10 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Teacher Space / <span
+                        id="current-user-name" class="text-brand-dark">GV</span> - <span id="header-class-name"
+                        class="text-brand-dark">Lớp học</span></h2>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div
+                    class="hidden md:flex items-center gap-3 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-2xl border border-emerald-100/50">
+                    <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span class="text-[10px] font-black uppercase tracking-wider italic">Đã điểm danh: 42/42</span>
+                </div>
+                <button onclick="toggleAI()"
+                    class="h-11 px-5 flex items-center gap-2 rounded-2xl ai-gradient text-white font-bold text-sm shadow-xl shadow-rose-200 hover:scale-105 transition-all">
+                    <i class="ph-fill ph-sparkle text-lg"></i> Gemini Mentor
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-10 space-y-10 custom-scrollbar">
+
+            <!-- SECTION: OVERVIEW -->
+            <div id="section-overview" class="space-y-10">
+
+                <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div
+                        class="lg:col-span-2 ai-gradient rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl">
+                        <div class="relative z-10 space-y-4">
+                            <span
+                                class="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-[0.2em]">Học
+                                kỳ II • Niên khóa 2025-2026</span>
+                            <h1 id="welcome-message" class="text-5xl font-black tracking-tighter leading-none italic">
+                                Chào buổi sáng!</h1>
+                            <p class="text-white/80 font-medium max-w-md italic">Lớp 8A1 hôm nay ổn định. Phụ huynh em
+                                <b>Trần Minh Khôi</b> đang chờ phản hồi tin nhắn từ cô.
+                            </p>
+                            <div class="flex gap-3 pt-4">
+                                <button
+                                    class="px-6 py-3 bg-white text-brand-primary rounded-2xl text-xs font-black shadow-xl hover:bg-rose-50 transition-colors uppercase tracking-widest">Sổ
+                                    điểm 8A1</button>
+                                <button
+                                    class="px-6 py-3 bg-white/10 backdrop-blur-md text-white rounded-2xl text-xs border border-white/20 hover:bg-white/20 transition-colors uppercase font-bold">Báo
+                                    cáo tháng</button>
+                            </div>
+                        </div>
+                        <i
+                            class="ph-fill ph-chalkboard-teacher absolute -right-10 -bottom-10 text-[280px] text-white/10 -rotate-12"></i>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-slate-100 flex flex-col justify-between hover-lift">
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-50 pb-4">
+                            <img src="https://i.pravatar.cc/100?u=parent"
+                                class="w-11 h-11 rounded-full border-2 border-brand-primary shadow-sm">
+                            <div>
+                                <p class="text-[10px] font-black text-slate-400 uppercase leading-none mb-1">Phụ huynh
+                                    Minh Khôi</p>
+                                <p class="text-sm font-black text-slate-800">Trực tuyến</p>
+                            </div>
+                        </div>
+
+                        <div id="teacher-chat-content"
+                            class="flex-1 space-y-4 overflow-y-auto mb-4 pr-2 text-xs font-medium max-h-[180px]">
+                            <div class="flex justify-start">
+                                <div
+                                    class="bg-slate-100 p-3 rounded-2xl rounded-tl-none max-w-[90%] text-slate-700 shadow-sm leading-relaxed">
+                                    Chào cô Hà, gia đình cảm ơn cô đã sát sao em Khôi ạ! 🙏
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <input id="teacher-chat-input" type="text" placeholder="Phản hồi phụ huynh..."
+                                class="w-full pl-4 pr-12 py-3.5 bg-slate-50 border-none rounded-2xl text-xs font-bold focus:ring-2 focus:ring-brand-primary outline-none text-slate-800">
+                            <button onclick="sendReply()"
+                                class="absolute right-2 top-1.5 w-10 h-10 ai-gradient text-white rounded-xl flex items-center justify-center shadow-lg hover:scale-105 transition-all">
+                                <i class="ph-fill ph-paper-plane-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="glass-card p-7 rounded-[2.2rem] hover-lift transition-all shadow-sm">
+                        <div
+                            class="w-12 h-12 bg-rose-50 text-brand-primary rounded-2xl flex items-center justify-center mb-5 shadow-sm">
+                            <i class="ph-fill ph-timer text-2xl"></i>
+                        </div>
+                        <p class="text-slate-500 text-[10px] font-black uppercase tracking-wider">Tiết dạy tuần này</p>
+                        <h4 class="text-4xl font-black text-slate-900 tracking-tighter mt-1 italic">14/17 <span
+                                class="text-xs text-slate-400 uppercase">Tiết</span></h4>
+                    </div>
+                    <div
+                        class="glass-card p-7 rounded-[2.2rem] hover-lift transition-all shadow-sm border-emerald-100/50">
+                        <div
+                            class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-5 shadow-sm">
+                            <i class="ph-fill ph-user-list text-2xl"></i>
+                        </div>
+                        <p class="text-slate-500 text-[10px] font-black uppercase tracking-wider">Hiện diện 8A1</p>
+                        <h4 class="text-4xl font-black text-slate-900 tracking-tighter mt-1 italic">42/42 <span
+                                class="text-xs text-emerald-500">100%</span></h4>
+                    </div>
+                    <div
+                        class="glass-card p-7 rounded-[2.2rem] hover-lift transition-all shadow-sm border-amber-100/50">
+                        <div
+                            class="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-5 shadow-sm">
+                            <i class="ph-fill ph-crown text-2xl"></i>
+                        </div>
+                        <p class="text-slate-500 text-[10px] font-black uppercase tracking-wider">Hạng thi đua lớp</p>
+                        <h4 class="text-4xl font-black text-slate-900 tracking-tighter mt-1 italic">03 <span
+                                class="text-xs text-amber-500 font-bold uppercase ml-1">Toàn khối</span></h4>
+                    </div>
+                    <div
+                        class="glass-card p-7 rounded-[2.2rem] hover-lift transition-all shadow-sm border-indigo-100/50">
+                        <div
+                            class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-5 shadow-sm">
+                            <i class="ph-fill ph-envelope-open text-2xl"></i>
+                        </div>
+                        <p class="text-slate-500 text-[10px] font-black uppercase tracking-wider">Đơn xin phép</p>
+                        <h4 class="text-4xl font-black text-slate-900 tracking-tighter mt-1 italic">01 <span
+                                class="text-xs text-indigo-600 uppercase ml-1">Của Khôi</span></h4>
+                    </div>
+                </section>
+
+                <!-- QUẢN LÝ BÀI TẬP VÀ BÀI NỘP -->
+                <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm col-span-1">
+                        <h3 class="text-lg font-black text-slate-800 mb-6 uppercase italic">Giao bài tập mới</h3>
+                        <div class="space-y-4">
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Chọn
+                                    Lớp & Môn học</label>
+                                <select id="assign-class-id"
+                                    class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary">
+                                    <option value="">Đang tải danh sách lớp...</option>
+                                </select>
+                            </div>
+                            <input id="assign-title" type="text" placeholder="Tên bài tập (ví dụ: Kiểm tra 15p)"
+                                class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary">
+                            <textarea id="assign-content" placeholder="Mô tả chi tiết / Yêu cầu bài tập..."
+                                class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary h-24"></textarea>
+
+                            <div class="relative">
+                                <i class="ph-bold ph-link absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input id="assign-link-form" type="text" placeholder="Link Google Form (nếu có)..."
+                                    class="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary text-blue-600 underline">
+                            </div>
+
+                            <div
+                                class="p-4 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl text-center hover:border-brand-primary transition-all group">
+                                <label class="cursor-pointer block">
+                                    <i
+                                        class="ph-bold ph-upload-simple text-xl text-slate-400 group-hover:text-brand-primary mb-1"></i>
+                                    <p id="file-status"
+                                        class="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-brand-primary">
+                                        Chọn tệp đính kèm (Ảnh/PDF/Doc)...</p>
+                                    <input id="assign-file" type="file" class="hidden"
+                                        onchange="document.getElementById('file-status').innerText = this.files[0].name; document.getElementById('file-status').classList.add('text-brand-primary')">
+                                </label>
+                            </div>
+
+                            <input id="assign-deadline" type="datetime-local"
+                                class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary">
+                            <button onclick="submitAssignment()"
+                                class="w-full py-4 ai-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl hover:scale-[1.02] transition-all">Giao
+                                bài ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm lg:col-span-2">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-black text-slate-800 uppercase italic">Bài làm mới nộp</h3>
+                            <span
+                                class="px-3 py-1 bg-rose-50 text-brand-primary text-[10px] font-black rounded-full uppercase">Cần
+                                chấm: <span id="pending-grade-count">0</span></span>
+                        </div>
+                        <div id="submissions-list"
+                            class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                            <div class="text-center py-10 text-slate-400 italic text-sm">Đang tải danh sách bài nộp...
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: FEEDBACK (HỎI ĐÁP) -->
+                <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-10">
+                    <div class="lg:col-span-2 bg-white p-10 rounded-[2.8rem] border border-slate-200/50 shadow-sm">
+                        <h3 class="text-xl font-black text-slate-800 tracking-tight italic uppercase mb-8">Hỏi đáp &
+                            Phản hồi</h3>
+                        <div id="feedback-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Dữ liệu feedback -->
+                        </div>
+                    </div>
+                </section>
+
+                <section class="grid grid-cols-1 lg:grid-cols-1 gap-8 pb-10">
+                    <div class="bg-brand-dark p-12 rounded-[3.5rem] relative overflow-hidden shadow-2xl">
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-2 h-2 bg-rose-400 rounded-full animate-ping"></div>
+                                <span class="text-xs font-black uppercase tracking-widest italic text-rose-400">Gemini
+                                    AI Insights</span>
+                            </div>
+                            <h3 class="text-2xl font-black tracking-tight mb-4 italic text-white">"Cô ơi, em <span
+                                    class="text-rose-400">Minh Khôi</span> có dấu hiệu sụt giảm điểm nề nếp..."</h3>
+                            <p class="text-slate-400 text-sm font-medium leading-relaxed italic">Dựa trên dữ liệu 7 ngày
+                                qua, lớp <span class="display-class-name">8A1</span> đang mất tập trung vào tiết 4 Thứ
+                                Ba. Cô nên tổ chức một buổi sinh hoạt lớp về kỹ năng quản lý thời gian.</p>
+                            <button onclick="toggleAI()"
+                                class="mt-8 px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl font-black text-xs uppercase transition-all border border-white/10">Xem
+                                phân tích chi tiết</button>
+                        </div>
+                        <i
+                            class="ph-fill ph-brain absolute -right-10 -bottom-10 text-[260px] text-white/5 -rotate-12"></i>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+
+        <div id="ai-panel"
+            class="fixed inset-y-4 right-4 w-96 bg-white/80 backdrop-blur-3xl rounded-[2.8rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.15)] z-50 border border-white/50 flex flex-col overflow-hidden">
+            <div class="p-8 ai-gradient text-white shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-inner">
+                            <i class="ph-fill ph-sparkle text-2xl animate-pulse"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black tracking-tight italic">Gemini Mentor</h3>
+                            <p class="text-[9px] font-bold text-white/60 uppercase tracking-[0.2em]">Trợ lý học đường
+                                <span class="display-class-name">8A1</span>
+                            </p>
+                        </div>
+                    </div>
+                    <button onclick="toggleAI()"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all">
+                        <i class="ph-bold ph-x font-bold"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-1 p-8 overflow-y-auto space-y-6">
+                <div class="bg-rose-50/50 p-6 rounded-[2rem] border border-rose-100/50">
+                    <p class="text-[10px] font-black text-brand-primary uppercase mb-3 tracking-widest">Phân tích nề nếp
+                    </p>
+                    <p class="text-sm text-slate-700 leading-relaxed font-semibold italic">"Dựa trên dữ liệu tháng 4, em
+                        <b>Trần Minh Khôi</b> đang có sự tiến bộ vượt bậc về kỷ luật (+15%). Cô nên khích lệ gia đình em
+                        qua kênh chat."
+                    </p>
+                </div>
+                <div class="bg-indigo-50/50 p-6 rounded-[2rem] border border-indigo-100/50">
+                    <p class="text-[10px] font-black text-indigo-600 uppercase mb-3 tracking-widest">Nhắc nhở giáo án
+                    </p>
+                    <p class="text-sm text-slate-700 leading-relaxed font-semibold italic">"Cô có tiết dạy Vật lý vào
+                        10:30 tại lớp 8A1. Đừng quên mang theo bộ thí nghiệm điện học."</p>
+                </div>
+            </div>
+
+            <div class="p-8 bg-white/50 border-t border-slate-100/50">
+                <div class="relative">
+                    <input type="text" placeholder="Hỏi AI về lớp 8A1..."
+                        class="w-full pl-6 pr-14 py-5 bg-white border border-slate-200/50 rounded-3xl shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-primary outline-none text-xs font-bold text-slate-700 transition-all">
+                    <button
+                        class="absolute right-2.5 top-1/2 -translate-y-1/2 w-11 h-11 ai-gradient text-white rounded-2xl flex items-center justify-center shadow-lg transition-all hover:scale-105 active:scale-95">
+                        <i class="ph-fill ph-paper-plane-right text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- GLOBAL VARIABLES (TOP LEVEL) ---
+        let teacherId = null;
+        let teacherClassId = null;
+        let att_students = [];
+
+        // --- TỰ ĐỘNG LOAD THÔNG TIN NGƯỜI DÙNG ---
+        async function loadUserProfile() {
+            try {
+                const response = await fetch('/api/user/profile');
+                const result = await response.json();
+                if (result.success) {
+                    const user = result.data;
+                    teacherId = user.id;
+                    teacherClassId = user.class_id;
+
+                    // Cập nhật tên
+                    if (document.getElementById('welcome-message')) document.getElementById('welcome-message').innerHTML = `Chào buổi sáng,<br>${user.fullname}!`;
+                    if (document.getElementById('page-title')) document.getElementById('page-title').innerText = `EduNext Pro | ${user.fullname}`;
+                    if (document.getElementById('current-user-name')) document.getElementById('current-user-name').innerText = user.fullname;
+
+                    // Cập nhật lớp
+                    if (document.getElementById('header-class-name')) document.getElementById('header-class-name').innerText = user.class_name;
+                    document.querySelectorAll('.display-class-name').forEach(el => {
+                        if (el) el.innerText = user.class_name;
+                    });
+
+                    // Khởi tạo ngày cho điểm danh
+                    const picker = document.getElementById('attendance-date-picker');
+                    if (picker && !picker.value) {
+                        picker.value = new Date().toISOString().split('T')[0];
+                    }
+                }
+            } catch (error) {
+                console.error("Lỗi load profile:", error);
+            }
+        }
+
+        // --- LOGIC CHUYỂN SECTION ---
+        function showSection(name) {
+            if (!name) name = 'overview';
+            
+            // Nếu click và các mục đã tách trang, thì chuyển hướng thay vì switch section
+            if (name === 'attendance') { window.location.href = '/teacher/attendance'; return; }
+            if (name === 'resources') { window.location.href = '/teacher/resources'; return; }
+            if (name === 'leave') { window.location.href = '/teacher/leave-requests'; return; }
+            if (name === 'announcements') { window.location.href = '/teacher/announcements'; return; }
+            if (name === 'messages') { window.location.href = '/teacher/messages'; return; }
+            if (name === 'schedule') { window.location.href = '/teacher/schedule'; return; }
+            if (name === 'gradebook') { window.location.href = '/teacher/gradebook'; return; }
+
+            console.log("Switching to section:", name);
+
+            // Hide all elements starting with section-
+            document.querySelectorAll('[id^="section-"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            const activeSection = document.getElementById(`section-${name}`);
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+                // Update hash without triggering reload
+                if (window.location.hash !== '#' + name) {
+                    history.replaceState(null, null, '#' + name);
+                }
+            }
+
+            // Active class logic for sidebar
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('bg-brand-primary', 'text-white', 'shadow-lg', 'shadow-rose-200', 'font-bold');
+                el.classList.add('font-semibold', 'text-slate-500');
+            });
+
+            const activeNav = document.getElementById(`nav-${name === 'overview' ? 'dashboard' : name}`);
+            if (activeNav) {
+                activeNav.classList.remove('font-semibold', 'text-slate-500');
+                activeNav.classList.add('bg-brand-primary', 'text-white', 'shadow-lg', 'shadow-rose-200', 'font-bold');
+            }
+        }
+
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.substring(1);
+            if (h) showSection(h);
+        });
+
+        function calculateTimeRemaining(deadlineISO) {
+            if (!deadlineISO) return { text: "Không có hạn", color: "slate-400" };
+
+            const now = new Date();
+            const deadline = new Date(deadlineISO);
+            const diff = deadline - now;
+
+            if (diff <= 0) return { text: "Đã hết hạn", color: "brand-primary" };
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            let alertColor = "slate-400";
+            if (days === 0 && hours < 3) alertColor = "brand-primary font-bold";
+
+            let timeStr = "Còn lại ";
+            if (days > 0) timeStr += `${days}đ `;
+            if (hours > 0) timeStr += `${hours}h `;
+            timeStr += `${mins}m`;
+
+            return { text: timeStr, color: alertColor };
+        }
+
+        const teacherChatContent = document.getElementById('teacher-chat-content');
+        const teacherInput = document.getElementById('teacher-chat-input');
+
+        function sendTeacherMessage() {
+            const message = teacherInput.value.trim();
+            if (message !== "") {
+                const msgObj = { role: 'gv', text: message, time: new Date().toLocaleTimeString() };
+
+                // 1. Hiển thị lên màn hình mình (bên phải màu xanh/đỏ tùy giao diện)
+                appendTeacherMessage('gv', message);
+
+                // 2. Gửi tín hiệu sang tab Phụ huynh
+                localStorage.setItem('last_message', JSON.stringify(msgObj));
+
+                teacherInput.value = "";
+            }
+        }
+
+        function appendTeacherMessage(role, text) {
+            const isGV = role === 'gv';
+            const html = `
+            <div class="flex flex-col ${isGV ? 'items-end' : 'items-start'}">
+                <div class="${isGV ? 'ai-gradient text-white' : 'bg-white text-slate-700 shadow-sm'} p-3 rounded-2xl ${isGV ? 'rounded-tr-none' : 'rounded-tl-none'} text-xs max-w-[85%] leading-relaxed font-bold">
+                    ${text}
+                </div>
+                <span class="text-[9px] text-slate-400 mt-1 ${isGV ? 'mr-1' : 'ml-1'}">Vừa xong</span>
+            </div>`;
+            teacherChatContent.insertAdjacentHTML('beforeend', html);
+            teacherChatContent.scrollTop = teacherChatContent.scrollHeight;
+        }
+
+        // LẮNG NGHE TIN NHẮN TỪ PHỤ HUYNH
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'last_message') {
+                const data = JSON.parse(e.newValue);
+                if (data.role === 'ph') { // Nếu phụ huynh gửi thì hiển thị bên trái
+                    appendTeacherMessage('ph', data.text);
+                }
+            }
+        });
+
+        teacherInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendTeacherMessage() });
+
+        // --- LMS LOGIC ---
+        async function submitAssignment() {
+            const title = document.getElementById('assign-title').value;
+            const content = document.getElementById('assign-content').value;
+            const deadline = document.getElementById('assign-deadline').value;
+            const linkForm = document.getElementById('assign-link-form').value;
+            const classId = document.getElementById('assign-class-id').value;
+            const fileInput = document.getElementById('assign-file');
+
+            if (!title || !content || !classId) {
+                alert("Vui lòng chọn Lớp và điền đầy đủ Tên, Nội dung bài tập!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('content', content);
+            formData.append('deadline', deadline);
+            formData.append('link_google_form', linkForm);
+            formData.append('class_id', classId);
+            if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch('/api/assignment/create', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("Đã giao bài tập thành công!");
+                    document.getElementById('assign-title').value = '';
+                    document.getElementById('assign-content').value = '';
+                    document.getElementById('assign-deadline').value = '';
+                    document.getElementById('assign-link-form').value = '';
+                    document.getElementById('assign-file').value = '';
+                    document.getElementById('file-status').innerText = 'Chọn tệp đính kèm (Ảnh/PDF/Doc)...';
+                    document.getElementById('file-status').classList.remove('text-brand-primary');
+                } else {
+                    alert("Lỗi: " + result.message);
+                }
+            } catch (error) {
+                alert("Lỗi kết nối server!");
+            }
+        }
+
+        async function loadSubmissions() {
+            const container = document.getElementById('submissions-list');
+            if (!container) return; // Bảo vệ
+            try {
+                const response = await fetch('/api/teacher/submissions');
+                const result = await response.json();
+
+                if (result.success) {
+                    const submissions = result.data;
+                    const pendingEl = document.getElementById('pending-grade-count');
+                    if (pendingEl) pendingEl.innerText = submissions.length;
+
+                    if (submissions.length === 0) {
+                        container.innerHTML = '<div class="text-center py-10 text-slate-400 italic text-sm">Chưa có bài nộp nào mới.</div>';
+                        return;
+                    }
+
+                    container.innerHTML = submissions.map(sub => `
+                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex flex-col gap-4 hover:border-brand-primary transition-all shadow-sm">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-brand-primary shadow-sm font-black text-lg border border-slate-100">${sub.student.charAt(0)}</div>
+                                <div>
+                                    <p class="font-black text-slate-800 text-sm">${sub.student}</p>
+                                    <p class="text-[10px] font-bold text-brand-primary uppercase italic tracking-widest">${sub.task}</p>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <p class="text-[9px] text-slate-400 font-bold uppercase">${sub.time}</p>
+                                        <span class="text-[9px] px-2 py-0.5 bg-white rounded-lg text-${calculateTimeRemaining(sub.deadline_iso).color} border border-slate-100 flex items-center gap-1 font-black uppercase">
+                                            <i class="ph ph-clock"></i> ${calculateTimeRemaining(sub.deadline_iso).text}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                             </div>
+                             <div class="flex gap-2">
+                                <button onclick="rewardModal(${sub.student_id}, '${sub.student}')" class="px-4 py-2.5 bg-amber-500 text-white rounded-xl text-[10px] font-black uppercase shadow-lg shadow-amber-100 hover:scale-105 transition-all flex items-center gap-2">
+                                    <i class="ph-fill ph-crown"></i> Thưởng XP
+                                </button>
+                                <button onclick="gradeModal(${sub.id}, '${sub.student}')" class="px-6 py-2.5 bg-brand-primary text-white rounded-xl text-[10px] font-black uppercase shadow-lg shadow-rose-100 hover:scale-105 transition-all">Chấm điểm</button>
+                             </div>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100">
+                            <p class="text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">Nội dung bài làm:</p>
+                            <p class="text-xs text-slate-600 font-medium italic mb-3">"${sub.content || 'Em gửi bài ạ!'}"</p>
+                            ${sub.file ? `
+                                <div class="mt-2">
+                                    ${sub.is_img ?
+                                `<img src="${sub.file}" class="w-full max-w-sm rounded-xl shadow-md border-4 border-slate-50 hover:scale-[1.02] transition-all cursor-zoom-in" onclick="window.open('${sub.file}')">` :
+                                `<a href="${sub.file}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase border border-slate-200">
+                                            <i class="ph-bold ph-file-arrow-down"></i> Tải file đính kèm
+                                        </a>`
+                            }
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+                }
+            } catch (error) {
+                console.error("Lỗi tải bài nộp:", error);
+            }
+        }
+
+        // Tự động cập nhật bài nộp mới (Polling)
+        setInterval(() => {
+            if (!document.hidden) loadSubmissions();
+        }, 12000); // 12 giây/lần
+
+        function gradeModal(id, name) {
+            const score = prompt(`Nhập điểm cho ${name} (thang điểm 10):`);
+            if (score !== null && score !== "") {
+                const comment = prompt("Nhập nhận xét / lời phê:");
+                submitGrade(id, score, comment);
+            }
+        }
+
+        async function submitGrade(id, score, comment) {
+            try {
+                const response = await fetch('/api/assignment/grade', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ submission_id: id, score, comment })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("Đã lưu điểm thành công!");
+                    loadSubmissions();
+                }
+            } catch (error) {
+                alert("Lỗi khi chấm điểm!");
+            }
+        }
+
+        async function loadFeedbacks() {
+            try {
+                const response = await fetch('/api/feedback/my-messages');
+                const result = await response.json();
+                if (result.success) {
+                    const container = document.getElementById('feedback-list');
+                    if (!container) return; // Bảo vệ nếu không có element
+                    if (result.data.length === 0) {
+                        container.innerHTML = '<div class="text-center py-10 text-slate-400 italic text-sm col-span-2">Chưa có câu hỏi nào từ học sinh.</div>';
+                        return;
+                    }
+                    container.innerHTML = result.data.map(msg => `
+                    <div class="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="px-3 py-1 bg-white text-slate-500 text-[9px] font-black rounded-lg border border-slate-100 uppercase tracking-widest">${msg.time}</span>
+                                <span class="px-3 py-1 ${msg.reply ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'} text-[9px] font-black rounded-lg uppercase">${msg.reply ? 'Đã phản hồi' : 'Chờ xử lý'}</span>
+                            </div>
+                            <h4 class="font-black text-slate-800 text-sm mb-2 italic">"${msg.title}"</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed font-medium">${msg.content}</p>
+                            ${msg.reply ? `
+                                <div class="mt-4 p-4 bg-white rounded-2xl border-l-4 border-brand-primary">
+                                    <p class="text-[9px] font-black text-brand-primary uppercase mb-1 tracking-widest">Nội dung đã trả lời:</p>
+                                    <p class="text-xs text-slate-700 italic font-semibold">"${msg.reply}"</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${!msg.reply ? `
+                            <button onclick="replyModal(${msg.id})" class="mt-6 w-full py-3 bg-brand-dark text-white rounded-xl text-[10px] font-black uppercase hover:bg-brand-primary transition-all">Trả lời ngay</button>
+                        ` : ''}
+                    </div>
+                `).join('');
+                }
+            } catch (error) { console.error("Lỗi lấy feedback:", error); }
+        }
+        function replyModal(id) {
+            const reply = prompt("Nhập nội dung phản hồi cho học sinh:");
+            if (reply) {
+                submitReply(id, reply);
+            }
+        }
+
+        async function submitReply(id, reply) {
+            try {
+                const response = await fetch('/api/feedback/reply', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message_id: id, reply: reply })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("Đã gửi phản hồi thành công!");
+                    loadFeedbacks();
+                }
+            } catch (error) { alert("Lỗi gửi phản hồi!"); }
+        }
+
+        async function loadTeacherClasses() {
+            const select = document.getElementById('assign-class-id');
+            try {
+                const response = await fetch('/api/teacher/assignments/classes');
+                const result = await response.json();
+                if (result.success) {
+                    if (result.data.length === 0) {
+                        select.innerHTML = '<option value="">Không có lớp phụ trách</option>';
+                        return;
+                    }
+                    select.innerHTML = '<option value="">--- Chọn Lớp ---</option>' +
+                        result.data.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                }
+            } catch (error) {
+                select.innerHTML = '<option value="">Lỗi tải danh sách lớp</option>';
+            }
+        }
+
+        // --- LOGIC NỀ NẾP (XP) ---
+        function rewardModal(studentId, name) {
+            const xp = prompt(`Thưởng điểm XP cho ${name} (Ví dụ: 10, 20):`, "10");
+            if (xp) {
+                const reason = prompt("Lý do thưởng (Ví dụ: Phát biểu hay, Làm bài tốt):", "Làm bài tập tích cực");
+                if (reason) submitConduct(studentId, xp, reason);
+            }
+        }
+
+        async function submitConduct(studentId, xp, reason) {
+            try {
+                const response = await fetch('/api/teacher/conduct/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_id: studentId, xp: xp, reason: reason })
+                });
+                const result = await response.json();
+                if (result.success) alert("Đã cập nhật điểm nề nếp!");
+            } catch (e) { alert("Lỗi cập nhật XP!"); }
+        }
+
+
+        // --- LOGIC QUẢN LÝ HỌC LIỆU ---
+        async function submitNewResource() {
+            const title = document.getElementById('res-title').value;
+            const desc = document.getElementById('res-desc').value;
+            const type = document.getElementById('res-type').value;
+        // --- SIDEBAR BADGE SYSTEM ---
+        async function updateSidebarBadges() {
+            try {
+                const leaveRes = await fetch('/api/teacher/leave-requests?class_id=1');
+                const leaveData = await leaveRes.json();
+                if (leaveData.success) {
+                    const pending = leaveData.data.filter(d => d.TrangThai === 'ChoDuyet' || d.TrangThai === 'Pending').length;
+                    const badge = document.getElementById('badge-leave');
+                    if (badge) {
+                        if (pending > 0) {
+                            badge.innerText = pending;
+                            badge.classList.remove('hidden');
+                        } else {
+                            badge.classList.add('hidden');
+                        }
+                    }
+                }
+
+                // Demo nhắn tin
+                const msgBadge = document.getElementById('badge-msg');
+                if (msgBadge) {
+                    msgBadge.innerText = '1';
+                    msgBadge.classList.remove('hidden');
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        // --- UNIFIED INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserProfile();
+            loadTeacherClasses();
+            loadSubmissions();
+            loadFeedbacks();
+            updateSidebarBadges();
+
+            // Initial section from Hash
+            const h = window.location.hash.substring(1);
+            showSection(h || 'overview');
+        });
+
+        // Background Polling
+        setInterval(() => {
+            if (!document.hidden) {
+                loadSubmissions();
+                loadFeedbacks();
+                updateSidebarBadges();
+            }
+        }, 30000); // Check every 30s
+    </script>
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin nhắn | EduNext Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        edunext: { primary: '#ee0033', dark: '#1e293b' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chat-height {
+            height: calc(100vh - 40px);
+        }
+
+        .red-gradient {
+            background: linear-gradient(135deg, #ee0033 0%, #ba0028 100%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f8fafc] font-sans text-slate-900 flex h-screen overflow-hidden">
+
+    <aside class="w-72 bg-white border-r border-slate-200 hidden lg:flex flex-col z-50">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 red-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <i class="ph-fill ph-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-xl tracking-tight text-slate-900">EduNext</h1>
+                    <p class="text-[10px] font-bold text-edunext-primary uppercase tracking-[0.2em]">Parent Hub</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 p-6 space-y-8 overflow-y-auto">
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-4">Quản lý học tập</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_parent"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'dashboard' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'dashboard' else 'ph-bold' }} ph-squares-four text-xl"></i>
+                        Tổng quan
+                    </a>
+                    <a href="/parent/gradebook"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'gradebook' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'gradebook' else 'ph-bold' }} ph-chart-line-up text-xl group-hover:text-edunext-primary"></i>
+                        Phân tích AI & Điểm
+                    </a>
+                    <a href="/parent/homework"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'homework' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'homework' else 'ph-bold' }} ph-book-open text-xl group-hover:text-edunext-primary"></i>
+                        Bài tập về nhà
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-4">Đời sống & Tài
+                    chính</p>
+                <div class="space-y-1">
+                    <a href="/parent/wallet"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'wallet' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'wallet' else 'ph-bold' }} ph-wallet text-xl group-hover:text-edunext-primary"></i>
+                        Ví Edu-Wallet
+                    </a>
+                    <a href="/parent/chat"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'chat' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'chat' else 'ph-bold' }} ph-chat-circle-dots text-xl group-hover:text-edunext-primary"></i>
+                        Tin nhắn
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-50">
+            <button onclick="window.location.href='/login'"
+                class="w-full flex items-center gap-3 p-3 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden p-0 md:p-5">
+        <div
+            class="w-full h-full bg-white shadow-2xl shadow-slate-200 rounded-[2rem] overflow-hidden flex border border-slate-100">
+
+            <aside class="w-full md:w-80 border-r border-slate-100 flex flex-col bg-white hidden md:flex">
+                <div class="p-6 border-b border-slate-50">
+                    <div class="flex items-center justify-between mb-6">
+                        <h1 class="text-xl font-black text-slate-900">Tin nhắn</h1>
+                        <button
+                            class="w-9 h-9 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 hover:text-edunext-primary transition-all">
+                            <i class="ph-bold ph-note-pencil text-lg"></i>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <i
+                            class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" placeholder="Tìm kiếm giáo viên..."
+                            class="w-full bg-slate-100 border-none rounded-xl py-2.5 pl-10 pr-4 text-xs focus:ring-2 focus:ring-edunext-primary/20 outline-none font-medium">
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-3 space-y-1" id="contact-list">
+                    <!-- Danh sách giáo viên sẽ tải vào đây -->
+                    <div class="p-8 text-center text-slate-400">
+                        <i class="ph-bold ph-circle-notch animate-spin text-2xl mb-2"></i>
+                        <p class="text-[10px] uppercase font-black tracking-widest">Đang tải giáo viên...</p>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="flex-1 flex flex-col bg-[#fdfdfd]">
+                <header class="p-5 border-b border-slate-100 flex items-center justify-between bg-white">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 red-gradient rounded-xl flex items-center justify-center text-white text-xl shadow-lg shadow-red-100">
+                            <i class="ph-fill ph-chalkboard-teacher"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-black text-slate-900 leading-none" id="chat-name">Vui lòng chọn giáo
+                                viên</h3>
+                            <p class="text-[10px] font-bold text-emerald-500 mt-1 uppercase tracking-tight flex items-center gap-1 hidden"
+                                id="chat-status">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Đang trực tuyến
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button
+                            class="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-edunext-primary transition-all flex items-center justify-center"><i
+                                class="ph-bold ph-phone"></i></button>
+                        <button
+                            class="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-edunext-primary transition-all flex items-center justify-center"><i
+                                class="ph-bold ph-video-camera"></i></button>
+                        <button
+                            class="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-edunext-primary transition-all flex items-center justify-center"><i
+                                class="ph-bold ph-info"></i></button>
+                    </div>
+                </header>
+
+                <div class="flex-1 overflow-y-auto p-8 space-y-6" id="chat-messages">
+                    <div class="p-20 text-center opacity-30">
+                        <i class="ph-bold ph-chat-circle-dots text-6xl"></i>
+                        <p class="mt-4 font-black uppercase tracking-widest text-xs">Hãy bắt đầu trò chuyện với giáo
+                            viên</p>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-white border-t border-slate-100">
+                    <div class="flex items-center gap-4 bg-slate-50 p-2 rounded-[1.5rem] border border-slate-100">
+                        <button
+                            class="w-10 h-10 rounded-xl text-slate-400 hover:bg-white hover:text-edunext-primary transition-all flex items-center justify-center">
+                            <i class="ph-bold ph-plus text-xl"></i>
+                        </button>
+                        <input type="text" id="msg-input" placeholder="Nhập tin nhắn trao đổi với giáo viên..."
+                            class="flex-1 bg-transparent border-none outline-none text-sm text-slate-700 px-2 font-medium">
+                        <div class="flex gap-1 pr-1">
+                            <button
+                                class="w-10 h-10 rounded-xl text-slate-400 hover:bg-white hover:text-yellow-500 transition-all flex items-center justify-center">
+                                <i class="ph-fill ph-smiley text-xl"></i>
+                            </button>
+                            <button onclick="sendMessage()"
+                                class="w-11 h-11 red-gradient text-white rounded-2xl flex items-center justify-center shadow-lg shadow-red-200 hover:scale-105 transition-all">
+                                <i class="ph-fill ph-paper-plane-right text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </main>
+
+    <script>
+        let currentReceiverId = null;
+        let pollInterval = null;
+
+        async function loadContacts() {
+            try {
+                const response = await fetch('/api/parent/chat-contacts');
+                const result = await response.json();
+                if (result.success) {
+                    const list = document.getElementById('contact-list');
+                    list.innerHTML = result.data.map(con => `
+                        <div onclick="selectUser(${con.MaNguoiDung}, '${con.HoTen}')" id="contact-${con.MaNguoiDung}" class="flex items-center gap-3 p-4 rounded-2xl hover:bg-slate-50 cursor-pointer transition-all group">
+                            <div class="relative font-black w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center text-brand-primary">
+                                ${con.HoTen.charAt(0)}
+                                <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-center mb-0.5">
+                                    <h4 class="text-sm font-bold text-slate-900 truncate">${con.HoTen}</h4>
+                                    <span class="text-[10px] font-bold text-edunext-primary">${con.Role}</span>
+                                </div>
+                                <p class="text-[11px] text-slate-500 truncate font-medium">Giáo viên chủ nhiệm</p>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    // TỰ ĐỘNG CHỌN GIÁO VIÊN ĐẦU TIÊN (THẦY HÙNG)
+                    if (result.data.length > 0) {
+                        const first = result.data[0];
+                        selectUser(first.MaNguoiDung, first.HoTen);
+                    }
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function selectUser(id, name) {
+            currentReceiverId = id;
+            document.getElementById('chat-name').innerText = name;
+            document.getElementById('chat-status').classList.remove('hidden');
+
+            // Highlight contact
+            document.querySelectorAll('#contact-list > div').forEach(el => el.classList.remove('bg-edunext-50', 'border', 'border-edunext-primary/10'));
+            const selectedEl = document.getElementById(`contact-${id}`);
+            if (selectedEl) {
+                selectedEl.classList.add('bg-edunext-50', 'border', 'border-edunext-primary/10');
+            }
+
+            loadChatHistory();
+
+            if (pollInterval) clearInterval(pollInterval);
+            pollInterval = setInterval(loadChatHistory, 3000);
+        }
+
+        async function loadChatHistory() {
+            if (!currentReceiverId) return;
+            try {
+                const response = await fetch(`/api/messages/history?with_user_id=${currentReceiverId}`);
+                const result = await response.json();
+                if (result.success) {
+                    const container = document.getElementById('chat-messages');
+                    const isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+
+                    const currentUserId = Number(result.current_user_id);
+
+                    container.innerHTML = result.data.map(msg => {
+                        const isMe = Number(msg.MaNguoiGui) === currentUserId;
+                        return `
+                            <div class="flex ${isMe ? 'justify-end' : 'justify-start'} w-full">
+                                <div class="max-w-[70%] px-5 py-3 rounded-2xl text-xs font-bold leading-relaxed ${isMe ? 'bg-edunext-primary text-white rounded-br-none shadow-lg shadow-rose-50' : 'bg-white text-slate-700 rounded-bl-none shadow-sm border border-slate-100'}">
+                                    ${msg.NoiDung}
+                                    <p class="text-[8px] mt-1 ${isMe ? 'text-white/60 text-right' : 'text-slate-300'} uppercase font-black tracking-widest">
+                                        ${new Date(msg.NgayGui).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    if (isAtBottom) {
+                        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+                    }
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const content = input.value.trim();
+            if (!content || !currentReceiverId) return;
+
+            try {
+                const response = await fetch('/api/messages/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        receiver_id: currentReceiverId,
+                        content: content
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    input.value = '';
+                    loadChatHistory();
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById('msg-input')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        loadContacts();
+    </script>
+</body>
+
+</html>

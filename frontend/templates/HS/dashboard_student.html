@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNext | Hồ Sơ Của Tôi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { edunext: { primary: '#ee0033', dark: '#1e293b', bg: '#f8fafc', surface: '#ffffff' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .sidebar-link:hover { background: rgba(238, 0, 51, 0.05); color: #ee0033; }
+        .sidebar-active { background: #ee0033 !important; color: white !important; box-shadow: 0 10px 15px -3px rgba(238, 0, 51, 0.2); }
+        .chat-bubble { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+        .chat-bubble:hover { transform: translateY(-5px) scale(1.05); }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+        .animate-shimmer { animation: shimmer 2s infinite; }
+    </style>
+</head>
+<body class="bg-edunext-bg font-sans text-slate-800 flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-20">
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 bg-edunext-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-red-200">
+                <i class="ph-fill ph-graduation-cap text-2xl"></i>
+            </div>
+            <span class="font-extrabold text-xl text-edunext-dark tracking-tight">Edu<span class="text-edunext-primary">Next</span></span>
+        </div>
+
+        <nav class="flex-1 px-4 py-2 space-y-1.5 overflow-y-auto">
+            <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Học tập & Hoạt động</p>
+            
+            <a href="/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium text-slate-500 transition-all hover:text-edunext-primary">
+                <i class="ph-fill ph-house text-xl opacity-70"></i> Bàn học của tôi
+            </a>
+            
+            <a href="/kho-hoc-lieu" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <i class="ph-fill ph-books text-xl opacity-70"></i> Kho học liệu
+            </a>
+            
+            <a href="/bai-tap" class="sidebar-link flex items-center justify-between px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <div class="flex items-center gap-3">
+                    <i class="ph-fill ph-exam text-xl opacity-70"></i> Bài tập & Kiểm tra
+                </div>
+                <span class="bg-red-100 text-edunext-primary text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+            </a>
+            
+            <a href="/thoi-khoa-bieu" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <i class="ph-fill ph-calendar-check text-xl opacity-70"></i> Thời khóa biểu
+            </a>
+
+            <a href="/bang-thanh-tich" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-amber-500">
+                <i class="ph-fill ph-medal text-xl opacity-70"></i> Bảng thành tích
+            </a>
+
+            <a href="/hoc-sinh/tin-nhan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <i class="ph-fill ph-messenger-logo text-xl opacity-70"></i> Tin nhắn
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-100 space-y-2">
+            <button onclick="window.location.href='/'" class="w-full flex items-center gap-3 p-2.5 text-red-600 hover:bg-red-50 rounded-xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
+            </button>
+
+            <a href="/profile" class="sidebar-active p-3 rounded-2xl flex items-center gap-3 border border-slate-100 shadow-sm transition-all group">
+                <div class="relative">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="Avatar">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p id="user-full-name" class="font-bold text-sm text-white truncate">Nguyễn Văn A</p>
+                    <p id="user-class-name" class="text-[10px] text-white/80 font-semibold uppercase">Hồ sơ</p>
+                </div>
+                <i class="ph ph-caret-right text-white"></i>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-8 py-4">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Hồ sơ của tôi</h2>
+                <p class="text-xs text-slate-500 font-medium">Thứ Hai, 23 Tháng 3, 2026</p>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="relative hidden sm:block">
+                    <input type="text" placeholder="Tìm bài giảng..." class="pl-10 pr-4 py-2 bg-slate-100 rounded-full text-sm w-64 focus:bg-white focus:ring-2 focus:ring-red-100 outline-none transition-all">
+                    <i class="ph-bold ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                </div>
+                <a href="/profile">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-full border border-slate-200 hover:ring-2 hover:ring-red-200 transition-all cursor-pointer">
+                </a>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+            <div class="bg-gradient-to-r from-edunext-primary to-rose-600 rounded-3xl p-8 lg:p-10 text-white relative overflow-hidden shadow-xl shadow-red-100">
+                <div class="relative z-10 max-w-2xl">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold mb-5 border border-white/20">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> Đang diễn ra: Giải tích 12
+                    </div>
+                    <h1 id="user-welcome" class="text-4xl lg:text-5xl font-extrabold mb-4 tracking-tight">Chào buổi sáng! 👋</h1>
+                    <p id="today-alert" class="text-white/80 text-lg mb-8 leading-relaxed max-w-xl">Hệ thống đang tải dữ liệu học tập của bạn...</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-white text-edunext-primary px-6 py-3.5 rounded-xl font-bold hover:scale-105 transition-transform shadow-lg flex items-center gap-2">
+                            <i class="ph-fill ph-video-camera text-lg"></i> Vào lớp Online ngay
+                        </button>
+                    </div>
+                </div>
+                <i class="ph-fill ph-rocket-launch absolute -right-4 -bottom-4 text-[200px] text-white/10 rotate-12"></i>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-extrabold text-xl text-slate-800 flex items-center gap-2">
+                            <i class="ph-fill ph-push-pin text-edunext-primary"></i> Nhiệm vụ cần làm
+                        </h3>
+                        <a href="/bai-tap" class="text-sm font-bold text-edunext-primary hover:underline">Xem tất cả</a>
+                    </div>
+
+                    <div id="tasks-list" class="space-y-4">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 justify-between items-center group hover:border-red-200 transition-all">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-red-50 text-edunext-primary flex items-center justify-center shrink-0">
+                                    <i class="ph-fill ph-notebook text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-edunext-primary transition-colors">Bài tập Giải tích - Chương 1</h4>
+                                    <p class="text-xs text-slate-500 font-medium mt-1">Hạn: Hôm nay, 23:59</p>
+                                </div>
+                            </div>
+                            <a href="/bai-tap" class="px-5 py-2.5 bg-edunext-primary text-white font-bold text-sm rounded-xl hover:opacity-90 transition-all text-center w-full sm:w-auto">Làm bài ngay</a>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 justify-between items-center group hover:border-red-200 transition-all">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                                    <i class="ph-fill ph-globe-hemisphere-east text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 group-hover:text-edunext-primary transition-colors">Trắc nghiệm Tiếng Anh - Unit 5</h4>
+                                    <p class="text-xs text-slate-500 font-medium mt-1">Hạn: Ngày mai</p>
+                                </div>
+                            </div>
+                            <a href="/bai-tap" class="px-5 py-2.5 bg-slate-100 text-slate-600 font-bold text-sm rounded-xl hover:bg-edunext-primary hover:text-white transition-all text-center w-full sm:w-auto">Vào học</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+                        <h3 class="font-extrabold text-lg text-slate-800 mb-4">Tiến độ tuần này</h3>
+                        <div class="flex items-end justify-between mb-2">
+                            <span class="text-4xl font-black text-edunext-primary">75%</span>
+                            <span class="text-xs font-bold text-slate-400">Gần xong rồi!</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden relative">
+                            <div class="bg-edunext-primary h-full w-[75%] rounded-full relative transition-all duration-1000">
+                                <div class="absolute inset-0 w-full overflow-hidden">
+                                    <div class="w-[200%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-1/2 animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm text-center">
+                        <h3 class="font-extrabold text-lg text-slate-800 mb-4 text-left">Năng lượng rèn luyện</h3>
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 mb-4 group relative overflow-hidden">
+                            <div class="flex items-center justify-between mb-3 relative z-10">
+                                <div class="text-left">
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Cấp độ hiện tại</p>
+                                    <p class="font-black text-2xl text-edunext-dark italic" id="xp-level-name">Học viên Gương mẫu</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-amber-500 font-black text-3xl italic" id="total-xp">...</p>
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">XP Tổng cộng</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress Bar -->
+                            <div class="w-full bg-slate-200 h-4 rounded-full overflow-hidden relative z-10 border border-white p-0.5">
+                                <div id="xp-progress-bar" class="bg-gradient-to-r from-amber-400 to-orange-500 h-full w-[0%] rounded-full shadow-lg transition-all duration-1000 relative">
+                                    <div class="absolute inset-0 w-full overflow-hidden">
+                                        <div class="w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-1/2 animate-shimmer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[9px] font-bold text-slate-500 mt-2 uppercase tracking-wide text-left relative z-10" id="xp-next-level">Cần 150 XP nữa để lên cấp "Chiến binh tri thức"</p>
+                            
+                            <i class="ph-fill ph-crown absolute right-2 bottom-2 text-6xl text-slate-100 -rotate-12"></i>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="aspect-square bg-slate-50 rounded-2xl flex flex-col items-center justify-center border border-slate-100 group cursor-help hover:border-amber-400 transition-all">
+                                <i class="ph-fill ph-lightning text-2xl text-amber-500"></i>
+                                <span class="text-[9px] font-bold text-slate-500 mt-1 uppercase">Chăm chỉ</span>
+                            </div>
+                            <div class="aspect-square bg-slate-50 rounded-2xl flex flex-col items-center justify-center border border-slate-100 hover:border-blue-400 transition-all">
+                                <i class="ph-fill ph-target text-2xl text-blue-500"></i>
+                                <span class="text-[9px] font-bold text-slate-500 mt-1 uppercase">Chính xác</span>
+                            </div>
+                            <div class="aspect-square bg-slate-50 rounded-2xl flex flex-col items-center justify-center border border-slate-100 hover:border-emerald-400 transition-all">
+                                <i class="ph-fill ph-leaf text-2xl text-emerald-500"></i>
+                                <span class="text-[9px] font-bold text-slate-500 mt-1 uppercase">Sáng tạo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
+            <button onclick="toggleFeedbackModal()" class="chat-bubble w-14 h-14 bg-white text-edunext-primary rounded-full flex items-center justify-center text-2xl border border-slate-200 hover:bg-red-50 shadow-xl group relative">
+                <i class="ph-fill ph-chat-circle-dots"></i>
+                <span class="absolute right-full mr-3 px-3 py-1 bg-slate-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Phản hồi GVCN</span>
+                <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white animate-bounce">!</span>
+            </button>
+
+            <a href="/chat-ai" class="chat-bubble w-14 h-14 bg-gradient-to-tr from-edunext-primary to-rose-600 text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-red-200 group relative">
+                <i class="ph-fill ph-sparkle"></i>
+                <span class="absolute right-full mr-3 px-3 py-1 bg-slate-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Hỏi Trợ lý AI</span>
+            </a>
+        </div>
+
+        <!-- MODAL THẢO LUẬN BÀI TẬP (HỎI ĐÁP) -->
+        <div id="discussionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[110] hidden items-center justify-center p-4">
+            <div class="bg-white rounded-[2.5rem] w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in duration-300 flex flex-col max-h-[85vh]">
+                <div class="p-8 ai-gradient text-white flex items-center justify-between">
+                    <div>
+                        <h3 class="font-black text-xl italic" id="disc-task-title">Thảo luận bài tập</h3>
+                        <p class="text-[10px] font-black text-white/60 uppercase tracking-widest mt-1">Trao đổi trực tiếp với Giáo viên</p>
+                    </div>
+                    <button onclick="toggleDiscussionModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 transition-all">
+                        <i class="ph ph-x text-xl font-bold"></i>
+                    </button>
+                </div>
+                
+                <div id="disc-history" class="flex-1 p-8 overflow-y-auto space-y-6 custom-scrollbar bg-slate-50">
+                    <p class="text-center text-slate-400 italic text-xs">Đang tải cuộc thảo luận...</p>
+                </div>
+
+                <div class="p-8 bg-white border-t border-slate-100">
+                    <div class="relative">
+                        <input id="disc-input" type="text" placeholder="Bạn muốn hỏi gì về bài tập này?" class="w-full pl-6 pr-14 py-4 bg-slate-50 border border-slate-200 rounded-[1.5rem] focus:ring-2 focus:ring-brand-primary outline-none text-sm font-bold shadow-sm transition-all focus:bg-white text-slate-700">
+                        <button onclick="sendDiscussion()" class="absolute right-2 top-1.5 w-11 h-11 ai-gradient text-white rounded-2xl flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all">
+                            <i class="ph-fill ph-paper-plane-right"></i>
+                        </button>
+                    </div>
+                    <p class="text-[9px] text-slate-400 mt-3 italic text-center font-bold">Lưu ý: Thầy cô sẽ nhận được thông báo ngay khi bạn gửi câu hỏi.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL PHẢN HỒI GVCN -->
+        <div id="feedbackModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+            <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+                <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-edunext-primary text-white">
+                    <h3 class="font-bold text-lg">Gửi phản hồi cho GVCN</h3>
+                    <button onclick="toggleFeedbackModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-all">
+                        <i class="ph ph-x font-bold"></i>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5 ml-1">Tiêu đề</label>
+                        <input id="fbTitle" type="text" placeholder="Vd: Thắc mắc về bài tập Toán..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-100 outline-none transition-all font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5 ml-1">Nội dung chi tiết</label>
+                        <textarea id="fbContent" rows="4" placeholder="Nhập nội dung bạn muốn gửi tới thầy/cô chủ nhiệm..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-100 outline-none transition-all font-medium resize-none"></textarea>
+                    </div>
+                    <button onclick="submitFeedback()" id="btnSubmitFeedback" class="w-full bg-edunext-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-red-100 hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2">
+                        <i class="ph-fill ph-paper-plane-tilt"></i> Gửi yêu cầu
+                    </button>
+
+                    <div class="pt-4 border-t border-slate-100">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-1 tracking-widest">Lịch sử trao đổi</p>
+                        <div id="feedbackHistory" class="space-y-3 max-h-48 overflow-y-auto pr-1">
+                            <p class="text-xs text-slate-400 italic">Đang tải lịch sử...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function calculateTimeRemaining(deadlineISO) {
+            if (!deadlineISO) return { text: "Không có hạn", color: "slate-500" };
+            
+            const now = new Date();
+            const deadline = new Date(deadlineISO);
+            const diff = deadline - now;
+
+            if (diff <= 0) return { text: "Đã quá hạn", color: "red-600" };
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            let alertColor = "slate-500";
+            if (days === 0 && hours < 1) alertColor = "red-500 font-bold animate-pulse";
+            else if (days === 0 && hours < 3) alertColor = "amber-500 font-bold";
+
+            let timeStr = "Còn lại ";
+            if (days > 0) timeStr += `${days} ngày `;
+            if (hours > 0) timeStr += `${hours}h `;
+            timeStr += `${mins}m`;
+
+            return { text: timeStr, color: alertColor };
+        }
+
+        async function fetchHistory() {
+                try {
+                    const response = await fetch('/api/feedback/my-messages');
+                    const result = await response.json();
+                    if (result.success) {
+                        const container = document.getElementById('feedbackHistory');
+                        if (result.data.length === 0) {
+                            container.innerHTML = '<p class="text-xs text-slate-400 italic">Chưa có lịch sử trao đổi.</p>';
+                            return;
+                        }
+                        container.innerHTML = result.data.map(msg => `
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                <p class="font-bold text-xs text-slate-800">${msg.title}</p>
+                                <p class="text-[11px] text-slate-600 mt-1">${msg.content}</p>
+                                ${msg.reply ? `
+                                    <div class="mt-2 p-3 bg-white rounded-xl border-l-4 border-edunext-primary shadow-sm">
+                                        <p class="text-[10px] font-black text-edunext-primary uppercase mb-1">Thầy/Cô phản hồi:</p>
+                                        <p class="text-[11px] text-slate-700 font-medium">${msg.reply}</p>
+                                    </div>
+                                ` : '<p class="text-[9px] text-amber-500 font-bold mt-2 uppercase">Đang chờ phản hồi...</p>'}
+                            </div>
+                        `).join('');
+                    }
+                } catch (error) { console.error("Lỗi lấy lịch sử:", error); }
+            }
+
+            function toggleFeedbackModal() {
+                const modal = document.getElementById('feedbackModal');
+                modal.classList.toggle('hidden');
+                modal.classList.toggle('flex');
+                if (!modal.classList.contains('hidden')) {
+                    fetchHistory();
+                }
+            }
+
+            async function loadDashboardData() {
+                try {
+                    const response = await fetch('/api/student/dashboard/summary');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        const data = result.data;
+                        // Cập nhật tên và lớp
+                        
+                        // Cập nhật thông tin cá nhân
+                        document.getElementById('user-full-name').textContent = data.user.name;
+                        document.getElementById('user-welcome').textContent = `Chào buổi sáng, ${data.user.first_name}! 👋`;
+                        document.getElementById('today-alert').textContent = data.user.today_alert;
+                        
+                        const xp = data.stats.xp || 0;
+                        document.getElementById('total-xp').textContent = xp.toLocaleString();
+
+                        // Logic Level XP
+                        const levelThreshold = 500;
+                        const levelPercent = Math.min((xp % levelThreshold) / levelThreshold * 100, 100);
+                        document.getElementById('xp-progress-bar').style.width = `${levelPercent}%`;
+                        
+                        const levelNames = ["Tân binh tri thức", "Học viên Gương mẫu", "Chiến binh tri thức", "Đại sứ học tập", "Huyền thoại EduNext"];
+                        const currentLevelIdx = Math.min(Math.floor(xp / levelThreshold), levelNames.length - 1);
+                        document.getElementById('xp-level-name').textContent = levelNames[currentLevelIdx];
+                        
+                        const nextLevelXP = (currentLevelIdx + 1) * levelThreshold - xp;
+                        if (currentLevelIdx < levelNames.length - 1) {
+                            document.getElementById('xp-next-level').textContent = `Cần ${nextLevelXP} XP nữa để lên cấp "${levelNames[currentLevelIdx+1]}"`;
+                        } else {
+                            document.getElementById('xp-next-level').textContent = "Bạn đã đạt cấp độ tối đa!";
+                        }
+
+                        // Cập nhật danh sách bài tập
+                        const taskContainer = document.getElementById('tasks-list');
+                        if (data.tasks.length > 0) {
+                            taskContainer.innerHTML = data.tasks.map(task => `
+                                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col gap-5 hover:border-edunext-primary transition-all group animate-in slide-in-from-bottom duration-500">
+                                    <div class="flex flex-col sm:flex-row gap-4 justify-between items-start">
+                                        <div class="flex items-start gap-4">
+                                            <div class="w-14 h-14 rounded-2xl bg-${task.color}-50 text-${task.color}-600 flex items-center justify-center shrink-0 border border-${task.color}-100 shadow-inner">
+                                                <i class="ph-fill ${task.icon} text-3xl"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-extrabold text-slate-800 group-hover:text-edunext-primary transition-colors text-lg">${task.title}</h4>
+                                                <div class="flex items-center gap-2 mt-1.5">
+                                                    <span class="text-[10px] px-2.5 py-1 bg-slate-50 rounded-lg text-slate-500 border border-slate-100 font-bold uppercase tracking-wider italic">Hạn: ${task.deadline}</span>
+                                                    <span class="text-[10px] px-2.5 py-1 bg-white rounded-lg text-${calculateTimeRemaining(task.deadline_iso).color} border border-slate-100 flex items-center gap-1 font-black uppercase shadow-sm">
+                                                        <i class="ph ph-clock text-sm"></i> ${calculateTimeRemaining(task.deadline_iso).text}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                                            <button onclick="openDiscussion(${task.id}, '${task.title}')" class="flex-1 sm:flex-none px-5 py-3 bg-slate-800 text-white font-bold text-xs rounded-xl hover:bg-edunext-dark transition-all flex items-center justify-center gap-2 shadow-lg">
+                                                <i class="ph-fill ph-chat-centered-dots"></i> Hỏi bài
+                                            </button>
+                                            <a href="/bai-tap" class="flex-1 sm:flex-none px-6 py-3 ${task.is_submitted ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-edunext-primary text-white shadow-red-100'} font-black text-xs rounded-xl hover:scale-105 transition-all text-center flex items-center justify-center gap-2 shadow-lg">
+                                                <i class="ph-fill ${task.is_submitted ? 'ph-check-circle' : 'ph-arrow-circle-right'} text-lg"></i> ${task.action_text}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('');
+                        } else {
+                            taskContainer.innerHTML = `
+                                <div class="text-center py-10 bg-white rounded-2xl border border-dashed border-slate-300">
+                                    <i class="ph ph-mask-happy text-5xl text-slate-300 mb-3"></i>
+                                    <p class="text-slate-500 font-medium">Tuyệt vời! Bạn không còn bài tập nào cần làm.</p>
+                                </div>
+                            `;
+                        }
+                    }
+                } catch (error) {
+                    console.error("Lỗi khi tải dữ liệu dashboard:", error);
+                    document.getElementById('tasks-list').innerHTML = '<p class="text-red-500 text-center py-4">Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau!</p>';
+                }
+            }
+
+            async function submitFeedback() {
+                const title = document.getElementById('fbTitle').value;
+                const content = document.getElementById('fbContent').value;
+                const btn = document.getElementById('btnSubmitFeedback');
+
+                if (!title || !content) {
+                    alert("Vui lòng nhập đầy đủ tiêu đề và nội dung!");
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.innerHTML = '<i class="ph ph-circle-notch animate-spin"></i> Đang gửi...';
+
+                try {
+                    const response = await fetch('/api/feedback/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title, content })
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        alert("Đã gửi phản hồi tới GVCN thành công!");
+                        document.getElementById('fbTitle').value = '';
+                        document.getElementById('fbContent').value = '';
+                        fetchHistory(); // Cập nhật lại danh sách sau khi gửi
+                    } else {
+                        alert("Lỗi: " + result.message);
+                    }
+                } catch (error) {
+                    alert("Đã có lỗi xảy ra khi kết nối server!");
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="ph-fill ph-paper-plane-tilt"></i> Gửi yêu cầu';
+                }
+            }
+
+            // --- LOGIC THẢO LUẬN BÀI TẬP ---
+            let currentTaskId = null;
+
+            function toggleDiscussionModal() {
+                const modal = document.getElementById('discussionModal');
+                modal.classList.toggle('hidden');
+                modal.classList.toggle('flex');
+            }
+
+            function openDiscussion(taskId, taskTitle) {
+                currentTaskId = taskId;
+                document.getElementById('disc-task-title').innerText = taskTitle;
+                toggleDiscussionModal();
+                loadDiscussion();
+            }
+
+            async function loadDiscussion() {
+                const container = document.getElementById('disc-history');
+                try {
+                    const response = await fetch(`/api/assignment/discussion?assignment_id=${currentTaskId}`);
+                    const result = await response.json();
+                    if (result.success) {
+                        if (result.data.length === 0) {
+                            container.innerHTML = '<p class="text-center text-slate-400 italic text-xs py-10">Chưa có thắc mắc nào cho bài tập này. Hãy là người đầu tiên hỏi nhé!</p>';
+                            return;
+                        }
+                        container.innerHTML = result.data.map(msg => `
+                            <div class="space-y-3">
+                                <div class="flex justify-start">
+                                    <div class="bg-white p-4 rounded-[1.5rem] rounded-tl-none shadow-sm border border-slate-100 max-w-[90%]">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="font-black text-[10px] text-slate-800 uppercase italic">${msg.HoTen}</span>
+                                            <span class="text-[9px] text-slate-400">${new Date(msg.ThoiGian).toLocaleTimeString()}</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 font-semibold">${msg.NoiDung}</p>
+                                    </div>
+                                </div>
+                                ${msg.PhanHoi ? `
+                                    <div class="flex justify-start pl-6 border-l-2 border-brand-primary/30 ml-4">
+                                        <div class="ai-gradient text-white p-4 rounded-[1.5rem] rounded-tl-none shadow-lg max-w-[90%]">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <i class="ph-fill ph-sparkle text-xs"></i>
+                                                <span class="font-black text-[10px] uppercase italic">Giáo viên phản hồi</span>
+                                            </div>
+                                            <p class="text-xs font-bold">${msg.PhanHoi}</p>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="pl-6 ml-4">
+                                        <p class="text-[9px] text-amber-500 font-black uppercase italic tracking-widest"><i class="ph-bold ph-hourglass-low animate-spin mr-1"></i> Đang chờ thầy cô trả lời...</p>
+                                    </div>
+                                `}
+                            </div>
+                        `).join('');
+                        container.scrollTop = container.scrollHeight;
+                    }
+                } catch (e) { console.error(e); }
+            }
+
+            async function sendDiscussion() {
+                const input = document.getElementById('disc-input');
+                const content = input.value.trim();
+                if (!content || !currentTaskId) return;
+
+                try {
+                    const response = await fetch('/api/assignment/discussion', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ assignment_id: currentTaskId, content: content })
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        input.value = '';
+                        loadDiscussion();
+                    }
+                } catch (e) { alert("Lỗi gửi tin nhắn!"); }
+            }
+
+            // Gọi hàm tải dữ liệu khi trang load xong
+            document.addEventListener('DOMContentLoaded', loadDashboardData);
+            
+            // Polling cập nhật thảo luận mỗi 5s khi modal đang mở
+            setInterval(() => {
+                const modal = document.getElementById('discussionModal');
+                if (!modal.classList.contains('hidden')) {
+                    loadDiscussion();
+                }
+            }, 5000);
+        </script>
+    </main>
+
+</body>
+</html>

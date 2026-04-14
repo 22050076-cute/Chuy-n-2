@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng thành tích | EduNext</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: { 
+                extend: { 
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { 
+                        edunext: { primary: '#ee0033', dark: '#1e293b', bg: '#f8fafc' },
+                        student: { 50: '#f5f3ff', 500: '#8b5cf6', 600: '#7c3aed' }
+                    } 
+                } 
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .sidebar-link:hover { background: rgba(238, 0, 51, 0.05); color: #ee0033; }
+        .sidebar-active { background: #ee0033 !important; color: white !important; box-shadow: 0 10px 15px -3px rgba(238, 0, 51, 0.2); }
+        .glow-gold { box-shadow: 0 0 40px -10px rgba(250, 204, 21, 0.5); }
+        .badge-card { transition: all 0.3s ease; }
+        .badge-card:hover { transform: translateY(-5px) rotate(3deg); }
+    </style>
+</head>
+<body class="bg-edunext-bg font-sans text-slate-800 flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-20">
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 bg-edunext-primary rounded-xl flex items-center justify-center text-white shadow-lg">
+                <i class="ph-fill ph-graduation-cap text-2xl"></i>
+            </div>
+            <span class="font-extrabold text-xl text-edunext-dark tracking-tight">Edu<span class="text-edunext-primary">Next</span></span>
+        </div>
+
+        <nav class="flex-1 px-4 py-2 space-y-1.5 overflow-y-auto">
+            <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Học tập & Hoạt động</p>
+            
+            <a href="/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium text-slate-500 transition-all hover:bg-slate-50">
+                <i class="ph-fill ph-house text-xl text-slate-400"></i> Bàn học của tôi
+            </a>
+            
+            <a href="/bang-thanh-tich" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:bg-slate-50">
+                <i class="ph-fill ph-medal text-xl opacity-70 text-slate-400 group-hover:text-edunext-primary"></i> Bảng thành tích
+            </a>
+            <a href="/hoc-sinh/tin-nhan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <i class="ph-fill ph-messenger-logo text-xl opacity-70"></i> Tin nhắn
+            </a>
+            
+            <a href="/bai-tap" class="sidebar-link flex items-center justify-between px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:bg-slate-50">
+                <div class="flex items-center gap-3">
+                    <i class="ph-fill ph-exam text-xl opacity-70 text-slate-400 group-hover:text-edunext-primary"></i> Bài tập & Kiểm tra
+                </div>
+            </a>
+            
+            <a href="/thoi-khoa-bieu" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:bg-slate-50">
+                <i class="ph-fill ph-calendar-check text-xl opacity-70 text-slate-400 group-hover:text-edunext-primary"></i> Thời khóa biểu
+            </a>
+            
+            <a href="/bang-thanh-tich" class="sidebar-link sidebar-active flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all group">
+                <i class="ph-fill ph-medal text-xl"></i> Bảng thành tích
+            </a>
+            <a href="/hoc-sinh/tin-nhan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <i class="ph-fill ph-messenger-logo text-xl opacity-70"></i> Tin nhắn
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-100">
+            <a href="/profile" class="bg-slate-50 p-3 rounded-2xl flex items-center gap-3 border border-slate-100 shadow-sm hover:bg-white hover:border-edunext-primary transition-all group">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-sm text-slate-800 truncate group-hover:text-edunext-primary">Nguyễn Văn A</p>
+                    <p class="text-[10px] text-slate-500 font-semibold uppercase">Lớp 9A1</p>
+                </div>
+                <i class="ph-bold ph-caret-right text-slate-300 group-hover:text-edunext-primary"></i>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-8 py-4">
+            <h2 class="text-xl font-bold text-slate-800">Đường đua học tập</h2>
+            
+            <div class="flex bg-slate-100 p-1 rounded-xl">
+                <button class="px-6 py-2 rounded-lg text-xs font-bold bg-white text-edunext-primary shadow-sm transition-all">Tuần này</button>
+                <button class="px-6 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-700 transition-all">Tháng này</button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-6xl mx-auto space-y-10">
+                <div class="flex flex-col md:flex-row items-end justify-center gap-4 pt-10 pb-4" id="podium-container"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+                            <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                                <h3 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Top 10 Chiến binh học tập</h3>
+                            </div>
+                            <div class="p-4 space-y-2" id="leaderboard-list"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-edunext-primary rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-xl">
+                            <h3 class="font-bold text-slate-300 mb-6 uppercase tracking-widest text-xs">Thứ hạng của bạn</h3>
+                            <div class="flex items-center gap-5 mb-8">
+                                <div class="w-20 h-20 rounded-full border-4 border-white/20 p-1 relative">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full rounded-full object-cover">
+                                    <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-amber-400 rounded-full border-2 border-slate-900 flex items-center justify-center text-slate-900 font-black text-xs">#8</div>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-xl">Nguyễn Văn A</h4>
+                                    <p class="text-red-300 text-sm font-bold uppercase tracking-tighter">Học sinh tích cực</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex justify-between text-xs font-bold mb-1">
+                                    <span>Hạng Bạc</span>
+                                    <span class="text-amber-400">1,250 / 2,000 XP</span>
+                                </div>
+                                <div class="w-full bg-white/10 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-amber-200 to-amber-500 h-full w-[62.5%] rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const leaderboardData = [
+            { rank: 1, name: "Trần Minh Quân", xp: 3450, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=1" },
+            { rank: 2, name: "Lê Thị Hồng Ngát", xp: 3120, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=2" },
+            { rank: 3, name: "Phạm Gia Bảo", xp: 2890, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=3" },
+            { rank: 4, name: "Vũ Bảo Thy", xp: 2100, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=4" },
+            { rank: 5, name: "Lý Tiến Đạt", xp: 1950, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=5" },
+            { rank: 6, name: "Bùi Bích Phương", xp: 1800, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=6" },
+            { rank: 7, name: "Đặng Hữu Trí", xp: 1420, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=7" },
+            { rank: 8, name: "Nguyễn Văn A", xp: 1250, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix", isMe: true },
+            { rank: 9, name: "Hoàng Gia Bảo", xp: 980, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=9" },
+            { rank: 10, name: "Ngô Thanh Vân", xp: 850, avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=10" },
+        ];
+
+        function renderPodium() {
+            const top3 = leaderboardData.slice(0, 3);
+            document.getElementById('podium-container').innerHTML = `
+                <div class="flex flex-col items-center order-1 group">
+                    <div class="relative mb-4 transition-all group-hover:scale-110">
+                        <img src="${top3[1].avatar}" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-slate-300 object-cover shadow-lg">
+                        <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-slate-200 rounded-full border-2 border-white flex items-center justify-center text-slate-500 font-black text-sm shadow-md">2</div>
+                    </div>
+                    <div class="w-24 md:w-28 h-24 md:h-32 bg-white rounded-t-3xl border-x border-t border-slate-200 shadow-inner flex flex-col items-center justify-center p-2">
+                         <h4 class="font-bold text-slate-800 text-[10px] text-center truncate w-full">${top3[1].name}</h4>
+                         <p class="text-edunext-primary font-black text-xs">${top3[1].xp}</p>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center order-2 group">
+                    <div class="relative mb-6 transition-all group-hover:scale-110">
+                        <i class="ph-fill ph-crown text-amber-400 text-5xl absolute -top-8 left-1/2 -translate-x-1/2 drop-shadow-lg animate-bounce"></i>
+                        <img src="${top3[0].avatar}" class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-amber-400 object-cover glow-gold relative z-10">
+                        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-amber-400 rounded-full border-4 border-white flex items-center justify-center text-white font-black shadow-md z-20">1</div>
+                    </div>
+                    <div class="w-32 md:w-40 h-32 md:h-44 bg-white rounded-t-[2.5rem] border-x border-t border-amber-200 shadow-inner flex flex-col items-center justify-center p-4">
+                         <h4 class="font-black text-slate-900 text-sm text-center truncate w-full">${top3[0].name}</h4>
+                         <p class="text-edunext-primary font-black text-sm">${top3[0].xp} XP</p>
+                         <i class="ph-fill ph-trophy text-4xl text-amber-500 mt-2"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center order-3 group">
+                    <div class="relative mb-4 transition-all group-hover:scale-110">
+                        <img src="${top3[2].avatar}" class="w-14 h-14 md:w-16 md:h-16 rounded-full border-4 border-orange-300 object-cover shadow-lg">
+                        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-6 bg-orange-200 rounded-full border-2 border-white flex items-center justify-center text-orange-700 font-black text-[10px] shadow-md">3</div>
+                    </div>
+                    <div class="w-20 md:w-24 h-20 md:h-24 bg-white rounded-t-3xl border-x border-t border-slate-200 shadow-inner flex flex-col items-center justify-center p-2">
+                         <h4 class="font-bold text-slate-800 text-[10px] text-center truncate w-full">${top3[2].name}</h4>
+                         <p class="text-edunext-primary font-black text-xs">${top3[2].xp}</p>
+                    </div>
+                </div>
+            `;
+        }
+        function renderList() {
+            const listContainer = document.getElementById('leaderboard-list');
+            const rest = leaderboardData.slice(3);
+            listContainer.innerHTML = rest.map(user => `
+                <div class="flex items-center justify-between p-4 rounded-2xl border ${user.isMe ? 'bg-red-50 border-red-100 ring-1 ring-red-200' : 'border-transparent hover:bg-slate-50'} transition-all group">
+                    <div class="flex items-center gap-4">
+                        <span class="w-6 text-center font-bold ${user.isMe ? 'text-edunext-primary' : 'text-slate-400'} text-xs">${user.rank}</span>
+                        <img src="${user.avatar}" class="w-10 h-10 rounded-full object-cover shadow-sm">
+                        <div>
+                            <p class="font-bold text-sm ${user.isMe ? 'text-edunext-primary' : 'text-slate-700'}">${user.name} ${user.isMe ? '<span class="ml-2 bg-red-600 text-white text-[8px] px-2 py-0.5 rounded-full uppercase">Bạn</span>' : ''}</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">${user.xp >= 2000 ? 'Hạng Vàng' : 'Hạng Bạc'}</p>
+                        </div>
+                    </div>
+                    <div class="text-sm font-black text-slate-700">${user.xp.toLocaleString()} <span class="text-[10px] text-slate-400 font-bold">XP</span></div>
+                </div>
+            `).join('');
+        }
+        renderPodium();
+        renderList();
+    </script>
+</body>
+</html>

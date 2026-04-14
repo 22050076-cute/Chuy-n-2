@@ -1,0 +1,488 @@
+[
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Quản trị viên",
+    "Email": "admin@edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Thầy Giáo Khối 6",
+    "Email": "gv.6a1@teacher.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Nguyễn Học Sinh (9A1)",
+    "Email": "nguyenhocsinh9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Trần Văn Bé (9A1)",
+    "Email": "tranvdnbe9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Nguyễn Văn Cha",
+    "Email": "parent.nguyenvancon9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Lê Hoàng Nam (6A1)",
+    "Email": "lehoangnam6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Phạm Minh Châu (6A1)",
+    "Email": "phamminhchau6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Hoàng Ngọc Diệp (7A1)",
+    "Email": "hoangngocdiip7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Đặng Tiến Dũng (7A1)",
+    "Email": "dengtiendong7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Vũ Hải Yến (7A1)",
+    "Email": "vohaiyen7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Bùi Xuân Huấn (8A1)",
+    "Email": "buixuanhuan8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Ngô Kiến Huy (8A1)",
+    "Email": "ngokienhuy8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Trương Mỹ Lan (8A1)",
+    "Email": "traungmlan8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Lý Hải (9A1)",
+    "Email": "lahai9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Sơn Tùng (9A1)",
+    "Email": "suntung9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Thầy Giáo Khối 7",
+    "Email": "gv.7a1@teacher.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Cô Khối 8",
+    "Email": "gv8@gmail.com"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Thầy Giáo Khối 9",
+    "Email": "gv.9a1@teacher.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Nguyễn Minh Anh (6A1)",
+    "Email": "nguyenminhanh6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Lê Gia Bảo (9A1)",
+    "Email": "legiabao9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Trần Thái Chi (7A1)",
+    "Email": "tranthaichi7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Phạm Hải Đăng (8A1)",
+    "Email": "phamhaiddng8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Hoàng Ánh Dương (6A1)",
+    "Email": "hoanganhdaung6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Vũ Nhật Minh (9A1)",
+    "Email": "vonhatminh9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Đặng Thùy Linh (7A1)",
+    "Email": "dengthuylinh7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Bùi Duy Nam (8A1)",
+    "Email": "buiduynam8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Ngô Thanh Tâm (6A1)",
+    "Email": "ngothanhtam6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Đỗ Văn Toàn (9A1)",
+    "Email": "dovdntoan9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Quách Thu Thảo (7A1)",
+    "Email": "quachthuthao7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Lý Phương Nam (8A1)",
+    "Email": "laphaungnam8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Mai Tuyết Nhi (6A1)",
+    "Email": "maituyetnhi6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Trịnh Công Sơn (9A1)",
+    "Email": "tronhcongsun9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Phan Anh Tuấn (7A1)",
+    "Email": "phananhtuan7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Tạ Minh Huy (8A1)",
+    "Email": "taminhhuy8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Phùng Hoài An (6A1)",
+    "Email": "phunghoaian6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Đinh Ngọc Diệp (9A1)",
+    "Email": "dinhngocdiip9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Cao Mạnh Hùng (7A1)",
+    "Email": "caomanhhung7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Lương Mỹ Duyên (6A1)",
+    "Email": "laungmduyen8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Tống Văn Hậu (6A1)",
+    "Email": "tongvdnhau6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Vi Kim Chi (9A1)",
+    "Email": "vikimchi9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "Mông Văn Đống (7A1)",
+    "Email": "mongvdndong7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Sơn Tùng (8A1)",
+    "Email": "suntung8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Đen Vâu (6A1)",
+    "Email": "denvau6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Nguyễn Học Sinh",
+    "Email": "parent.nguyenhocsinh9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Thầy Giáo Khối 8",
+    "Email": "gv.8a1@teacher.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "Phụ huynh Bùi Duy Nam",
+    "Email": "parent.buiduynam8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Phạm Minh Châu",
+    "Email": "parent.phamminhchau6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Hoàng Ngọc Diệp",
+    "Email": "parent.hoangngocdiip7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Đặng Tiến Dũng",
+    "Email": "parent.dengtiendong7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Vũ Hải Yến",
+    "Email": "parent.vohaiyen7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "PH em Bùi Xuân Huấn",
+    "Email": "parent.buixuanhuan8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "PH em Ngô Kiến Huy",
+    "Email": "parent.ngokienhuy8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "PH em Trương Mỹ Lan",
+    "Email": "parent.traungmlan8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Lý Hải",
+    "Email": "parent.lahai9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Sơn Tùng",
+    "Email": "parent.suntung9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Nguyễn Minh Anh",
+    "Email": "parent.nguyenminhanh6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Lê Gia Bảo",
+    "Email": "parent.legiabao9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Trần Thái Chi",
+    "Email": "parent.tranthaichi7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "PH em Phạm Hải Đăng",
+    "Email": "parent.phamhaiddng8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Hoàng Ánh Dương",
+    "Email": "parent.hoanganhdaung6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Vũ Nhật Minh",
+    "Email": "parent.vonhatminh9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Đặng Thùy Linh",
+    "Email": "parent.dengthuylinh7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Ngô Thanh Tâm",
+    "Email": "parent.ngothanhtam6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Đỗ Văn Toàn",
+    "Email": "parent.dovdntoan9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Quách Thu Thảo",
+    "Email": "parent.quachthuthao7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "PH em Lý Phương Nam",
+    "Email": "parent.laphaungnam8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Mai Tuyết Nhi",
+    "Email": "parent.maituyetnhi6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Trịnh Công Sơn",
+    "Email": "parent.tronhcongsun9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Phan Anh Tuấn",
+    "Email": "parent.phananhtuan7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "PH em Tạ Minh Huy",
+    "Email": "parent.taminhhuy8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Phùng Hoài An",
+    "Email": "parent.phunghoaian6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Đinh Ngọc Diệp",
+    "Email": "parent.dinhngocdiip9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Cao Mạnh Hùng",
+    "Email": "parent.caomanhhung7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Lương Mỹ Duyên",
+    "Email": "parent.laungmduyen8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Tống Văn Hậu",
+    "Email": "parent.tongvdnhau6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "PH em Vi Kim Chi",
+    "Email": "parent.vikimchi9a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.7a1@teacher.edunext.vn",
+    "TenLop": "7A1",
+    "HoTen": "PH em Mông Văn Đống",
+    "Email": "parent.mongvdndong7a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.8a1@teacher.edunext.vn",
+    "TenLop": "8A1",
+    "HoTen": "PH em Sơn Tùng",
+    "Email": "parent.suntung8a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "PH em Đen Vâu",
+    "Email": "parent.denvau6a1@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.6a1@teacher.edunext.vn",
+    "TenLop": "6A1",
+    "HoTen": "Giáo viên Khối 6",
+    "Email": "gv.6a1_alt@student.edunext.vn"
+  },
+  {
+    "EmailGiaoVien": "gv.9a1@teacher.edunext.vn",
+    "TenLop": "9A1",
+    "HoTen": "Nguyễn Văn Con (9A1)",
+    "Email": "nguyenvancon9a1@student.edunext.vn"
+  }
+]

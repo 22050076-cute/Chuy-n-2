@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNext AI | Trợ lý học tập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { edunext: { primary: '#ee0033', dark: '#1e293b', bg: '#f8fafc' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chat-container::-webkit-scrollbar { width: 4px; }
+        .chat-container::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .ai-gradient { background: linear-gradient(135deg, #ee0033 0%, #ff5e7e 100%); }
+        .message-row { display: flex; width: 100%; margin-bottom: 1.5rem; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .message-row.user { justify-content: flex-end; }
+        .message-bubble { max-width: 75%; padding: 0.85rem 1.1rem; border-radius: 1.25rem; font-size: 0.9rem; line-height: 1.6; }
+        .user .message-bubble { background-color: #ee0033; color: white; border-bottom-right-radius: 0.25rem; box-shadow: 0 4px 12px rgba(238, 0, 51, 0.15); }
+        .ai .message-bubble { background-color: #f1f5f9; color: #1e293b; border-bottom-left-radius: 0.25rem; border: 1px solid #e2e8f0; }
+        .typing::after { content: '...'; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-edunext-bg font-sans h-screen flex overflow-hidden">
+
+    <aside class="w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 shadow-sm">
+        <div class="p-6">
+            <button onclick="createNewSession()" class="w-full py-3 px-4 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 flex items-center justify-center gap-2 hover:bg-edunext-primary hover:text-white transition-all">
+                <i class="ph-bold ph-plus"></i> Đoạn chat mới
+            </button>
+        </div>
+        
+        <div id="ai-history-list" class="flex-1 overflow-y-auto px-4 space-y-2 chat-container">
+            <p class="text-[10px] font-800 text-slate-400 uppercase px-2 mb-4 tracking-wider">Lịch sử hội thoại</p>
+            </div>
+
+        <div class="p-6 border-t border-slate-100">
+            <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                <div class="w-10 h-10 ai-gradient rounded-full flex items-center justify-center text-white font-bold" id="user-initial">?</div>
+                <div class="flex-1 min-w-0">
+                    <p id="user-fullname" class="text-sm font-bold text-slate-700 truncate">Đang tải...</p>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Học sinh</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col bg-white">
+        <header class="h-16 border-b border-slate-100 flex items-center justify-between px-8 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 ai-gradient rounded-lg flex items-center justify-center text-white shadow-sm">
+                    <i class="ph-fill ph-sparkle text-lg"></i>
+                </div>
+                <h2 id="current-session-title" class="font-bold text-slate-800">Trợ lý học tập AI</h2>
+            </div>
+        </header>
+
+        <div id="ai-chat-window" class="chat-container flex-1 overflow-y-auto p-8 space-y-4">
+            <div id="welcome-screen" class="mt-20 text-center space-y-4 max-w-md mx-auto">
+                <div class="w-20 h-20 ai-gradient rounded-3xl flex items-center justify-center text-white text-4xl mx-auto shadow-xl">
+                    <i class="ph-fill ph-robot"></i>
+                </div>
+                <h1 class="text-2xl font-800 text-slate-800">Chào bạn, tôi là EduNext AI!</h1>
+                <p class="text-slate-500 text-sm">Tôi có thể giúp bạn giải toán, tóm tắt bài học hoặc lên kế hoạch học tập.</p>
+            </div>
+        </div>
+
+        <div class="p-6 bg-white border-t border-slate-50">
+            <div class="max-w-4xl mx-auto relative">
+                <form id="ai-chat-form" class="bg-slate-100 p-2 rounded-2xl border border-slate-200 focus-within:bg-white focus-within:ring-4 focus-within:ring-red-50 focus-within:border-red-200 transition-all flex items-end">
+                    <textarea id="ai-input" placeholder="Hỏi tôi bất cứ điều gì..." rows="1" 
+                        class="w-full bg-transparent border-none py-3 px-4 text-sm focus:ring-0 outline-none resize-none max-h-40 text-slate-700 font-medium"></textarea>
+                    
+                    <button type="submit" class="ai-gradient text-white px-6 py-2 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2 mb-1.5 mr-1.5 hover:scale-105 transition-all">
+                        Gửi <i class="ph-fill ph-paper-plane-right"></i>
+                    </button>
+                </form>
+                <p class="text-[10px] text-center text-slate-400 mt-3 italic">Dữ liệu được xử lý bởi Gemini Pro 1.5 Flash</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const socket = io();
+        // Lấy ID từ localStorage (giả định bạn đã lưu khi login)
+        const currentUserId = localStorage.getItem('userId') || 3; 
+        let currentSessionId = null;
+
+        // --- LOAD DỮ LIỆU BAN ĐẦU ---
+        socket.emit('get_user_info', currentUserId);
+        socket.emit('get_ai_history', currentUserId);
+
+        socket.on('receive_user_info', (user) => {
+            document.getElementById('user-fullname').innerText = user.HoTen;
+            document.getElementById('user-initial').innerText = user.HoTen.charAt(0);
+        });
+
+        socket.on('receive_ai_history', (sessions) => {
+            const list = document.getElementById('ai-history-list');
+            list.innerHTML = `<p class="text-[10px] font-800 text-slate-400 uppercase px-2 mb-4 tracking-wider">Lịch sử hội thoại</p>` + 
+            sessions.map(s => `
+                <div onclick="loadSession(${s.MaPhien}, '${s.TieuDePhien}')" 
+                    class="p-3 rounded-xl cursor-pointer hover:bg-slate-50 transition-all flex items-center gap-3 ${currentSessionId === s.MaPhien ? 'bg-slate-50 ring-1 ring-slate-200' : ''}">
+                    <i class="ph ph-chat-circle text-slate-400"></i>
+                    <p class="text-xs font-bold text-slate-600 truncate flex-1">${s.TieuDePhien}</p>
+                </div>
+            `).join('');
+        });
+
+        // --- XỬ LÝ GỬI TIN NHẮN ---
+        const aiForm = document.getElementById('ai-chat-form');
+        const aiInput = document.getElementById('ai-input');
+
+        // Bắt sự kiện phím Enter
+        aiInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                aiForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        aiForm.onsubmit = (e) => {
+            e.preventDefault();
+            const question = aiInput.value.trim();
+            if (!question) return;
+
+            appendMessage(question, 'user');
+
+            if (!currentSessionId) {
+                socket.emit('create_ai_session', { userId: currentUserId, title: question.substring(0, 25) });
+                socket.once('session_created', (data) => {
+                    currentSessionId = data.MaPhien;
+                    sendRequest(question);
+                });
+            } else {
+                sendRequest(question);
+            }
+            aiInput.value = '';
+            aiInput.style.height = 'auto';
+        };
+
+        function sendRequest(question) {
+            showTyping();
+            socket.emit('ask_ai', { userId: currentUserId, session_id: currentSessionId, question: question });
+        }
+
+        socket.on('ai_response', (data) => {
+            removeTyping();
+            appendMessage(data.answer, 'ai');
+            socket.emit('get_ai_history', currentUserId); // Cập nhật sidebar
+        });
+
+        // --- UI HELPERS ---
+        function appendMessage(text, role) {
+            const windowChat = document.getElementById('ai-chat-window');
+            document.getElementById('welcome-screen')?.remove();
+
+            const bubble = role === 'user' 
+                ? `<div class="message-row user"><div class="message-bubble shadow-sm">${text}</div></div>`
+                : `<div class="message-row ai">
+                    <div class="flex gap-3 max-w-[85%]">
+                        <div class="w-8 h-8 ai-gradient rounded-lg flex items-center justify-center shrink-0 text-white shadow-md"><i class="ph-fill ph-robot text-lg"></i></div>
+                        <div class="message-bubble shadow-sm">${text.replace(/\n/g, '<br>')}</div>
+                    </div>
+                   </div>`;
+            windowChat.insertAdjacentHTML('beforeend', bubble);
+            windowChat.scrollTop = windowChat.scrollHeight;
+        }
+
+        function showTyping() {
+            const windowChat = document.getElementById('ai-chat-window');
+            windowChat.insertAdjacentHTML('beforeend', `<div id="ai-typing" class="message-row ai"><div class="message-bubble shadow-sm italic text-slate-400 typing">AI đang suy nghĩ</div></div>`);
+            windowChat.scrollTop = windowChat.scrollHeight;
+        }
+
+        function removeTyping() { document.getElementById('ai-typing')?.remove(); }
+
+        function loadSession(id, title) {
+            currentSessionId = id;
+            document.getElementById('current-session-title').innerText = title;
+            document.getElementById('ai-chat-window').innerHTML = '';
+            socket.emit('get_ai_details', { ma_phien: id, userId: currentUserId });
+        }
+
+        socket.on('receive_ai_details', (messages) => {
+            messages.forEach(m => {
+                appendMessage(m.CauHoi, 'user');
+                appendMessage(m.TraLoiAI, 'ai');
+            });
+        });
+
+        function createNewSession() {
+            currentSessionId = null;
+            document.getElementById('ai-chat-window').innerHTML = `
+                <div id="welcome-screen" class="mt-20 text-center space-y-4 max-w-md mx-auto">
+                    <div class="w-20 h-20 ai-gradient rounded-3xl flex items-center justify-center text-white text-4xl mx-auto shadow-xl"><i class="ph-fill ph-robot"></i></div>
+                    <h1 class="text-2xl font-800 text-slate-800">Đoạn chat mới</h1>
+                </div>`;
+            document.getElementById('current-session-title').innerText = "Trợ lý học tập AI";
+        }
+
+        // Tự động giãn nở ô nhập liệu
+        aiInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>

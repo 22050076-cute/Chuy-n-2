@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo lớp | EduNext Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { 
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: { brand: { primary: '#E11D48', dark: '#0F172A', surface: '#F1F5F9' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f1f5f9; letter-spacing: -0.01em; font-family: 'Inter', sans-serif; }
+        .ai-gradient { background: linear-gradient(135deg, #4F46E5 0%, #E11D48 100%); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+        * { font-style: normal !important; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-900 bg-brand-surface">
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-30 shadow-sm">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 ai-gradient rounded-2xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i class="ph-fill ph-circles-four text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-black text-2xl tracking-tighter text-brand-dark uppercase leading-none">Edu<span
+                            class="text-brand-primary">Next</span></span>
+                    <p class="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em] mt-1">Teacher Pro</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-6 space-y-8 overflow-y-auto py-8">
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hệ thống</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_teacher" id="nav-dashboard"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-house-line text-xl"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">Nghiệp vụ
+                    Chủ nhiệm</p>
+                <div class="space-y-1">
+                    <a href="/teacher/attendance" id="nav-attendance"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Điểm danh lớp
+                    </a>
+                    <a href="/teacher/leave-requests" id="nav-leave"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative group">
+                        <i class="ph-bold ph-envelope-open text-xl"></i> Duyệt đơn xin nghỉ
+                        <span id="badge-leave"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-rose-500 text-white text-[8px] flex items-center justify-center rounded-full hidden">0</span>
+                    </a>
+                    <a href="/teacher/announcements" id="nav-announcements"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-brand-primary text-white shadow-lg shadow-rose-200 font-bold text-sm transition-all">
+                        <i class="ph-fill ph-megaphone text-xl"></i> Thông báo lớp
+                    </a>
+                    <a href="/teacher/messages" id="nav-messages"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative">
+                        <i class="ph-bold ph-chat-circle-dots text-xl"></i> Tin nhắn
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học tập & Tài
+                    nguyên</p>
+                <div class="space-y-1">
+                    <a href="/teacher/schedule" id="nav-schedule"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Thời khóa biểu
+                    </a>
+                    <a href="/teacher/gradebook" id="nav-gradebook"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-notebook text-xl"></i> Sổ điểm & Nề nếp
+                    </a>
+                    <a href="/teacher/resources" id="nav-resources"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-folder-notched-plus text-xl"></i> Kho học liệu
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-50">
+            <button onclick="window.location.href='/login'"
+                class="w-full flex items-center gap-3 p-3.5 text-slate-400 hover:text-brand-primary hover:bg-rose-50 rounded-2xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-xl"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 bg-brand-surface relative overflow-hidden">
+        <header class="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 px-10 flex items-center justify-between sticky top-0 z-20">
+            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Nghiệp vụ / <span class="text-brand-dark">Thông báo lớp học</span></h2>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+            <div class="max-w-4xl mx-auto space-y-10">
+                <!-- Post Section -->
+                <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                    <h3 class="text-lg font-black text-slate-800 mb-6 uppercase italic">Đăng thông báo mới</h3>
+                    <div class="space-y-4">
+                        <input id="ann-title" type="text" placeholder="Tiêu đề thông báo..." class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary">
+                        <textarea id="ann-content" placeholder="Nội dung chi tiết thông báo..." class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary h-32"></textarea>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Thông báo sẽ được gửi đến tất cả HS & PH trong lớp.</span>
+                            <button onclick="postAnnouncement()" class="px-10 py-4 ai-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl hover:scale-105 transition-all">Gửi thông báo</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div class="space-y-6">
+                    <h3 class="text-lg font-black text-slate-800 uppercase italic px-4">Lịch sử thông báo</h3>
+                    <div id="ann-list" class="space-y-4">
+                        <div class="p-10 text-center text-slate-400 italic">Đang tải lịch sử...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function loadAnnouncements() {
+            const list = document.getElementById('ann-list');
+            try {
+                const response = await fetch('/api/teacher/announcements');
+                const result = await response.json();
+                if (result.success && result.data.length > 0) {
+                    list.innerHTML = result.data.map(ann => `
+                        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="px-3 py-1 bg-rose-50 text-brand-primary text-[9px] font-black rounded-full uppercase italic">${ann.NgayDang}</span>
+                                    <button onclick="deleteAnn(${ann.MaThongBao})" class="text-slate-300 hover:text-brand-primary transition-colors"><i class="ph-bold ph-trash text-lg"></i></button>
+                                </div>
+                                <h4 class="text-base font-black text-slate-800 italic">${ann.TieuDe}</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium leading-relaxed">${ann.NoiDung}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<div class="p-10 text-center text-slate-300 italic font-bold uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-[2rem]">Chưa có thông báo nào được đăng ✨</div>';
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function postAnnouncement() {
+            const title = document.getElementById('ann-title').value.trim();
+            const content = document.getElementById('ann-content').value.trim();
+            if (!title || !content) return alert("Vui lòng điền đủ thông tin!");
+
+            try {
+                const response = await fetch('/api/teacher/announcements', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, content })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("✨ Đã đăng thông báo thành công!");
+                    document.getElementById('ann-title').value = '';
+                    document.getElementById('ann-content').value = '';
+                    loadAnnouncements();
+                }
+            } catch (err) { alert("❌ Lỗi gửi thông báo!"); }
+        }
+
+        window.onload = loadAnnouncements;
+    </script>
+</body>
+</html>

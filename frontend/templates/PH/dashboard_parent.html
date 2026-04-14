@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduNext | Cổng Thông Tin Phụ Huynh 8A1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        edunext: {
+                            50: '#fff1f2',
+                            primary: '#ee0033',
+                            dark: '#0f172a',
+                            accent: '#ba0028',
+                            emerald: '#10b981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .red-gradient {
+            background: linear-gradient(135deg, #ee0033 0%, #ba0028 100%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-[#f8fafc] font-sans text-slate-900 h-screen overflow-hidden flex">
+
+    <aside class="w-72 bg-white border-r border-slate-200 hidden lg:flex flex-col z-50">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 red-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <i class="ph-fill ph-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-xl tracking-tight text-slate-900">EduNext</h1>
+                    <p class="text-[10px] font-bold text-edunext-primary uppercase tracking-[0.2em]">Parent Hub</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 p-6 space-y-8 overflow-y-auto">
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-4">Quản lý học tập</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_parent"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'dashboard' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'dashboard' else 'ph-bold' }} ph-squares-four text-xl"></i>
+                        Tổng quan
+                    </a>
+                    <a href="/parent/gradebook"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'gradebook' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'gradebook' else 'ph-bold' }} ph-chart-line-up text-xl group-hover:text-edunext-primary"></i>
+                        Phân tích AI & Điểm
+                    </a>
+                    <a href="/parent/homework"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'homework' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'homework' else 'ph-bold' }} ph-book-open text-xl group-hover:text-edunext-primary"></i>
+                        Bài tập về nhà
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-4">Đời sống & Tài
+                    chính</p>
+                <div class="space-y-1">
+                    <a href="/parent/wallet"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'wallet' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'wallet' else 'ph-bold' }} ph-wallet text-xl group-hover:text-edunext-primary"></i>
+                        Ví Edu-Wallet
+                    </a>
+                    <a href="/parent/chat"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'chat' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'chat' else 'ph-bold' }} ph-chat-circle-dots text-xl group-hover:text-edunext-primary"></i>
+                        Tin nhắn
+                    </a>
+                    <a href="#" onclick="openLeaveModal()"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-500 font-semibold hover:bg-slate-50 transition-all group">
+                        <i class="ph-bold ph-calendar-x text-xl group-hover:text-edunext-primary"></i> Xin nghỉ học
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-50">
+            <button onclick="window.location.href='/login'"
+                class="w-full flex items-center gap-3 p-3 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen relative overflow-hidden">
+        <header class="h-20 glass border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-40">
+            <div>
+                <h2 id="parent-name" class="text-lg font-extrabold text-slate-900">
+                    Xin chào 👋
+                </h2>
+
+                <h3 id="student-name" class="text-3xl font-black mb-2 tracking-tight"></h3>
+
+                <p id="class-info"></p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                    <span class="text-[11px] font-bold text-emerald-700 uppercase">Học sinh đang ở lớp</span>
+                </div>
+                <button
+                    class="w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-edunext-primary transition-colors relative">
+                    <i class="ph-bold ph-bell"></i>
+                    <span
+                        class="absolute top-2 right-2 w-2 h-2 bg-edunext-primary rounded-full border-2 border-white"></span>
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div
+                    class="lg:col-span-2 red-gradient rounded-[2rem] p-8 text-white relative overflow-hidden flex flex-col md:flex-row items-center gap-8 shadow-2xl shadow-red-200">
+                    <div class="relative">
+                        <img src="https://i.pravatar.cc/150?u=khôi"
+                            class="w-32 h-32 rounded-[2.5rem] border-4 border-white/30 object-cover shadow-2xl">
+                        <div
+                            class="absolute -bottom-2 -right-2 bg-yellow-400 text-slate-900 px-3 py-1 rounded-full text-[10px] font-black shadow-lg">
+                            Hạng 5/42</div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-3xl font-black mb-2 tracking-tight">Trần Minh Khôi</h3>
+                        <p
+                            class="text-white/80 font-semibold mb-6 flex items-center justify-center md:justify-start gap-2">
+                            <i class="ph-fill ph-chalkboard-teacher"></i> Lớp 8A1 • GVCN: Cô Hà Quách
+                        </p>
+                        <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                            <div
+                                class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-2">
+                                <i class="ph-fill ph-star text-yellow-300"></i>
+                                <span class="text-xs font-bold">1,250 XP</span>
+                            </div>
+                            <div
+                                class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-2">
+                                <i class="ph-fill ph-lightning text-orange-300"></i>
+                                <span class="text-xs font-bold">Chuỗi 15 ngày</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <h4 class="font-black text-slate-800 text-sm uppercase tracking-widest">Phân tích AI</h4>
+                            <i class="ph-fill ph-magic-wand text-purple-500 text-xl"></i>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed italic">"Khôi có xu hướng vượt trội ở các môn
+                            Khoa học tự nhiên (Lý +5%). Cần chú ý thêm kỹ năng Speaking môn Tiếng Anh."</p>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-slate-50 flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl font-bold">
+                            85%</div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800">Chỉ số tập trung</p>
+                            <p class="text-[10px] text-slate-400">Tăng 2% so với tháng trước</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 card-hover">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4">
+                        <i class="ph-fill ph-wallet"></i></div>
+                    <h5 class="font-bold text-slate-800 text-sm">Ví Edu-Wallet</h5>
+                    <p class="text-2xl font-black text-slate-900 my-2">450.000đ</p>
+                    <p class="text-[10px] text-slate-400 mb-4">Hạn mức chi tiêu: 50k/ngày</p>
+                    <button
+                        class="w-full py-2 bg-blue-600 text-white rounded-xl text-[11px] font-bold hover:bg-blue-700 transition-colors">Nạp
+                        thêm tiền</button>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 card-hover">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-2xl mb-4">
+                        <i class="ph-fill ph-bus"></i></div>
+                    <h5 class="font-bold text-slate-800 text-sm">Vị trí xe Bus</h5>
+                    <p class="text-xs font-bold text-orange-600 mt-2 mb-1">Đang di chuyển</p>
+                    <p class="text-sm font-black text-slate-900 mb-4">5 phút nữa đến điểm đón</p>
+                    <button
+                        class="w-full py-2 bg-slate-100 text-slate-600 rounded-xl text-[11px] font-bold hover:bg-slate-200 transition-colors">Xem
+                        bản đồ</button>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 card-hover">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-4">
+                        <i class="ph-fill ph-heartbeat"></i></div>
+                    <h5 class="font-bold text-slate-800 text-sm">Sức khỏe</h5>
+                    <div class="flex gap-2 my-4">
+                        <div class="bg-slate-50 px-2 py-1 rounded-lg text-center flex-1">
+                            <p class="text-[9px] font-bold text-slate-400">BMI</p>
+                            <p class="text-xs font-black">18.2</p>
+                        </div>
+                        <div class="bg-slate-50 px-2 py-1 rounded-lg text-center flex-1">
+                            <p class="text-[9px] font-bold text-slate-400">Chiều cao</p>
+                            <p class="text-xs font-black">1m65</p>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full py-2 bg-slate-100 text-slate-600 rounded-xl text-[11px] font-bold hover:bg-slate-200 transition-colors">Báo
+                        cáo y tế</button>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 card-hover relative overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400"
+                        class="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:scale-110 transition-transform">
+                    <div class="relative z-10">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4">
+                            <i class="ph-fill ph-aperture"></i></div>
+                        <h5 class="font-bold text-slate-800 text-sm">Khoảnh khắc lớp</h5>
+                        <p class="text-[10px] text-slate-500 mt-2 mb-4">Bạn có 3 hình ảnh mới của con.</p>
+                        <button
+                            class="w-full py-2 bg-purple-600 text-white rounded-xl text-[11px] font-bold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-100">Xem
+                            ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col h-full">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500">
+                        <i class="ph-bold ph-clock-counter-clockwise text-xl"></i>
+                    </div>
+                    <h4 class="font-black text-slate-800 text-sm uppercase italic">Lịch sử xin nghỉ</h4>
+                </div>
+                <div id="leave-history" class="space-y-3 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
+                    <!-- JS load history here -->
+                    <p class="text-[10px] text-slate-400 italic text-center py-4">Đang tải lịch sử...</p>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- MODAL XIN NGHỈ -->
+        <div id="leave-modal"
+            class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+            <div class="bg-white w-[450px] rounded-[2.5rem] p-10 relative shadow-2xl scale-95 transition-transform duration-300"
+                id="leave-modal-content">
+                <button onclick="closeLeaveModal()"
+                    class="absolute top-8 right-8 text-slate-400 hover:text-edunext-primary transition-colors">
+                    <i class="ph-bold ph-x text-2xl"></i>
+                </button>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-black text-slate-900 tracking-tight italic uppercase">Đơn xin nghỉ học</h3>
+                    <p class="text-xs text-slate-500 font-medium">Vui lòng điền thông tin chính xác</p>
+                </div>
+                <div class="space-y-5">
+                    <div>
+                        <label
+                            class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-2">Ngày
+                            nghỉ</label>
+                        <input id="leave-date" type="date"
+                            class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold focus:ring-2 focus:ring-edunext-primary/20 outline-none">
+                    </div>
+                    <div>
+                        <label
+                            class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-2">Lý
+                            do nghỉ</label>
+                        <textarea id="leave-reason" placeholder="Ví dụ: Em bị sốt cao cần đi khám bệnh..."
+                            class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold focus:ring-2 focus:ring-edunext-primary/20 outline-none h-32"></textarea>
+                    </div>
+                    <button onclick="submitLeaveRequest()"
+                        class="w-full py-4 red-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl shadow-red-100 hover:scale-[1.02] transition-all">Gửi
+                        đơn ngay</button>
+                </div>
+            </div>
+        </div>
+
+        <button
+            class="fixed bottom-8 right-8 w-16 h-16 red-gradient text-white rounded-[2rem] shadow-2xl shadow-red-300 flex items-center justify-center text-3xl border-4 border-white group transition-all hover:scale-110 active:scale-95 z-[100]">
+            <i class="ph-fill ph-magic-wand"></i>
+        </button>
+    </main>
+
+    <script>
+        const chatContainer = document.getElementById('chat-messages-container');
+        const chatInput = document.getElementById('chat-input-field');
+
+        // --- LOGIC XIN NGHỈ ---
+        function openLeaveModal() {
+            const modal = document.getElementById('leave-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                document.getElementById('leave-modal-content').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeLeaveModal() {
+            const modal = document.getElementById('leave-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('leave-modal-content').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        async function submitLeaveRequest() {
+            const date = document.getElementById('leave-date').value;
+            const reason = document.getElementById('leave-reason').value;
+            if (!date || !reason) return alert("Vui lòng điền đầy đủ thông tin!");
+
+            try {
+                const res = await fetch('/api/parent/leave-request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ date, reason })
+                });
+                const result = await res.json();
+                if (res.ok) {
+                    alert("✨ Đã gửi đơn thành công!");
+                    closeLeaveModal();
+                    loadLeaveHistory();
+                } else {
+                    alert("❌ Lỗi: " + (result.message || "Không thể gửi đơn"));
+                }
+            } catch (err) {
+                console.error(err);
+                alert("❌ Lỗi kết nối server!");
+            }
+        }
+
+        async function loadLeaveHistory() {
+            try {
+                const res = await fetch('/api/parent/leave-request');
+                const result = await res.json();
+                if (result.success) {
+                    const container = document.getElementById('leave-history');
+                    if (result.data.length === 0) {
+                        container.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-4">Chưa có đơn nào.</p>';
+                        return;
+                    }
+                    container.innerHTML = result.data.map(d => `
+                    <div class="p-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="text-[10px] font-black text-slate-800">${new Date(d.NgayNghi).toLocaleDateString('vi-VN')}</span>
+                            <span class="text-[8px] px-2 py-0.5 rounded-full uppercase font-black ${getStatusStyle(d.TrangThai)}">
+                                ${getStatusText(d.TrangThai)}
+                            </span>
+                        </div>
+                        <p class="text-[10px] text-slate-500 italic truncate italic">"${d.LyDo}"</p>
+                        ${d.PhanHoiGiaoVien ? `
+                            <div class="mt-2 p-2 bg-white rounded-lg border-l-2 border-edunext-primary">
+                                <p class="text-[9px] font-bold text-edunext-primary">Cô Hà phản hồi:</p>
+                                <p class="text-[9px] text-slate-600">${d.PhanHoiGiaoVien}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function getStatusStyle(st) {
+            if (st === 'ChoDuyet' || st === 'Pending') return 'bg-amber-100 text-amber-600';
+            if (st === 'DaDuyet') return 'bg-emerald-100 text-emerald-600';
+            return 'bg-rose-100 text-rose-600';
+        }
+
+        function getStatusText(st) {
+            if (st === 'ChoDuyet' || st === 'Pending') return 'Chờ duyệt';
+            if (st === 'DaDuyet') return 'Đã duyệt';
+            return 'Từ chối';
+        }
+
+        window.onload = loadLeaveHistory;
+
+        // Hàm gửi tin nhắn
+        function sendParentMessage() {
+            const message = chatInput.value.trim();
+            if (message !== "") {
+                const msgObj = { role: 'ph', text: message, time: new Date().toLocaleTimeString() };
+
+                // 1. Hiển thị lên màn hình mình trước
+                appendMessage('ph', message);
+
+                // 2. Gửi tín hiệu sang tab khác qua localStorage
+                localStorage.setItem('last_message', JSON.stringify(msgObj));
+
+                chatInput.value = "";
+            }
+        }
+
+        // Hàm hiển thị tin nhắn lên khung chat
+        function appendMessage(role, text) {
+            const isPH = role === 'ph';
+            const html = `
+            <div class="flex flex-col ${isPH ? 'items-end' : 'items-start'}">
+                <p class="${isPH ? 'red-gradient text-white' : 'bg-white text-slate-700 shadow-sm'} p-3 rounded-2xl ${isPH ? 'rounded-tr-none' : 'rounded-tl-none'} text-xs max-w-[90%] leading-relaxed font-bold">
+                    ${text}
+                </p>
+                <span class="text-[9px] text-slate-400 mt-1 ${isPH ? 'mr-1' : 'ml-1'}">Vừa xong</span>
+            </div>`;
+            chatContainer.insertAdjacentHTML('beforeend', html);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // LẮNG NGHE TIN NHẮN TỪ GIÁO VIÊN
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'last_message') {
+                const data = JSON.parse(e.newValue);
+                if (data.role === 'gv') { // Nếu là giáo viên gửi thì mình hiển thị bên trái
+                    appendMessage('gv', data.text);
+                }
+            }
+        });
+
+        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendParentMessage() });
+    </script>
+    <script>
+        async function loadProfile() {
+            try {
+                const res = await fetch('/api/user/profile');
+                const data = await res.json();
+
+                if (data.success) {
+                    const user = data.data;
+
+                    // Tên phụ huynh
+                    document.getElementById('parent-name').innerText =
+                        `Xin chào, ${user.fullname} 👋`;
+
+                    // Tên học sinh (nếu có API riêng thì gọi thêm)
+                    document.getElementById('student-name').innerText =
+                        user.fullname; // tạm thời (có thể sai logic)
+
+                    // Lớp + GVCN
+                    document.getElementById('class-info').innerText =
+                        `Lớp ${user.class_name} • GVCN: (load từ DB)`;
+                }
+            } catch (err) {
+                console.error("Lỗi load profile:", err);
+            }
+        }
+
+        loadProfile();
+    </script>
+</body>
+
+</html>

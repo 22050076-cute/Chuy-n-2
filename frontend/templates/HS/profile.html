@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ cá nhân | EduNext</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: { 
+                extend: { 
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { 
+                        edunext: { primary: '#ee0033', dark: '#1e293b', bg: '#f8fafc' } 
+                    } 
+                } 
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .sidebar-link:hover { background: rgba(238, 0, 51, 0.05); color: #ee0033; }
+        .sidebar-active { background: #ee0033 !important; color: white !important; box-shadow: 0 10px 15px -3px rgba(238, 0, 51, 0.2); }
+    </style>
+</head>
+<body class="bg-edunext-bg font-sans text-slate-800 flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-20">
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 bg-edunext-primary rounded-xl flex items-center justify-center text-white shadow-lg">
+                <i class="ph-fill ph-graduation-cap text-2xl"></i>
+            </div>
+            <span class="font-extrabold text-xl text-edunext-dark tracking-tight">Edu<span class="text-edunext-primary">Next</span></span>
+        </div>
+
+        <nav class="flex-1 px-4 py-2 space-y-1.5 overflow-y-auto">
+            <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Học tập & Hoạt động</p>
+            
+            <a href="/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium text-slate-500 transition-all hover:bg-slate-50">
+                <i class="ph-fill ph-house text-xl text-slate-400"></i> Bàn học của tôi
+            </a>
+            
+            <a href="/kho-hoc-lieu" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:bg-slate-50">
+                <i class="ph-fill ph-books text-xl opacity-70 text-slate-400 group-hover:text-edunext-primary"></i> Kho học liệu
+            </a>
+            
+            <a href="/bai-tap" class="sidebar-link flex items-center justify-between px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:bg-slate-50">
+                <div class="flex items-center gap-3">
+                    <i class="ph-fill ph-exam text-xl opacity-70 text-slate-400 group-hover:text-edunext-primary"></i> Bài tập & Kiểm tra
+                </div>
+            </a>
+            
+            <a href="/thoi-khoa-bieu" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:bg-slate-50">
+                <i class="ph-fill ph-calendar-check text-xl opacity-70 text-slate-400 group-hover:text-edunext-primary"></i> Thời khóa biểu
+            </a>
+            
+            <a href="/bang-thanh-tich" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:bg-slate-50">
+                <i class="ph-fill ph-medal text-xl opacity-70 text-slate-400 group-hover:text-edunext-primary"></i> Bảng thành tích
+            </a>
+            <a href="/hoc-sinh/tin-nhan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <i class="ph-fill ph-messenger-logo text-xl opacity-70"></i> Tin nhắn
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-100 space-y-3">
+            <button onclick="window.location.href='/'" class="w-full flex items-center justify-center gap-2 py-3 bg-red-50 text-edunext-primary rounded-xl font-bold hover:bg-edunext-primary hover:text-white transition-all group">
+                <i class="ph-bold ph-sign-out text-lg"></i>
+                <span>Đăng xuất</span>
+            </button>
+
+            <a href="/profile" class="sidebar-active p-3 rounded-2xl flex items-center gap-3 border border-slate-800 shadow-lg transition-all group ring-2 ring-red-500/20">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-full border-2 border-slate-700 shadow-sm">
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-sm text-white truncate">Nguyễn Văn A</p>
+                    <p class="text-[10px] text-white/80 font-semibold uppercase">Đang xem Hồ sơ</p>
+                </div>
+                <i class="ph-bold ph-caret-right text-white"></i>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden">
+        <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-8 py-4">
+            <h2 class="text-xl font-bold text-slate-800">Cài đặt tài khoản</h2>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-4xl mx-auto space-y-8">
+                
+                <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-red-50 rounded-full -mr-20 -mt-20 opacity-50"></div>
+                    
+                    <div class="relative">
+                        <img id="avatar-preview" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-32 h-32 rounded-full border-4 border-white shadow-2xl object-cover relative z-10">
+                        <label for="avatar-upload" class="absolute bottom-0 right-0 w-10 h-10 bg-edunext-primary text-white rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg z-20">
+                            <i class="ph-bold ph-camera-plus"></i>
+                            <input type="file" id="avatar-upload" class="hidden" accept="image/*">
+                        </label>
+                    </div>
+
+                    <div class="text-center md:text-left flex-1 relative z-10">
+                        <h3 class="text-2xl font-black text-slate-800 mb-1" id="name-heading">Nguyễn Văn A</h3>
+                        <p class="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">Học sinh hệ thống EduNext</p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                            <div class="px-4 py-2 bg-slate-100 rounded-xl text-[11px] font-bold text-slate-600">ID: HS2026-001</div>
+                            <div class="px-4 py-2 bg-green-50 rounded-xl text-[11px] font-bold text-green-600">Trạng thái: Đang học</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs flex items-center gap-2">
+                            <i class="ph-bold ph-info text-edunext-primary text-lg"></i> Thông tin chi tiết
+                        </h4>
+                    </div>
+                    
+                    <div class="p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Họ và tên</label>
+                                <input type="text" id="full-name" value="Nguyễn Văn A" class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:ring-4 focus:ring-red-50 focus:border-edunext-primary transition-all font-medium">
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email (Không thể sửa)</label>
+                                <input type="email" value="vana.student@edunext.vn" disabled class="w-full px-5 py-4 bg-slate-100 border border-slate-200 rounded-2xl text-slate-400 cursor-not-allowed font-medium">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Lớp học</label>
+                                <input type="text" value="9A1 - Khối THCS" disabled class="w-full px-5 py-4 bg-slate-100 border border-slate-200 rounded-2xl text-slate-400 cursor-not-allowed font-medium">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Ngày sinh</label>
+                                <input type="date" id="dob" value="2011-05-20" class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:ring-4 focus:ring-red-50 transition-all font-medium">
+                            </div>
+                        </div>
+
+                        <div class="mt-10 pt-6 border-t border-slate-100 flex flex-col md:flex-row gap-4">
+                            <button onclick="saveProfile()" class="flex-1 py-4 bg-edunext-primary text-white rounded-2xl font-extrabold shadow-lg shadow-red-500/30 hover:scale-[1.02] active:scale-95 transition-all">Lưu thông tin hồ sơ</button>
+                            <button onclick="window.location.href='/dashboard'" class="px-10 py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold hover:bg-slate-200 transition-all">Hủy bỏ</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Preview Avatar khi chọn ảnh
+        document.getElementById('avatar-upload').onchange = function (e) {
+            const [file] = this.files;
+            if (file) {
+                document.getElementById('avatar-preview').src = URL.createObjectURL(file);
+            }
+        };
+
+        // Hàm demo lưu thông tin
+        function saveProfile() {
+            const nameInput = document.getElementById('full-name').value;
+            document.getElementById('name-heading').innerText = nameInput;
+            alert("Đã cập nhật hồ sơ thành công!");
+        }
+    </script>
+</body>
+</html>

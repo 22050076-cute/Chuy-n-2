@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho Học Liệu Số THCS | EduNext</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { edunext: { primary: '#ee0033', dark: '#1e293b', bg: '#f8fafc' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .sidebar-link:hover { background: rgba(238, 0, 51, 0.05); color: #ee0033; }
+        .sidebar-active { background: #ee0033 !important; color: white !important; box-shadow: 0 10px 15px -3px rgba(238, 0, 51, 0.2); }
+        .card-anim { transition: all 0.3s ease; }
+        .card-anim:hover { transform: translateY(-8px); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-edunext-bg font-sans text-slate-800 flex h-screen overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-20">
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 bg-edunext-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-red-200">
+                <i class="ph-fill ph-graduation-cap text-2xl"></i>
+            </div>
+            <span class="font-extrabold text-xl text-edunext-dark tracking-tight">Edu<span class="text-edunext-primary">Next</span></span>
+        </div>
+
+        <nav class="flex-1 px-4 py-2 space-y-1.5 overflow-y-auto">
+            <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Học tập & Hoạt động</p>
+            <a href="/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all text-slate-500">
+                <i class="ph-fill ph-house text-xl"></i> Bàn học của tôi
+            </a>
+            <a href="/kho-hoc-lieu" class="sidebar-link sidebar-active flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all group">
+                <i class="ph-fill ph-books text-xl"></i> Kho học liệu
+            </a>
+            <a href="/bai-tap" class="sidebar-link flex items-center justify-between px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group">
+                <div class="flex items-center gap-3">
+                    <i class="ph-fill ph-exam text-xl opacity-70 group-hover:text-edunext-primary"></i> Bài tập & Kiểm tra
+                </div>
+                <span class="bg-red-100 text-edunext-primary text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+            </a>
+            <a href="/thoi-khoa-bieu" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group">
+                <i class="ph-fill ph-calendar-check text-xl opacity-70 group-hover:text-edunext-primary"></i> Thời khóa biểu
+            </a>
+            <a href="/bang-thanh-tich" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group">
+                <i class="ph-fill ph-medal text-xl opacity-70 group-hover:text-amber-500"></i> Bảng thành tích
+            </a>
+            <a href="/hoc-sinh/tin-nhan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all group hover:text-edunext-primary">
+                <i class="ph-fill ph-messenger-logo text-xl opacity-70"></i> Tin nhắn
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-100">
+            <div class="bg-slate-50 p-3 rounded-2xl flex items-center gap-3 border border-slate-100 shadow-sm">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-sm text-slate-800 truncate">Nguyễn Văn A</p>
+                    <p class="text-[10px] text-slate-500 font-semibold text-edunext-primary uppercase tracking-tighter" id="user-class-display">Lớp 9A1</p>
+                </div>
+                <a href="/login"><i class="ph-bold ph-sign-out text-slate-400 hover:text-edunext-primary cursor-pointer"></i></a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- HEADER -->
+        <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-8 py-4">
+            <div class="flex items-center gap-4">
+                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 hover:bg-slate-50 transition-all">
+                    <i class="ph-bold ph-arrow-left text-slate-600"></i>
+                </a>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800 tracking-tight">Thư viện THCS</h2>
+                    <p class="text-[10px] text-edunext-primary font-black uppercase tracking-widest leading-none mt-1">Smart Learning System</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="relative hidden sm:block">
+                    <input type="text" placeholder="Tìm bài giảng, video, pdf..." class="pl-10 pr-4 py-2 bg-slate-100 rounded-full text-sm w-80 focus:bg-white focus:ring-2 focus:ring-red-100 outline-none transition-all">
+                    <i class="ph-bold ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                </div>
+                <button class="relative w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-red-50 hover:text-edunext-primary transition-colors">
+                    <i class="ph-fill ph-bookmarks-simple text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 space-y-12">
+            
+            <!-- BANNER -->
+            <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-edunext-primary rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl shadow-slate-200">
+                <div class="relative z-10 max-w-xl">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black mb-6 border border-white/10 uppercase tracking-widest text-red-300">
+                        E-Learning Hub
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Học liệu số trực quan cho học sinh THCS</h1>
+                    <p class="text-slate-300 text-lg mb-8 font-medium">Hơn 2,000+ bài giảng Video 4K và tài liệu PDF chuẩn đổi mới chương trình GDPT.</p>
+                    <div class="flex gap-3">
+                        <button class="bg-white text-edunext-primary px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:scale-105 transition-transform">Khám phá ngay</button>
+                    </div>
+                </div>
+                <i class="ph-fill ph-video-camera absolute -right-10 -bottom-10 text-[280px] text-white/5 rotate-12"></i>
+            </div>
+
+            <!-- BỘ LỌC LỚP -->
+            <section class="space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2">
+                        <i class="ph-fill ph-circles-four text-edunext-primary"></i> Khối lớp của bạn
+                    </h3>
+                    <div class="flex bg-slate-200/50 p-1.5 rounded-2xl gap-1" id="class-tabs">
+                        <button onclick="changeClass(0)" class="class-btn px-8 py-2.5 rounded-xl text-sm font-bold transition-all bg-white text-edunext-primary shadow-sm" data-class="0">Tất cả</button>
+                        <button onclick="changeClass(1)" class="class-btn px-8 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800" data-class="1">Lớp 6</button>
+                        <button onclick="changeClass(2)" class="class-btn px-8 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800" data-class="2">Lớp 7</button>
+                        <button onclick="changeClass(3)" class="class-btn px-8 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800" data-class="3">Lớp 8</button>
+                        <button onclick="changeClass(4)" class="class-btn px-8 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800" data-class="4">Lớp 9</button>
+                    </div>
+                </div>
+
+                <!-- DANH MỤC MÔN HỌC -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5" id="subject-grid">
+                    <!-- Javascript render -->
+                </div>
+            </section>
+
+            <!-- KHU VỰC BÀI GIẢNG CHI TIẾT (PDF & VIDEO) -->
+            <section class="pb-20 space-y-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-2xl font-black text-slate-800 tracking-tight">Bài giảng từ Giáo viên</h3>
+                        <p class="text-sm text-slate-500 font-medium" id="lecture-sub-title">Tài liệu mới nhất dành cho Lớp 9</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:border-edunext-primary transition-all">Mới nhất</button>
+                        <button class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:border-edunext-primary transition-all">Xem nhiều nhất</button>
+                    </div>
+                </div>
+
+                <!-- GRID BÀI GIẢNG -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="lecture-grid">
+                    <!-- Javascript render danh sách bài giảng -->
+                    <div class="col-span-full py-20 text-center">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-edunext-primary border-t-transparent mb-4"></div>
+                        <p class="text-slate-400 font-bold italic">Đang kết nối kho học liệu số...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- MODAL RATING (CHẤM SAO) -->
+        <div id="rateModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[110] hidden items-center justify-center p-4">
+            <div class="bg-white rounded-[2.5rem] w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+                <div class="p-8 pb-4 flex justify-between items-center">
+                    <h3 class="font-black text-xl text-slate-800">Đánh giá tài liệu</h3>
+                    <button onclick="toggleRateModal()" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-2xl"></i></button>
+                </div>
+                <div class="p-8 pt-0 text-center">
+                    <p class="text-xs text-slate-500 font-medium mb-6">Bạn thấy tài liệu này thế nào? Hãy tặng sao cho thầy cô nhé!</p>
+                    <div class="flex justify-center gap-2 mb-8" id="star-container">
+                        <!-- 5 Stars -->
+                        <i onclick="setStar(1)" class="ph-fill ph-star text-4xl cursor-pointer transition-all text-slate-200 hover:scale-110" data-index="1"></i>
+                        <i onclick="setStar(2)" class="ph-fill ph-star text-4xl cursor-pointer transition-all text-slate-200 hover:scale-110" data-index="2"></i>
+                        <i onclick="setStar(3)" class="ph-fill ph-star text-4xl cursor-pointer transition-all text-slate-200 hover:scale-110" data-index="3"></i>
+                        <i onclick="setStar(4)" class="ph-fill ph-star text-4xl cursor-pointer transition-all text-slate-200 hover:scale-110" data-index="4"></i>
+                        <i onclick="setStar(5)" class="ph-fill ph-star text-4xl cursor-pointer transition-all text-slate-200 hover:scale-110" data-index="5"></i>
+                    </div>
+                    <button id="btn-submit-rate" onclick="submitRating()" class="w-full py-4 bg-edunext-primary text-white rounded-2xl font-black text-sm uppercase shadow-xl shadow-red-100 hover:scale-105 transition-all">Gửi đánh giá</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Dữ liệu môn học
+        const subjects = [
+            { name: 'Toán học', icon: 'ph-calculator', light: 'bg-red-50', text: 'text-red-500' },
+            { name: 'Vật lý', icon: 'ph-atom', light: 'bg-blue-50', text: 'text-blue-500' },
+            { name: 'Hóa học', icon: 'ph-test-tube', light: 'bg-emerald-50', text: 'text-emerald-500' },
+            { name: 'Sinh học', icon: 'ph-dna', light: 'bg-green-50', text: 'text-green-600' },
+            { name: 'Tiếng Anh', icon: 'ph-translate', light: 'bg-amber-50', text: 'text-amber-500' },
+            { name: 'Ngữ văn', icon: 'ph-book-open', light: 'bg-purple-50', text: 'text-purple-500' },
+            { name: 'Lịch sử', icon: 'ph-castle-turret', light: 'bg-orange-50', text: 'text-orange-700' },
+            { name: 'Địa lý', icon: 'ph-globe-hemisphere-east', light: 'bg-sky-50', text: 'text-sky-500' },
+            { name: 'GDCD', icon: 'ph-scales', light: 'bg-rose-50', text: 'text-rose-500' },
+            { name: 'Tin học', icon: 'ph-desktop', light: 'bg-indigo-50', text: 'text-indigo-500' },
+            { name: 'Công nghệ', icon: 'ph-wrench', light: 'bg-cyan-50', text: 'text-cyan-600' },
+            { name: 'Quốc phòng', icon: 'ph-shield-checkered', light: 'bg-lime-50', text: 'text-lime-700' }
+        ];
+
+        // Giả lập dữ liệu bài giảng theo lớp
+        const lecturesData = {
+            6: [
+                { title: 'Tập hợp các số tự nhiên', teacher: 'Thầy Trần Long', type: 'PDF', subject: 'Toán học', icon: 'ph-file-pdf', color: 'text-red-500', img: 'https://images.unsplash.com/photo-1509228468518-180dd482195e?q=80&w=400&auto=format&fit=crop' },
+                { title: 'Video: Cấu tạo tế bào thực vật', teacher: 'Cô Hạnh Nguyễn', type: 'Video', subject: 'Sinh học', icon: 'ph-video-camera', color: 'text-green-500', img: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?q=80&w=400&auto=format&fit=crop' }
+            ],
+            7: [
+                { title: 'Góc so le trong, góc đồng vị', teacher: 'Cô Minh Thư', type: 'Video', subject: 'Toán học', icon: 'ph-video-camera', color: 'text-red-500', img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=400&auto=format&fit=crop' },
+            ],
+            8: [
+                { title: 'Hệ thức lượng trong tam giác', teacher: 'Thầy Quang Huy', type: 'PDF', subject: 'Toán học', icon: 'ph-file-pdf', color: 'text-red-500', img: 'https://images.unsplash.com/photo-1596495573105-d14658ce150b?q=80&w=400&auto=format&fit=crop' }
+            ]
+        };
+
+        let currentClass = 0; // Mặc định là Tất cả
+        let selectedResourceId = null;
+        let selectedStars = 0;
+
+        const gradeNames = {
+            0: "Tất cả các khối",
+            1: "Khối 6",
+            2: "Khối 7",
+            3: "Khối 8",
+            4: "Khối 9"
+        };
+
+        function renderSubjects() {
+            const grid = document.getElementById('subject-grid');
+            grid.innerHTML = subjects.map(s => `
+                <div onclick="openSubject('${s.name}')" class="bg-white p-5 rounded-[2rem] border border-slate-100 flex flex-col items-center gap-3 hover:border-edunext-primary cursor-pointer transition-all group shadow-sm">
+                    <div class="w-14 h-14 ${s.light} ${s.text} rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-all shadow-inner">
+                        <i class="ph-fill ${s.icon}"></i>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-bold text-slate-700 text-sm">${s.name}</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Lớp ${currentClass}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function renderLectures() {
+            const grid = document.getElementById('lecture-grid');
+            try {
+                const response = await fetch(`/api/resources?class_id=${currentClass}`);
+                const result = await response.json();
+                
+                if (result.success && result.data.length > 0) {
+                    const data = result.data;
+                    grid.innerHTML = data.map(lecture => `
+                        <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden card-anim group flex flex-col shadow-sm">
+                            <div class="h-44 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+                                <span class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-[9px] font-black uppercase text-slate-800 shadow-sm border border-white">
+                                    ${lecture.subject}
+                                </span>
+                                <div class="absolute top-4 right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
+                                    <i class="ph-fill ph-star text-amber-400 text-xs shadow-sm"></i>
+                                    <span class="text-[10px] font-black text-white">${lecture.stars}</span>
+                                </div>
+                            </div>
+                            <div class="p-6 flex-1 flex flex-col">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                         <i class="ph-fill ${lecture.icon} ${lecture.color} text-xl"></i>
+                                         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${lecture.type}</span>
+                                    </div>
+                                    <span class="text-[9px] font-bold text-slate-400">(${lecture.star_count} đánh giá)</span>
+                                </div>
+                                <h4 class="font-extrabold text-slate-800 mb-2 line-clamp-2 min-h-[3rem] group-hover:text-edunext-primary transition-colors text-sm">${lecture.title}</h4>
+                                <p class="text-[11px] text-slate-500 font-medium mb-5 italic line-clamp-2">${lecture.description || 'Tài liệu hướng dẫn học tập chi tiết.'}</p>
+                                
+                                <div class="grid grid-cols-2 gap-3 mt-auto pt-4 border-t border-slate-50">
+                                    <button onclick="rateResourcePrompt(${lecture.id})" class="py-2.5 bg-amber-50 text-amber-600 rounded-xl font-bold hover:bg-amber-500 hover:text-white transition-all text-[10px] flex items-center justify-center gap-2 uppercase tracking-wide">
+                                        <i class="ph-fill ph-star"></i> Đánh giá
+                                    </button>
+                                    <button onclick="window.open('${lecture.url}')" class="py-2.5 bg-edunext-primary text-white rounded-xl font-black transition-all text-[10px] flex items-center justify-center gap-2 uppercase tracking-wide shadow-lg shadow-red-100">
+                                        <i class="ph-bold ${lecture.type === 'Video' ? 'ph-play' : 'ph-download'}"></i> Mở xem
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    grid.innerHTML = `
+                        <div class="col-span-full py-20 text-center bg-white rounded-[2rem] border border-dashed border-slate-200">
+                            <i class="ph ph-mask-sad text-5xl text-slate-200 mb-4"></i>
+                            <p class="text-slate-400 font-bold italic">Chưa có học liệu cho khối ${currentClass}.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error("Lỗi tải học liệu:", error);
+                grid.innerHTML = '<p class="text-center col-span-full py-10 text-red-500 font-bold">Lỗi kết nối máy chủ!</p>';
+            }
+            
+            document.getElementById('lecture-sub-title').innerText = `Tài liệu môn học - ${gradeNames[currentClass]}`;
+        }
+
+        function changeClass(className) {
+            currentClass = className;
+            document.querySelectorAll('.class-btn').forEach(btn => {
+                if(btn.dataset.class == className) {
+                    btn.classList.add('bg-white', 'text-edunext-primary', 'shadow-sm');
+                    btn.classList.remove('text-slate-500');
+                } else {
+                    btn.classList.remove('bg-white', 'text-edunext-primary', 'shadow-sm');
+                    btn.classList.add('text-slate-500');
+                }
+            });
+            renderSubjects();
+            renderLectures();
+        }
+
+        function rateResourcePrompt(id) {
+            selectedResourceId = id;
+            selectedStars = 0;
+            updateStarUI();
+            toggleRateModal();
+        }
+
+        function toggleRateModal() {
+            const modal = document.getElementById('rateModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function setStar(index) {
+            selectedStars = index;
+            updateStarUI();
+        }
+
+        function updateStarUI() {
+            const stars = document.querySelectorAll('#star-container i');
+            stars.forEach((s, idx) => {
+                if (idx < selectedStars) {
+                    s.classList.add('text-amber-400');
+                    s.classList.remove('text-slate-200');
+                } else {
+                    s.classList.remove('text-amber-400');
+                    s.classList.add('text-slate-200');
+                }
+            });
+        }
+
+        async function submitRating() {
+            if (selectedStars === 0) {
+                alert("Vui lòng chọn số sao!");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/resource/rate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resource_id: selectedResourceId, stars: selectedStars })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("Cảm ơn bạn đã đánh giá!");
+                    toggleRateModal();
+                    renderLectures();
+                }
+            } catch (e) { alert("Lỗi gửi đánh giá!"); }
+        }
+
+        function openSubject(name) {
+            alert(`Mở kho học liệu ${name} THCS - Lớp ${currentClass}`);
+        }
+
+        // Khởi tạo lần đầu
+        renderLectures();
+    </script>
+</body>
+</html>

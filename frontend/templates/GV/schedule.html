@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Thời khóa biểu | EduNext Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { 
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: { brand: { primary: '#E11D48', dark: '#0F172A', surface: '#F1F5F9' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f1f5f9; letter-spacing: -0.01em; font-family: 'Inter', sans-serif; }
+        .ai-gradient { background: linear-gradient(135deg, #4F46E5 0%, #E11D48 100%); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+        * { font-style: normal !important; }
+        .schedule-grid { display: grid; grid-template-columns: 80px repeat(6, 1fr); gap: 10px; }
+        .grid-header { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #94a3b8; text-align: center; padding: 10px; letter-spacing: 0.1em; }
+        .grid-cell { background: white; border-radius: 16px; border: 1px solid #e2e8f0; padding: 10px; min-height: 100px; transition: all 0.2s; }
+        .grid-cell:hover { border-color: #E11D48; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.05); }
+        .period-label { font-size: 11px; font-weight: 800; color: #1e293b; display: flex; align-items: center; justify-content: center; height: 100%; border-right: 2px dashed #e2e8f0; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-900 bg-brand-surface">
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-30 shadow-sm">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 ai-gradient rounded-2xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i class="ph-fill ph-circles-four text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-black text-2xl tracking-tighter text-brand-dark uppercase leading-none">Edu<span
+                            class="text-brand-primary">Next</span></span>
+                    <p class="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em] mt-1">Teacher Pro</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-6 space-y-8 overflow-y-auto py-8">
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hệ thống</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_teacher" id="nav-dashboard"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-house-line text-xl"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">Nghiệp vụ
+                    Chủ nhiệm</p>
+                <div class="space-y-1">
+                    <a href="/teacher/attendance" id="nav-attendance"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Điểm danh lớp
+                    </a>
+                    <a href="/teacher/leave-requests" id="nav-leave"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative group">
+                        <i class="ph-bold ph-envelope-open text-xl"></i> Duyệt đơn xin nghỉ
+                        <span id="badge-leave"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-rose-500 text-white text-[8px] flex items-center justify-center rounded-full hidden">0</span>
+                    </a>
+                    <a href="/teacher/announcements" id="nav-announcements"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-megaphone text-xl"></i> Thông báo lớp
+                    </a>
+                    <a href="/teacher/messages" id="nav-messages"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative">
+                        <i class="ph-bold ph-chat-circle-dots text-xl"></i> Tin nhắn
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học tập & Tài
+                    nguyên</p>
+                <div class="space-y-1">
+                    <a href="/teacher/schedule" id="nav-schedule"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-brand-primary text-white shadow-lg shadow-rose-200 font-bold text-sm transition-all">
+                        <i class="ph-fill ph-calendar-check text-xl"></i> Thời khóa biểu
+                    </a>
+                    <a href="/teacher/gradebook" id="nav-gradebook"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-notebook text-xl"></i> Sổ điểm & Nề nếp
+                    </a>
+                    <a href="/teacher/resources" id="nav-resources"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-folder-notched-plus text-xl"></i> Kho học liệu
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-50">
+            <button onclick="window.location.href='/login'"
+                class="w-full flex items-center gap-3 p-3.5 text-slate-400 hover:text-brand-primary hover:bg-rose-50 rounded-2xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-xl"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 h-screen bg-brand-surface relative overflow-hidden">
+        <!-- HEADER -->
+        <header class="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 px-10 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Quản lý / <span id="class-name-display" class="text-brand-dark text-lg font-black tracking-tighter">Thời khóa biểu</span></h2>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-3 px-4 py-2 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="w-8 h-8 ai-gradient rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        <i class="ph-bold ph-user"></i>
+                    </div>
+                    <span id="current-user-name" class="text-xs font-bold text-slate-700">Giáo viên</span>
+                </div>
+                <button onclick="saveSchedule()" class="px-8 py-3.5 ai-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl shadow-rose-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2">
+                    <i class="ph-fill ph-floppy-disk"></i> Lưu Thời khóa biểu
+                </button>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                    <div class="schedule-grid">
+                        <div class="grid-header">Tiết</div>
+                        <div class="grid-header">Thứ 2</div>
+                        <div class="grid-header">Thứ 3</div>
+                        <div class="grid-header">Thứ 4</div>
+                        <div class="grid-header">Thứ 5</div>
+                        <div class="grid-header">Thứ 6</div>
+                        <div class="grid-header">Thứ 7</div>
+
+                        <!-- Lưới sẽ được generate bởi JS -->
+                        <div id="schedule-container" class="contents"></div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 rounded-3xl p-6 border border-amber-100 flex gap-4">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center shrink-0">
+                        <i class="ph-fill ph-lightbulb text-2xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-amber-800 text-sm uppercase italic">Hướng dẫn chỉnh sửa</h4>
+                        <p class="text-xs text-amber-700 font-medium mt-1">Chọn môn học cho từng tiết và nhập số phòng học tương ứng. Để trống môn học nếu tiết đó không có giờ dạy. Sau khi hoàn thành, nhấn <b>"Lưu Thời khóa biểu"</b> để áp dụng thay đổi cho cả lớp.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let subjects = [];
+        let teacherClassId = null;
+        let scheduleData = [];
+
+        async function init() {
+            try {
+                // 1. Lấy thông tin người dùng
+                const pRes = await fetch('/api/user/profile');
+                const profile = await pRes.json();
+                if (profile.success) {
+                    teacherClassId = profile.data.class_id;
+                    document.getElementById('current-user-name').innerText = profile.data.fullname;
+                    document.getElementById('class-name-display').innerText = `Lớp ${profile.data.class_name}`;
+                }
+
+                // 2. Lấy danh sách môn học
+                const sRes = await fetch('/api/subjects');
+                const sData = await sRes.json();
+                if (sData.success) {
+                    subjects = sData.data;
+                }
+
+                // 3. Lấy thời khóa biểu hiện tại
+                const tRes = await fetch(`/api/teacher/schedule?class_id=${teacherClassId}`);
+                const tData = await tRes.json();
+                if (tData.success) {
+                    scheduleData = tData.data;
+                }
+
+                renderGrid();
+            } catch (err) {
+                console.error("Lỗi khởi tạo:", err);
+                alert("Không thể tải dữ liệu. Vui lòng thử lại!");
+            }
+        }
+
+        function renderGrid() {
+            const container = document.getElementById('schedule-container');
+            let html = '';
+
+            for (let tiet = 1; tiet <= 5; tiet++) {
+                // Period label
+                html += `<div class="period-label">Tiết ${tiet}</div>`;
+                
+                for (let thu = 2; thu <= 7; thu++) {
+                    const cellData = scheduleData.find(d => {
+                        const dThu = d.Thu !== undefined ? d.Thu : d.thu;
+                        const dTiet = d.Tiet !== undefined ? d.Tiet : d.tiet;
+                        return Number(dThu) === Number(thu) && Number(dTiet) === Number(tiet);
+                    }) || {};
+                    
+                    html += `
+                        <div class="grid-cell flex flex-col items-center justify-center">
+                            <select onchange="updateCell(${thu}, ${tiet}, 'MaMonHoc', this.value)" class="w-full text-[11px] font-bold border-none bg-slate-50 rounded-lg focus:ring-1 focus:ring-brand-primary p-2 text-center">
+                                <option value="">--- Trống ---</option>
+                                ${subjects.map(s => `
+                                    <option value="${s.MaMonHoc}" ${cellData.MaMonHoc == s.MaMonHoc ? 'selected' : ''}>${s.TenMonHoc}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    `;
+                }
+            }
+            container.innerHTML = html;
+        }
+
+        function updateCell(thu, tiet, field, value) {
+            let item = scheduleData.find(d => d.Thu === thu && d.Tiet === tiet);
+            if (!item) {
+                item = { Thu: thu, Tiet: tiet, MaMonHoc: null, PhongHoc: '' };
+                scheduleData.push(item);
+            }
+            
+            if (field === 'MaMonHoc') {
+                item.MaMonHoc = value ? parseInt(value) : null;
+            } else {
+                item.PhongHoc = value;
+            }
+        }
+
+        async function saveSchedule() {
+            try {
+                const payload = {
+                    class_id: teacherClassId,
+                    schedule: scheduleData.filter(d => d.MaMonHoc).map(d => ({
+                        thu: d.Thu,
+                        tiet: d.Tiet,
+                        mon_hoc_id: d.MaMonHoc,
+                        phong_hoc: d.PhongHoc
+                    }))
+                };
+
+                const response = await fetch('/api/teacher/schedule/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("✨ Đã lưu thời khóa biểu mới thành công!");
+                } else {
+                    alert("❌ Lỗi: " + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("❌ Lỗi kết nối máy chủ!");
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho học liệu | EduNext Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            primary: '#E11D48',
+                            dark: '#0F172A',
+                            surface: '#F1F5F9',
+                            accent: '#FB7185'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f1f5f9; letter-spacing: -0.01em; font-family: 'Inter', sans-serif; }
+        .ai-gradient { background: linear-gradient(135deg, #4F46E5 0%, #E11D48 100%); }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        .resource-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .resource-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); }
+        .resource-cover { position: relative; aspect-ratio: 16/9; overflow: hidden; border-radius: 1.5rem; background: #f8fafc; }
+        .resource-cover img { transition: transform 0.5s ease; width: 100%; height: 100%; object-fit: cover; }
+        .resource-badge { backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .cover-ppt { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
+        .cover-word { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+        .cover-pdf { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+        .cover-video { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); }
+        .cover-generic { background: linear-gradient(135deg, #64748b 0%, #475569 100%); }
+        * { font-style: normal !important; }
+    </style>
+</head>
+
+<body class="flex h-screen overflow-hidden text-slate-900 bg-brand-surface">
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-30 shadow-sm">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 ai-gradient rounded-2xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i class="ph-fill ph-circles-four text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-black text-2xl tracking-tighter text-brand-dark uppercase leading-none">Edu<span class="text-brand-primary">Next</span></span>
+                    <p class="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em] mt-1">Teacher Pro</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-6 space-y-8 overflow-y-auto py-8">
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hệ thống</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_teacher" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-house-line text-xl"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">Nghiệp vụ Chủ nhiệm</p>
+                <div class="space-y-1">
+                    <a href="/teacher/attendance" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Điểm danh lớp
+                    </a>
+                    <a href="/teacher/leave-requests" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative group">
+                        <i class="ph-bold ph-envelope-open text-xl"></i> Duyệt đơn xin nghỉ
+                    </a>
+                    <a href="/teacher/announcements" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-megaphone text-xl"></i> Thông báo lớp
+                    </a>
+                    <a href="/teacher/messages" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative">
+                        <i class="ph-bold ph-chat-circle-dots text-xl"></i> Tin nhắn
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học tập & Tài nguyên</p>
+                <div class="space-y-1">
+                    <a href="/teacher/schedule" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Thời khóa biểu
+                    </a>
+                    <a href="/teacher/gradebook" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-notebook text-xl"></i> Sổ điểm & Nề nếp
+                    </a>
+                    <a href="/teacher/resources" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-brand-primary text-white shadow-lg shadow-rose-200 font-bold text-sm">
+                        <i class="ph-fill ph-folder-notched-plus text-xl"></i> Kho học liệu
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 bg-brand-surface relative overflow-hidden">
+        <header class="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 px-10 flex items-center justify-between sticky top-0 z-20">
+            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Học tập & Tài nguyên / <span class="text-brand-dark">Kho học liệu</span></h2>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-10 space-y-10 custom-scrollbar">
+            <div id="section-resources" class="space-y-10">
+                <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left">
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm col-span-1 h-fit">
+                        <h3 class="text-lg font-black text-slate-800 mb-6 uppercase italic">Đăng học liệu mới</h3>
+                        <div class="space-y-4">
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tiêu đề học liệu</label>
+                                <input type="text" id="resource-title" placeholder="Ví dụ: Đề cương Toán học Kỳ 2" class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold focus:ring-2 focus:ring-brand-primary outline-none text-slate-900">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Môn học</label>
+                                    <select id="resource-mon" class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold focus:ring-2 focus:ring-brand-primary outline-none">
+                                        <option value="1">Toán học</option>
+                                        <option value="2">Ngữ văn</option>
+                                        <option value="3">Vật lý</option>
+                                        <option value="4">Tiếng Anh</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Khối</label>
+                                    <select id="resource-khoi" class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-xs font-bold focus:ring-2 focus:ring-brand-primary outline-none">
+                                        <option value="1">Khối 6</option>
+                                        <option value="2">Khối 7</option>
+                                        <option value="3">Khối 8</option>
+                                        <option value="4">Khối 9</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1 italic">Chế độ chia sẻ</label>
+                                <div class="grid grid-cols-1 gap-2">
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl cursor-pointer hover:bg-rose-50 transition-colors border-2 border-transparent has-[:checked]:border-brand-primary">
+                                        <input type="radio" name="resource-tt" value="2" class="hidden" checked>
+                                        <i class="ph-fill ph-globe text-emerald-500 text-lg"></i>
+                                        <div>
+                                            <p class="text-[10px] font-black uppercase leading-none">Công khai mẫu</p>
+                                            <p class="text-[9px] text-slate-400 font-medium italic">Mọi người đều thấy trên trang chủ</p>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl cursor-pointer hover:bg-rose-50 transition-colors border-2 border-transparent has-[:checked]:border-brand-primary">
+                                        <input type="radio" name="resource-tt" value="1" class="hidden">
+                                        <i class="ph-fill ph-users-three text-indigo-500 text-lg"></i>
+                                        <div>
+                                            <p class="text-[10px] font-black uppercase leading-none">Nội bộ trường</p>
+                                            <p class="text-[9px] text-slate-400 font-medium italic">Chủ bộ phân môn xem được</p>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl cursor-pointer hover:bg-rose-50 transition-colors border-2 border-transparent has-[:checked]:border-brand-primary">
+                                        <input type="radio" name="resource-tt" value="0" class="hidden">
+                                        <i class="ph-fill ph-door-open text-amber-500 text-lg"></i>
+                                        <div>
+                                            <p class="text-[10px] font-black uppercase leading-none">Chia sẻ lớp</p>
+                                            <p class="text-[9px] text-slate-400 font-medium italic">Chỉ HS lớp mình thấy</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <button onclick="submitTeacherMaterial()" class="w-full py-4 ai-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl hover:scale-[1.02] transition-all mt-4">Đăng học liệu</button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="flex justify-between items-center bg-white p-6 rounded-[2rem] border border-slate-200">
+                            <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest italic">Học liệu của tôi</h3>
+                            <button onclick="loadTeacherMaterials()" class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 hover:text-brand-primary transition-all shadow-sm">
+                                <i class="ph-bold ph-arrows-clockwise text-xl"></i>
+                            </button>
+                        </div>
+                        <div id="teacher-materials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Dữ liệu từ API -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let teacherId = null;
+        let teacherClassId = null;
+
+        async function loadUserProfile() {
+            try {
+                const response = await fetch('/api/user/profile');
+                const result = await response.json();
+                if (result.success) {
+                    teacherId = result.data.id;
+                    teacherClassId = result.data.class_id;
+                    loadTeacherMaterials();
+                }
+            } catch (error) { console.error(error); }
+        }
+
+        function getYouTubeID(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        async function loadTeacherMaterials() {
+            const grid = document.getElementById('teacher-materials-grid');
+            if (!grid) return;
+            grid.innerHTML = '<div class="col-span-1 md:col-span-2 text-center py-20 text-slate-400 font-bold uppercase tracking-widest animate-pulse">Đang tải kho học liệu...</div>';
+
+            try {
+                const response = await fetch(`/api/teacher/materials?user_id=${teacherId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    if (data.materials.length === 0) {
+                        grid.innerHTML = '<div class="col-span-1 md:col-span-2 text-center py-20 text-slate-400 italic font-medium">Bạn chưa đăng tải học liệu nào.</div>';
+                        return;
+                    }
+
+                    grid.innerHTML = data.materials.map(m => {
+                        let badgeColor = "text-slate-500 bg-slate-100";
+                        let modeText = "Riêng tư";
+                        let modeIcon = "ph-lock-key";
+                        if (m.TrangThai === 2) { badgeColor = "text-emerald-600 bg-emerald-50"; modeText = "Công khai"; modeIcon = "ph-globe"; }
+                        else if (m.TrangThai === 1) { badgeColor = "text-indigo-600 bg-indigo-50"; modeText = "Nội bộ"; modeIcon = "ph-users-three"; }
+                        else if (m.TrangThai === 0) { badgeColor = "text-amber-600 bg-amber-50"; modeText = "Lớp"; modeIcon = "ph-door-open"; }
+
+                        const ytId = getYouTubeID(m.DuongDan);
+                        let coverHtml = '';
+                        let typeIcon = "ph-file-pdf";
+                        let typeColor = "cover-pdf";
+
+                        if (ytId) {
+                            coverHtml = `<img src="https://img.youtube.com/vi/${ytId}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${ytId}/mqdefault.jpg'">`;
+                            typeIcon = "ph-youtube-logo";
+                            typeColor = "cover-video";
+                        } else {
+                            const ext = (m.TenTaiLieu || '').split('.').pop().toLowerCase();
+                            if (ext === 'ppt' || ext === 'pptx') { typeIcon = "ph-presentation-chart"; typeColor = "cover-ppt"; }
+                            else if (ext === 'doc' || ext === 'docx') { typeIcon = "ph-file-doc"; typeColor = "cover-word"; }
+                            coverHtml = `<div class="w-full h-full ${typeColor} flex flex-col items-center justify-center text-white"><i class="ph-fill ${typeIcon} text-5xl"></i></div>`;
+                        }
+
+                        return `
+                            <div class="resource-card bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col group h-full">
+                                <div class="resource-cover relative">
+                                    ${coverHtml}
+                                    <div class="absolute top-4 left-4 z-10"><span class="px-3 py-1.5 resource-badge rounded-xl text-[9px] font-black uppercase flex items-center gap-1.5 ${badgeColor}"><i class="ph-fill ${modeIcon}"></i> ${modeText}</span></div>
+                                    <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all"><button onclick="deleteTeacherMaterial(${m.MaTaiLieu})" class="w-9 h-9 bg-white/90 rounded-xl flex items-center justify-center text-rose-500 shadow-lg"><i class="ph-bold ph-trash text-lg"></i></button></div>
+                                </div>
+                                <div class="p-6 flex-1 flex flex-col">
+                                    <h4 class="font-black text-slate-800 text-sm line-clamp-2 leading-snug group-hover:text-brand-primary transition-colors">${m.TenTaiLieu}</h4>
+                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mt-2 italic">${m.TenMonHoc || 'TÀI LIỆU CHUNG'}</p>
+                                    <div class="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between">
+                                        <span class="text-[10px] text-slate-500 font-bold">${new Date(m.NgayDang).toLocaleDateString('vi-VN')}</span>
+                                        <a href="${m.DuongDan}" target="_blank" class="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-brand-primary hover:text-white transition-all"><i class="ph-bold ph-arrow-square-out text-lg"></i></a>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }).join('');
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function submitTeacherMaterial() {
+            const ten_el = document.getElementById('resource-title');
+            if (!ten_el || !ten_el.value) { alert("Vui lòng nhập tiêu đề!"); return; }
+            const tt_input = document.querySelector('input[name="resource-tt"]:checked');
+
+            try {
+                const response = await fetch('/api/teacher/materials/upload', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ten: ten_el.value,
+                        mon: document.getElementById('resource-mon').value,
+                        khoi: document.getElementById('resource-khoi').value,
+                        trang_thai: parseInt(tt_input ? tt_input.value : 1),
+                        user_id: teacherId,
+                        ma_lop: teacherClassId,
+                        loai: 'PDF',
+                        path: '#demo',
+                        mota: 'Học liệu chuyên môn.'
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("✨ Đăng học liệu thành công!");
+                    ten_el.value = '';
+                    loadTeacherMaterials();
+                }
+            } catch (err) { alert("Lỗi kết nối!"); }
+        }
+
+        async function deleteTeacherMaterial(id) {
+            if (!confirm("Xóa học liệu này?")) return;
+            try {
+                const response = await fetch(`/api/teacher/materials/${id}`, { method: 'DELETE' });
+                if ((await response.json()).success) loadTeacherMaterials();
+            } catch (err) { alert("Lỗi!"); }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadUserProfile);
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | EduNext</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .sidebar-link:hover { background: rgba(238, 0, 51, 0.05); color: #ee0033; }
+        .sidebar-active { background: #ee0033 !important; color: white !important; }
+    </style>
+</head>
+<body class="bg-slate-50 flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden lg:flex">
+        <div class="p-6 font-extrabold text-2xl text-slate-800">Edu<span class="text-red-600">Next</span></div>
+        
+        <nav class="flex-1 px-4 space-y-1">
+            <a href="/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-bold {{ 'sidebar-active' if active_page == 'dashboard' }}">
+                <i class="ph-fill ph-house"></i> Bàn học
+            </a>
+            <a href="/kho-hoc-lieu" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-bold {{ 'sidebar-active' if active_page == 'khohoclieu' }}">
+                <i class="ph-fill ph-books"></i> Kho học liệu
+            </a>
+            <a href="/bai-tap" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-bold {{ 'sidebar-active' if active_page == 'baitap' }}">
+                <i class="ph-fill ph-exam"></i> Bài tập
+            </a>
+            <a href="/hoc-sinh/tin-nhan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-bold {{ 'sidebar-active' if active_page == 'messages' }}">
+                <i class="ph-fill ph-messenger-logo"></i> Tin nhắn
+            </a>
+            </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+            <h2 class="font-bold text-slate-700">{% block header_title %}{% endblock %}</h2>
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-medium">{{ student.name if student else 'Học sinh' }}</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-8 h-8 rounded-full bg-slate-100">
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8">
+            {% block content %}{% endblock %} </div>
+    </main>
+</body>
+</html>

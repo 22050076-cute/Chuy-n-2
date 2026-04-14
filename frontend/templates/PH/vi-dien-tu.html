@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ví Edu-Wallet | EduNext 8A1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        edunext: {
+                            50: '#fff1f2',
+                            primary: '#ee0033',
+                            dark: '#0f172a',
+                            blue: '#2563eb'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .red-gradient {
+            background: linear-gradient(135deg, #ee0033 0%, #ba0028 100%);
+        }
+
+        .blue-gradient {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        }
+
+        .card-chip {
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        * {
+            font-style: normal !important;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f8fafc] font-sans text-slate-900 flex h-screen overflow-hidden">
+
+    <aside class="w-72 bg-white border-r border-slate-200 hidden lg:flex flex-col z-50">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 red-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <i class="ph-fill ph-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-xl tracking-tight text-slate-900">EduNext</h1>
+                    <p class="text-[10px] font-bold text-edunext-primary uppercase tracking-[0.2em]">Parent Hub</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 p-6 space-y-8 overflow-y-auto">
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-4">Quản lý học tập</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_parent"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'dashboard' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'dashboard' else 'ph-bold' }} ph-squares-four text-xl"></i>
+                        Tổng quan
+                    </a>
+                    <a href="/parent/gradebook"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'gradebook' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'gradebook' else 'ph-bold' }} ph-chart-line-up text-xl group-hover:text-edunext-primary"></i>
+                        Phân tích AI & Điểm
+                    </a>
+                    <a href="/parent/homework"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'homework' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'homework' else 'ph-bold' }} ph-book-open text-xl group-hover:text-edunext-primary"></i>
+                        Bài tập về nhà
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-4">Đời sống & Tài
+                    chính</p>
+                <div class="space-y-1">
+                    <a href="/parent/wallet"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'wallet' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'wallet' else 'ph-bold' }} ph-wallet text-xl group-hover:text-edunext-primary"></i>
+                        Ví Edu-Wallet
+                    </a>
+                    <a href="/parent/chat"
+                        class="flex items-center gap-3 px-4 py-3 rounded-2xl {{ 'bg-edunext-50 text-edunext-primary font-bold shadow-sm' if active_page == 'chat' else 'text-slate-500 font-semibold hover:bg-slate-50 transition-all group' }}">
+                        <i
+                            class="{{ 'ph-fill' if active_page == 'chat' else 'ph-bold' }} ph-chat-circle-dots text-xl group-hover:text-edunext-primary"></i>
+                        Tin nhắn
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-50">
+            <button onclick="window.location.href='/login'"
+                class="w-full flex items-center gap-3 p-3 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden">
+        <header
+            class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-black text-slate-900 uppercase italic">Quản lý Tài chính Học đường</h2>
+                <p class="text-xs text-slate-500 font-bold">Học sinh: Trần Minh Khôi • Tài khoản: 20268A101</p>
+            </div>
+            <button
+                class="px-6 py-2.5 blue-gradient text-white rounded-2xl text-[11px] font-black uppercase shadow-lg shadow-blue-200 hover:scale-105 transition-all">
+                Nạp tiền vào ví
+            </button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div
+                    class="lg:col-span-1 blue-gradient rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl h-[240px] flex flex-col justify-between">
+                    <div class="relative z-10 flex justify-between items-start">
+                        <div class="card-chip"></div>
+                        <i class="ph-fill ph-wifi-high text-2xl rotate-90 opacity-60"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-[10px] font-bold opacity-60 uppercase tracking-[0.2em] mb-1">Số dư hiện tại</p>
+                        <h3 class="text-4xl font-black tracking-tighter italic">450.000đ</h3>
+                    </div>
+                    <div class="relative z-10 flex justify-between items-end">
+                        <p class="text-xs font-bold tracking-widest uppercase">Trần Minh Khôi</p>
+                        <span class="text-[10px] font-black opacity-40">EDUNEXT CARD</span>
+                    </div>
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+                </div>
+
+                <div
+                    class="lg:col-span-2 bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-center gap-6">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-black text-slate-800 text-sm uppercase tracking-widest italic">Thiết lập hạn mức
+                            chi tiêu</h4>
+                        <span
+                            class="px-4 py-1.5 bg-emerald-50 text-emerald-600 text-[10px] font-black rounded-full uppercase italic">Đang
+                            hoạt động</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-5 rounded-3xl border border-slate-100">
+                            <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Hạn mức theo ngày</p>
+                            <p class="text-xl font-black text-slate-800">50.000đ</p>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-3xl border border-slate-100">
+                            <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Đã dùng hôm nay</p>
+                            <p class="text-xl font-black text-slate-800 text-edunext-blue">15.000đ</p>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase hover:bg-edunext-blue transition-all">Thay
+                        đổi hạn mức</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-xl font-black text-slate-800 italic uppercase flex items-center gap-3">
+                        <i class="ph-fill ph-clock-counter-clockwise text-edunext-blue"></i> Lịch sử giao dịch
+                    </h3>
+                    <button class="text-xs font-bold text-edunext-blue hover:underline">Tải sao kê</button>
+                </div>
+
+                <div class="space-y-4">
+                    <div
+                        class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl text-blue-600 shadow-sm">
+                                <i class="ph-fill ph-hamburger"></i></div>
+                            <div>
+                                <p class="text-sm font-black text-slate-800">Bánh mì thịt & Sữa tươi</p>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase">Căng tin Khu A • 07:15 AM</p>
+                            </div>
+                        </div>
+                        <p class="text-sm font-black text-rose-600">- 15.000đ</p>
+                    </div>
+
+                    <div
+                        class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl text-indigo-600 shadow-sm">
+                                <i class="ph-fill ph-books"></i></div>
+                            <div>
+                                <p class="text-sm font-black text-slate-800">Bộ thước kẻ & Bút chì</p>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase">Nhà sách EduNext • 10:30 AM
+                                </p>
+                            </div>
+                        </div>
+                        <p class="text-sm font-black text-rose-600">- 22.000đ</p>
+                    </div>
+
+                    <div
+                        class="flex items-center justify-between p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl text-emerald-600 shadow-sm">
+                                <i class="ph-fill ph-bank"></i></div>
+                            <div>
+                                <p class="text-sm font-black text-slate-800">Nạp tiền từ MB Bank</p>
+                                <p class="text-[10px] text-emerald-600 font-bold uppercase">Thứ Hai • 08:00 PM</p>
+                            </div>
+                        </div>
+                        <p class="text-sm font-black text-emerald-600">+ 200.000đ</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+
+</html>

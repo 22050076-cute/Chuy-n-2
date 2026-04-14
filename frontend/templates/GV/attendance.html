@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điểm danh lớp | EduNext Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { 
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: { brand: { primary: '#E11D48', dark: '#0F172A', surface: '#F1F5F9' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f1f5f9; letter-spacing: -0.01em; font-family: 'Inter', sans-serif; }
+        .ai-gradient { background: linear-gradient(135deg, #4F46E5 0%, #E11D48 100%); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+        * { font-style: normal !important; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-900 bg-brand-surface">
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-30 shadow-sm">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 ai-gradient rounded-2xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i class="ph-fill ph-circles-four text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-black text-2xl tracking-tighter text-brand-dark uppercase leading-none">Edu<span class="text-brand-primary">Next</span></span>
+                    <p class="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em] mt-1">Teacher Pro</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-6 space-y-8 overflow-y-auto py-8">
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hệ thống</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_teacher" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-house-line text-xl"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">Nghiệp vụ Chủ nhiệm</p>
+                <div class="space-y-1">
+                    <a href="/teacher/attendance" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-brand-primary text-white shadow-lg shadow-rose-200 font-bold text-sm">
+                        <i class="ph-fill ph-calendar-check text-xl"></i> Điểm danh lớp
+                    </a>
+                    <a href="/teacher/leave-requests" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative group">
+                        <i class="ph-bold ph-envelope-open text-xl"></i> Duyệt đơn xin nghỉ
+                    </a>
+                    <a href="/teacher/announcements" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-megaphone text-xl"></i> Thông báo lớp
+                    </a>
+                    <a href="/teacher/messages" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative">
+                        <i class="ph-bold ph-chat-circle-dots text-xl"></i> Tin nhắn
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học tập & Tài nguyên</p>
+                <div class="space-y-1">
+                    <a href="/teacher/schedule" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Thời khóa biểu
+                    </a>
+                    <a href="/teacher/gradebook" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-notebook text-xl"></i> Sổ điểm & Nề nếp
+                    </a>
+                    <a href="/teacher/resources" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-folder-notched-plus text-xl"></i> Kho học liệu
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 h-screen bg-brand-surface relative overflow-hidden">
+        <header class="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 px-10 flex items-center justify-between sticky top-0 z-20">
+            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Nghiệp vụ / <span class="text-brand-dark">Điểm danh lớp</span></h2>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+            <div id="section-attendance" class="space-y-10">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div class="flex items-center gap-6">
+                        <div class="bg-white p-2 rounded-2xl border border-slate-200 flex items-center">
+                            <input type="date" id="attendance-date-picker" class="bg-transparent border-none px-4 py-2 font-bold text-slate-700 outline-none">
+                        </div>
+                        <button onclick="loadAttendanceData()" class="px-6 py-3.5 bg-brand-dark text-white rounded-2xl font-black text-xs uppercase hover:bg-brand-primary transition-all shadow-lg active:scale-95">Kiểm tra dữ liệu</button>
+                    </div>
+                    <button onclick="saveAttendance()" class="px-8 py-4 ai-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl hover:scale-[1.02] transition-all active:scale-95">Lưu điểm danh hôm nay</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-center gap-6">
+                        <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center"><i class="ph-fill ph-users-four text-3xl"></i></div>
+                        <div>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Sĩ số lớp</p>
+                            <span id="att-total-count" class="text-2xl font-black text-slate-800 italic">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-center gap-6">
+                        <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center"><i class="ph-fill ph-check-circle text-3xl"></i></div>
+                        <div>
+                            <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Hiện diện</p>
+                            <span id="att-present-count" class="text-2xl font-black text-slate-800 italic">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-center gap-6">
+                        <div class="w-14 h-14 bg-rose-50 text-brand-primary rounded-2xl flex items-center justify-center"><i class="ph-fill ph-x-circle text-3xl"></i></div>
+                        <div>
+                            <p class="text-[10px] font-black text-brand-primary uppercase tracking-widest mb-1">Vắng mặt</p>
+                            <span id="att-absent-count" class="text-2xl font-black text-slate-800 italic">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50/50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest w-20">ID</th>
+                                <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Họ và Tên</th>
+                                <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Trạng thái điểm danh</th>
+                            </tr>
+                        </thead>
+                        <tbody id="student-attendance-body" class="divide-y divide-slate-50">
+                            <tr><td colspan="3" class="p-20 text-center text-slate-400 font-bold uppercase tracking-widest">Đang tải dữ liệu...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let teacherId = null;
+        let teacherClassId = null;
+        let att_students = [];
+
+        async function loadUserProfile() {
+            try {
+                const response = await fetch('/api/user/profile');
+                const result = await response.json();
+                if (result.success) {
+                    teacherId = result.data.id;
+                    teacherClassId = result.data.class_id;
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('attendance-date-picker').value = today;
+                    loadAttendanceData();
+                }
+            } catch (error) { console.error(error); }
+        }
+
+        async function loadAttendanceData() {
+            const date = document.getElementById('attendance-date-picker').value;
+            const body = document.getElementById('student-attendance-body');
+            body.innerHTML = '<tr><td colspan="3" class="p-20 text-center text-slate-400 font-bold animate-pulse">Đang truy vấn dữ liệu...</td></tr>';
+
+            try {
+                const response = await fetch(`/api/teacher/attendance?class_id=${teacherClassId}&date=${date}`);
+                const result = await response.json();
+                if (result.success) {
+                    att_students = result.data;
+                    renderAttTable();
+                    updateAttStats();
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function renderAttTable() {
+            const body = document.getElementById('student-attendance-body');
+            body.innerHTML = att_students.map(s => `
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                    <td class="px-8 py-5 text-xs font-black text-slate-400 tracking-tighter">#${s.MaNguoiDung}</td>
+                    <td class="px-8 py-5 text-sm font-bold text-slate-700">${s.HoTen}</td>
+                    <td class="px-8 py-5">
+                        <div class="flex items-center justify-center gap-3">
+                            <button onclick="setAttStatus(${s.MaNguoiDung}, 'HienDien')" class="px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all ${s.TrangThai === 'HienDien' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-100' : 'bg-slate-100 text-slate-400 hover:bg-emerald-50 hover:text-emerald-500'}">Có mặt</button>
+                            <button onclick="setAttStatus(${s.MaNguoiDung}, 'Vang')" class="px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all ${s.TrangThai === 'Vang' ? 'bg-rose-500 text-white shadow-lg shadow-rose-100' : 'bg-slate-100 text-slate-400 hover:bg-rose-50 hover:text-rose-500'}">Vắng</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function setAttStatus(id, status) {
+            const student = att_students.find(s => s.MaNguoiDung === id);
+            if (student) {
+                student.TrangThai = status;
+                renderAttTable();
+                updateAttStats();
+            }
+        }
+
+        function updateAttStats() {
+            document.getElementById('att-total-count').innerText = att_students.length;
+            document.getElementById('att-present-count').innerText = att_students.filter(s => s.TrangThai === 'HienDien').length;
+            document.getElementById('att-absent-count').innerText = att_students.filter(s => s.TrangThai === 'Vang').length;
+        }
+
+        async function saveAttendance() {
+            const dateStr = document.getElementById('attendance-date-picker').value;
+            const records = att_students.map(s => ({ student_id: s.MaNguoiDung, status: s.TrangThai }));
+
+            try {
+                const response = await fetch('/api/teacher/attendance', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ date: dateStr, records, class_id: teacherClassId })
+                });
+                if ((await response.json()).success) alert("✨ Điểm danh thành công!");
+            } catch (err) { alert("Lỗi!"); }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadUserProfile);
+    </script>
+</body>
+</html>

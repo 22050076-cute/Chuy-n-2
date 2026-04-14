@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ điểm Bộ môn | EduNext Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { 
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: { brand: { primary: '#E11D48', dark: '#0F172A', surface: '#F1F5F9' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f1f5f9; letter-spacing: -0.01em; font-family: 'Inter', sans-serif; }
+        .ai-gradient { background: linear-gradient(135deg, #4F46E5 0%, #E11D48 100%); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+        * { font-style: normal !important; }
+        .score-input:focus { outline: none; background: #fff1f2; border-color: #E11D48; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-900 bg-brand-surface">
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex relative z-30 shadow-sm">
+        <div class="p-8 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 ai-gradient rounded-2xl flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i class="ph-fill ph-circles-four text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-black text-2xl tracking-tighter text-brand-dark uppercase leading-none">Edu<span
+                            class="text-brand-primary">Next</span></span>
+                    <p class="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em] mt-1">Teacher Pro</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-6 space-y-8 overflow-y-auto py-8">
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hệ thống</p>
+                <div class="space-y-1">
+                    <a href="/dashboard_teacher" id="nav-dashboard"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-house-line text-xl"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">Nghiệp vụ
+                    Chủ nhiệm</p>
+                <div class="space-y-1">
+                    <a href="/teacher/attendance" id="nav-attendance"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Điểm danh lớp
+                    </a>
+                    <a href="/teacher/leave-requests" id="nav-leave"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative group">
+                        <i class="ph-bold ph-envelope-open text-xl"></i> Duyệt đơn xin nghỉ
+                        <span id="badge-leave"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-rose-500 text-white text-[8px] flex items-center justify-center rounded-full hidden">0</span>
+                    </a>
+                    <a href="/teacher/announcements" id="nav-announcements"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-megaphone text-xl"></i> Thông báo lớp
+                    </a>
+                    <a href="/teacher/messages" id="nav-messages"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm relative">
+                        <i class="ph-bold ph-chat-circle-dots text-xl"></i> Tin nhắn
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học tập & Tài
+                    nguyên</p>
+                <div class="space-y-1">
+                    <a href="/teacher/schedule" id="nav-schedule"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-calendar-check text-xl"></i> Thời khóa biểu
+                    </a>
+                    <a href="/teacher/gradebook" id="nav-gradebook"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-brand-primary text-white shadow-lg shadow-rose-200 font-bold text-sm transition-all">
+                        <i class="ph-fill ph-notebook text-xl"></i> Sổ điểm & Nề nếp
+                    </a>
+                    <a href="/teacher/resources" id="nav-resources"
+                        class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-semibold text-slate-500 hover:text-brand-primary hover:bg-rose-50 transition-all text-sm">
+                        <i class="ph-bold ph-folder-notched-plus text-xl"></i> Kho học liệu
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-50">
+            <button onclick="window.location.href='/login'"
+                class="w-full flex items-center gap-3 p-3.5 text-slate-400 hover:text-brand-primary hover:bg-rose-50 rounded-2xl transition-all font-bold text-sm">
+                <i class="ph-bold ph-sign-out text-xl"></i> Đăng xuất
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 bg-brand-surface relative overflow-hidden">
+        <header class="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 px-10 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-8">
+                <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Quản lý / <span class="text-brand-dark" id="page-title">Sổ điểm chi tiết</span></h2>
+                
+                <div class="flex bg-slate-100 p-1 rounded-2xl hidden md:flex">
+                    <button onclick="switchTab('academic')" id="tab-academic" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all bg-white text-brand-primary shadow-sm">Sổ điểm</button>
+                    <button onclick="switchTab('conduct')" id="tab-conduct" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-500 hover:text-brand-primary">Nề nếp & XP</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+            <div class="max-w-6xl mx-auto space-y-8">
+                <!-- Selectors -->
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-4 flex-1">
+                        <div class="flex-1">
+                            <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">Lớp học</label>
+                            <select id="class-select" class="w-full mt-1 bg-slate-50 border-none rounded-xl px-4 py-3 text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary transition-all">
+                                <option value="1">Lớp 6A1</option>
+                                <option value="2">Lớp 7A1</option>
+                                <option value="3">Lớp 8A1</option>
+                                <option value="4">Lớp 9A1</option>
+                            </select>
+                        </div>
+                        <div class="flex-1" id="subject-selector-wrapper">
+                            <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">Môn học</label>
+                            <select id="subject-select" class="w-full mt-1 bg-slate-50 border-none rounded-xl px-4 py-3 text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary transition-all">
+                                <option value="1">Toán học</option>
+                                <option value="2">Ngữ văn</option>
+                                <option value="3">Tiếng Anh</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="loadData()" class="px-8 py-3.5 ai-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl hover:scale-105 transition-all">Tải dữ liệu</button>
+                </div>
+
+                <!-- Academic View -->
+                <div id="academic-view" class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden transition-all">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50/50 border-b border-slate-100">
+                                <tr>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest w-20">STT</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học sinh</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">TX1</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">TX2</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">GK</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">CK</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">TB</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grade-body" class="divide-y divide-slate-50">
+                                <tr><td colspan="7" class="p-20 text-center text-slate-400 italic">Nhấn "Tải dữ liệu" để xem sổ điểm</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Conduct View -->
+                <div id="conduct-view" class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden hidden transition-all">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50/50 border-b border-slate-100">
+                                <tr>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest w-20">STT</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Học sinh</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Email</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Tổng XP</th>
+                                    <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center w-32">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conduct-body" class="divide-y divide-slate-50">
+                                <tr><td colspan="5" class="p-20 text-center text-slate-400 italic">Nhấn "Tải dữ liệu" để xem nề nếp</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL CẬP NHẬT XP -->
+    <div id="conduct-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-6 hidden">
+        <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="p-8 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-black text-slate-800 tracking-tight">Cập nhật thi đua</h3>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Học sinh: <span id="modal-student-name" class="text-brand-primary">Nguyễn Văn A</span></p>
+                </div>
+                <button onclick="closeConductModal()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
+                    <i class="ph-bold ph-x text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-8 space-y-6">
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Mức độ thưởng / phạt</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectXP(10)" class="xp-option px-4 py-3 rounded-2xl border-2 border-slate-100 font-black text-emerald-600 hover:border-emerald-500 transition-all text-sm">+10 XP</button>
+                        <button onclick="selectXP(-10)" class="xp-option px-4 py-3 rounded-2xl border-2 border-slate-100 font-black text-rose-600 hover:border-rose-500 transition-all text-sm">-10 XP</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Lý do ghi nhận</label>
+                    <textarea id="conduct-reason" rows="3" class="w-full bg-slate-50 border-none rounded-2xl p-4 text-xs font-bold outline-none focus:ring-2 focus:ring-brand-primary transition-all custom-scrollbar" placeholder="Nhập lý do ví dụ: 'Hăng hái phát biểu', 'Vi phạm đồng phục'..."></textarea>
+                </div>
+            </div>
+
+            <div class="p-8 bg-slate-50 flex gap-3">
+                <button onclick="closeConductModal()" class="flex-1 py-4 rounded-2xl font-black text-xs uppercase text-slate-400 hover:text-slate-600 transition-all">Hủy bỏ</button>
+                <button onclick="submitConduct()" class="flex-[2] py-4 ai-gradient text-white rounded-2xl font-black text-xs uppercase shadow-xl hover:scale-[1.02] transition-all">Xác nhận cập nhật</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'academic';
+        let selectedStudentId = null;
+        let selectedXPValue = 0;
+
+        function switchTab(tab) {
+            currentTab = tab;
+            const academicTab = document.getElementById('tab-academic');
+            const conductTab = document.getElementById('tab-conduct');
+            const academicView = document.getElementById('academic-view');
+            const conductView = document.getElementById('conduct-view');
+            const subjectWrapper = document.getElementById('subject-selector-wrapper');
+            const title = document.getElementById('page-title');
+
+            if (tab === 'academic') {
+                academicTab.className = "px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all bg-white text-brand-primary shadow-sm";
+                conductTab.className = "px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-500 hover:text-brand-primary";
+                academicView.classList.remove('hidden');
+                conductView.classList.add('hidden');
+                subjectWrapper.classList.remove('md:hidden', 'hidden');
+                title.innerText = 'Sổ điểm chi tiết';
+            } else {
+                conductTab.className = "px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all bg-white text-brand-primary shadow-sm";
+                academicTab.className = "px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-500 hover:text-brand-primary";
+                academicView.classList.add('hidden');
+                conductView.classList.remove('hidden');
+                subjectWrapper.classList.add('hidden');
+                title.innerText = 'Nề nếp & Thi đua';
+            }
+        }
+
+        function loadData() {
+            if (currentTab === 'academic') loadGradebook();
+            else loadConduct();
+        }
+
+        async function loadGradebook() {
+            const classId = document.getElementById('class-select').value;
+            const subjectId = document.getElementById('subject-select').value;
+            const body = document.getElementById('grade-body');
+            body.innerHTML = '<tr><td colspan="7" class="p-20 text-center text-slate-400 font-bold uppercase tracking-widest">Đang tải...</td></tr>';
+
+            try {
+                const response = await fetch(`/api/teacher/grades?class_id=${classId}&subject_id=${subjectId}`);
+                const result = await response.json();
+                if (result.success) {
+                    body.innerHTML = result.data.map((s, idx) => `
+                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">${idx + 1}</td>
+                            <td class="px-6 py-4">
+                                <p class="font-bold text-slate-800 text-sm italic">${s.HoTen}</p>
+                                <p class="text-[9px] font-black text-slate-400 uppercase">${s.MaHocSinh}</p>
+                            </td>
+                            <td class="px-4 py-4 text-center"><input type="number" step="0.1" value="${s.TX1 || ''}" class="w-12 text-center py-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold score-input"></td>
+                            <td class="px-4 py-4 text-center"><input type="number" step="0.1" value="${s.TX2 || ''}" class="w-12 text-center py-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold score-input"></td>
+                            <td class="px-4 py-4 text-center"><input type="number" step="0.1" value="${s.GK || ''}" class="w-12 text-center py-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold score-input"></td>
+                            <td class="px-4 py-4 text-center"><input type="number" step="0.1" value="${s.CK || ''}" class="w-12 text-center py-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold score-input"></td>
+                            <td class="px-6 py-4 text-center font-black text-brand-primary">${s.TB || '-'}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    body.innerHTML = '<tr><td colspan="7" class="p-20 text-center text-slate-400 italic">Không có dữ liệu cho lựa chọn này.</td></tr>';
+                }
+            } catch (err) {
+                console.error(err);
+                body.innerHTML = '<tr><td colspan="7" class="p-20 text-center text-rose-500 font-bold">Lỗi kết nối máy chủ!</td></tr>';
+            }
+        }
+
+        async function loadConduct() {
+            const classId = document.getElementById('class-select').value;
+            const body = document.getElementById('conduct-body');
+            body.innerHTML = '<tr><td colspan="5" class="p-20 text-center text-slate-400 font-bold uppercase tracking-widest">Đang tải...</td></tr>';
+
+            try {
+                const response = await fetch(`/api/teacher/conduct?class_id=${classId}`);
+                const result = await response.json();
+                if (result.success) {
+                    body.innerHTML = result.data.map((s, idx) => `
+                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                            <td class="px-6 py-5 text-xs font-bold text-slate-400">${idx + 1}</td>
+                            <td class="px-6 py-5">
+                                <p class="font-bold text-slate-800 text-sm italic">${s.HoTen}</p>
+                                <p class="text-[9px] font-black text-slate-400 uppercase">#${s.MaNguoiDung}</p>
+                            </td>
+                            <td class="px-6 py-5 text-xs font-medium text-slate-500">${s.Email}</td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="px-3 py-1.5 rounded-xl font-black text-xs ${s.TongXP >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}">
+                                    ⭐ ${s.TongXP}
+                                </span>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <button onclick="openConductModal(${s.MaNguoiDung}, '${s.HoTen}')" class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-brand-primary hover:text-white transition-all shadow-sm">
+                                    <i class="ph-bold ph-plus text-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    body.innerHTML = '<tr><td colspan="5" class="p-20 text-center text-slate-400 italic">Không có dữ liệu cho lớp này.</td></tr>';
+                }
+            } catch (err) {
+                console.error(err);
+                body.innerHTML = '<tr><td colspan="5" class="p-20 text-center text-rose-500 font-bold">Lỗi kết nối máy chủ!</td></tr>';
+            }
+        }
+
+        function openConductModal(sid, name) {
+            selectedStudentId = sid;
+            document.getElementById('modal-student-name').innerText = name;
+            document.getElementById('conduct-modal').classList.remove('hidden');
+            document.getElementById('conduct-reason').value = '';
+            selectedXPValue = 0;
+            document.querySelectorAll('.xp-option').forEach(b => {
+                b.classList.remove('bg-emerald-500', 'bg-rose-500', 'text-white', 'border-transparent');
+                b.classList.add('border-slate-100');
+            });
+        }
+
+        function closeConductModal() {
+            document.getElementById('conduct-modal').classList.add('hidden');
+        }
+
+        function selectXP(val) {
+            selectedXPValue = val;
+            document.querySelectorAll('.xp-option').forEach(b => {
+                b.classList.remove('bg-emerald-500', 'bg-rose-500', 'text-white', 'border-transparent');
+                b.classList.add('border-slate-100');
+            });
+            event.target.classList.remove('border-slate-100');
+            event.target.classList.add(val > 0 ? 'bg-emerald-500' : 'bg-rose-500', 'text-white', 'border-transparent');
+        }
+
+        async function submitConduct() {
+            const reason = document.getElementById('conduct-reason').value;
+            if (!selectedXPValue || !reason) {
+                alert("Vui lòng chọn mức điểm và nhập lý do!");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/teacher/conduct/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        student_id: selectedStudentId,
+                        xp: selectedXPValue,
+                        reason: reason
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("✨ Đã cập nhật nề nếp thành công!");
+                    closeConductModal();
+                    loadConduct();
+                } else {
+                    alert("Lỗi: " + result.message);
+                }
+            } catch (err) {
+                alert("Lỗi kết nối máy chủ!");
+            }
+        }
+    </script>
+</body>
+</html>
