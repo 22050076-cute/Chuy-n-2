@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduNext | Nền tảng kết nối Giáo dục & Cộng đồng</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>EduNext | Hệ Sinh Thái Giáo Dục Số THCS Chuyên Nghiệp</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    fontFamily: { 
+                        // Chuyển toàn bộ sang Times New Roman
+                        sans: ['"Times New Roman"', 'Times', 'serif'],
+                        display: ['"Times New Roman"', 'Times', 'serif'] 
+                    },
                     colors: {
-                        brand: {
-                            blue: '#0066FF',
-                            dark: '#0B1120',
-                            gray: '#94A3B8',
-                            bg: '#FFFFFF'
+                        edunext: { 
+                            primary: '#6366f1',
+                            blue: '#3b82f6',
+                            purple: '#a855f7',
+                            pink: '#ec4899',
+                            dark: '#0f172a'
                         }
                     }
                 }
@@ -30,472 +30,571 @@
     </script>
     <style>
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background-color: #FFFFFF; }
-        .btn-gradient {
-            background: linear-gradient(135deg, #0066FF 0%, #0044CC 100%);
-            transition: all 0.3s ease;
+        
+        /* Thiết lập font mặc định và cỡ chữ 13px */
+        body { 
+            font-family: "Times New Roman", Times, serif; 
+            font-size: 13px; 
         }
-        .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(0, 102, 255, 0.4); }
-        .card-edu {
-            background: #FFFFFF;
-            border: 1px solid #f1f5f9;
-            transition: all 0.3s ease;
+
+        /* Đồng bộ cỡ chữ cho các thành phần văn bản */
+        p, span, a, label, input, textarea, li { font-size: 13px !important; }
+        
+        /* Cỡ chữ tiêu đề theo yêu cầu: 14px hoặc 16px */
+        h1, h2 { font-size: 16px !important; font-weight: bold; }
+        h3, h4, h5 { font-size: 14px !important; font-weight: bold; }
+
+        /* Hiệu ứng nền loang óng ánh (Mesh Gradient) */
+        .aurora-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%);
+            background-size: 200% 200%;
+            animation: moveGradient 10s ease infinite;
         }
-        .card-edu:hover { border-color: #0066FF; transform: translateY(-5px); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.05); }
-        .text-sub { color: #0066FF; font-weight: 700; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
-        .chat-animate { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        .modal-active { display: flex !important; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Chữ loang màu */
+        .text-gradient {
+            background: linear-gradient(to right, #3b82f6, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hiệu ứng kính mờ nâng cao */
+        .glass-morphism { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .feature-box:hover { 
+            transform: translateY(-8px); 
+            border-color: #a855f7; 
+            box-shadow: 0 20px 30px -10px rgba(168, 85, 247, 0.2); 
+        }
+
+        .chat-ai-bubble { 
+            background: linear-gradient(135deg, #3b82f6, #a855f7, #ec4899);
+            box-shadow: 0 15px 30px -5px rgba(168, 85, 247, 0.5); 
+        }
+
+        @keyframes custom-ping { 0% { transform: scale(1); opacity: 1; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
+        .animate-custom-ping { animation: custom-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+        /* Nút bấm ánh kim */
+        .btn-aurora {
+            background: linear-gradient(to right, #3b82f6, #a855f7, #ec4899);
+            transition: all 0.3s ease;
+            background-size: 150% auto;
+        }
+        .btn-aurora:hover {
+            background-position: right center;
+            transform: scale(1.03);
+        }
     </style>
 </head>
-<body class="bg-white text-slate-900 overflow-x-hidden">
+<body class="bg-[#fcfaff] text-slate-800 overflow-x-hidden">
 
-    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-[100] border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-8">
-                <a href="#" class="flex items-center gap-2">
-                    <div class="w-9 h-9 bg-brand-blue rounded-lg flex items-center justify-center text-white">
-                        <i class="ph-fill ph-graduation-cap text-xl"></i>
-                    </div>
-                    <span class="text-2xl font-bold tracking-tight uppercase italic">Edu<span class="text-brand-blue">Next</span></span>
-                </a>
-                <div class="hidden lg:flex items-center gap-8 ml-4">
-                    <a href="#community" class="text-sm font-medium text-slate-500 hover:text-brand-blue transition-colors italic">Thư viện mở</a>
-                    <a href="#events" class="text-sm font-medium text-slate-500 hover:text-brand-blue transition-colors italic">Sự kiện cộng đồng</a>
-                    <a href="#moderation" class="text-sm font-medium text-slate-500 hover:text-brand-blue transition-colors italic">Tiêu chuẩn AI</a>
+    <nav class="fixed top-0 w-full glass-morphism z-[100]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 aurora-bg rounded-lg flex items-center justify-center text-white shadow-lg shadow-purple-200">
+                    <i class="ph-fill ph-graduation-cap text-xl"></i>
                 </div>
+                <span class="text-xl font-black text-edunext-dark tracking-tighter">Edu<span class="text-gradient">Next</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 font-bold uppercase tracking-wider text-slate-500">
+                <a href="#" class="hover:text-edunext-purple transition-colors">Trang chủ</a>
+                <a href="#ve-truong" class="hover:text-edunext-purple transition-colors">Về Nhà Trường</a>
+                <a href="#hoc-lieu-mo" class="hover:text-edunext-purple transition-colors">Học liệu Mở</a>
+                <a href="#hocsinh" class="hover:text-edunext-purple transition-colors">Học sinh</a>
+                <a href="#danh-gia" class="hover:text-edunext-purple transition-colors">Đánh giá</a>
             </div>
             <div class="flex items-center gap-3">
-                <a href="/login" class="px-3 py-1 font-bold text-slate-600 hover:text-edunext-purple transition-colors cursor-pointer">Đăng nhập</a>
-                <a href="/register" class="px-5 py-2 btn-aurora text-white font-bold rounded-full shadow-lg cursor-pointer">Đăng ký</a>
+                <a href="/login" class="px-3 py-1 font-bold text-slate-600 hover:text-edunext-purple transition-colors cursor-pointer">Cổng đăng nhập</a>
+                <a href="/register" class="px-5 py-2 btn-aurora text-white font-bold rounded-full shadow-lg cursor-pointer">Ghi danh ngay</a>
             </div>
         </div>
     </nav>
 
-    <section class="pt-48 pb-32 bg-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-                <p class="text-sub mb-4 italic">Platform Giáo dục 4.0</p>
-                <h1 class="text-5xl lg:text-7xl font-extrabold leading-[1.1] mb-8 text-slate-900 tracking-tight">
-                    Tri thức mở, <br><span class="text-brand-blue italic">kết nối</span> vươn xa.
-                </h1>
-                <p class="text-lg text-slate-500 mb-10 max-w-lg leading-relaxed italic">
-                    Nền tảng tự vận hành cho phép giáo viên chia sẻ bài giảng Public và nhà trường tổ chức các sự kiện cộng đồng miễn phí.
-                </p>
-                <div class="flex items-center gap-4">
-                    <a href="#community" class="btn-gradient text-white px-8 py-4 rounded-full font-bold text-base shadow-xl">Khám phá bài giảng</a>
-                    <a href="#events" class="px-8 py-4 rounded-full font-bold text-base border border-slate-200 hover:bg-slate-50 transition-all italic text-center">Xem sự kiện</a>
+    <section class="pt-28 pb-20 aurora-bg text-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-30">
+            <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-300 blur-[120px] rounded-full"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-pink-300 blur-[120px] rounded-full"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12 relative z-10">
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full font-bold uppercase tracking-[0.2em] mb-4 border border-white/30">Hệ sinh thái Giáo dục Số 2026</div>
+                <h1 class="mb-4 uppercase leading-tight italic">Kiến tạo tương lai số tại EduNext THCS</h1>
+                <p class="opacity-90 mb-8 max-w-xl leading-relaxed font-light">Nền tảng quản trị thông minh kết nối không giới hạn giữa di sản tri thức nhà trường và thế hệ học sinh số.</p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                    <a href="/login" class="px-8 py-3 bg-white text-edunext-purple font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all flex items-center gap-2">Khám phá ngay <i class="ph-bold ph-arrow-right"></i></a>
+                    <a href="#ve-truong" class="px-8 py-3 bg-white/10 border border-white/20 rounded-xl font-bold backdrop-blur-sm hover:bg-white/20 transition-all text-center italic">Tìm hiểu về chúng tôi</a>
                 </div>
             </div>
-            <div class="relative">
-                <div class="bg-white p-2 rounded-[32px] shadow-2xl border border-slate-100">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800" class="rounded-[24px] w-full" alt="Platform Image">
+            <div class="flex-1">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800" class="rounded-[40px] shadow-2xl border-8 border-white/10 transform hover:scale-[1.01] transition-transform duration-500" alt="Student Life">
+            </div>
+        </div>
+    </section>
+
+    <section id="ve-truong" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=400" class="rounded-3xl shadow-lg mt-8" alt="Lớp học">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef14697593?q=80&w=400" class="rounded-3xl shadow-lg" alt="Thư viện">
+                </div>
+                <div>
+                    <h2 class="uppercase mb-6 tracking-tighter">Di sản & Sứ mệnh <br><span class="text-gradient italic">Giáo dục THCS</span></h2>
+                    <p class="text-slate-500 font-medium leading-relaxed mb-6 italic">Chúng tôi tự hào là đơn vị tiên phong ứng dụng Open Data (Dữ liệu mở) vào giảng dạy, giúp tri thức được tiếp cận công bằng cho mọi học sinh và đối tác phát triển.</p>
+                    <ul class="space-y-4 mb-8 text-bold">
+                        <li class="flex items-center gap-3 text-slate-700 font-bold"><i class="ph-bold ph-seal-check text-edunext-purple text-xl"></i> Top 10 trường chuyển đổi số tiêu biểu</li>
+                        <li class="flex items-center gap-3 text-slate-700 font-bold"><i class="ph-bold ph-users-three text-edunext-blue text-xl"></i> <span id="stat-students">2000+</span> Học sinh đang theo học trực tuyến</li>
+                        <li class="flex items-center gap-3 text-slate-700 font-bold"><i class="ph-bold ph-graduation-cap text-edunext-purple text-xl"></i> <span id="stat-teachers">80+</span> Giáo viên chuyên môn cao</li>
+                        <li class="flex items-center gap-3 text-slate-700 font-bold"><i class="ph-bold ph-globe text-edunext-pink text-xl"></i> <span id="stat-materials">250+</span> Học liệu mở và tài nguyên API</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="community" class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+    <section id="hoc-lieu-mo" class="py-24 bg-[#f8faff]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                 <div>
-                    <p class="text-sub mb-2">01 • THƯ VIỆN MỞ</p>
-                    <h2 class="text-4xl font-extrabold text-slate-900 leading-tight italic text-left">Bài giảng từ cộng đồng giáo viên</h2>
+                    <h2 class="uppercase italic mb-2">Hành lang Tri thức Mở</h2>
+                    <p class="text-slate-400 font-bold">Hệ thống học liệu chất lượng cao dành cho cộng đồng và Đối tác phát triển (API).</p>
                 </div>
-                <button onclick="openPostModal()" class="px-6 py-3 bg-white border border-slate-200 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-slate-50 transition-all">
-                    <i class="ph ph-plus-circle text-brand-blue"></i> Đăng bài giảng của bạn
-                </button>
+                <a href="#developer" class="px-6 py-2 bg-slate-900 text-white rounded-xl font-bold uppercase tracking-widest hover:btn-aurora transition-all">Truy cập API Hub</a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="card-edu p-8 rounded-[32px] shadow-sm flex flex-col text-left">
-                    <div class="flex items-center gap-3 mb-6">
-                        <img src="https://i.pravatar.cc/150?u=teacher1" class="w-10 h-10 rounded-full object-cover border-2 border-brand-blue">
-                        <div>
-                            <p class="text-sm font-bold italic">Thầy Quang Duy</p>
-                            <p class="text-[10px] text-slate-400 italic">Xác thực: Chuyên gia toán</p>
-                        </div>
-                    </div>
-                    <h4 class="text-lg font-bold mb-3 italic leading-tight text-left">Giải nhanh trắc nghiệm Toán THCS 2026</h4>
-                    <p class="text-xs text-slate-500 mb-6 italic leading-relaxed text-left">Bộ slide bài giảng Public chia sẻ kỹ năng sử dụng máy tính bỏ túi tối ưu giúp học sinh đạt điểm cao.</p>
-                    <div class="flex items-center justify-between border-t pt-4 mt-auto">
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic"><i class="ph-fill ph-download-simple mr-1"></i> 1.2k tải</span>
-                        <button onclick="handleDownload('Toán THCS')" class="text-brand-blue font-bold text-xs uppercase italic">Tải tài liệu</button>
-                    </div>
-                </div>
+            <div id="featured-materials" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Dữ liệu học liệu sẽ được load từ API -->
+                <div class="animate-pulse bg-slate-200 h-64 rounded-[32px]"></div>
+                <div class="animate-pulse bg-slate-200 h-64 rounded-[32px]"></div>
+                <div class="animate-pulse bg-slate-200 h-64 rounded-[32px]"></div>
+                <div class="animate-pulse bg-slate-200 h-64 rounded-[32px]"></div>
+            </div>
+        </div>
+    </section>
 
-                <div class="card-edu p-8 rounded-[32px] shadow-sm flex flex-col text-left">
-                    <div class="flex items-center gap-3 mb-6">
-                        <img src="https://i.pravatar.cc/150?u=teacher2" class="w-10 h-10 rounded-full object-cover border-2 border-brand-blue">
-                        <div>
-                            <p class="text-sm font-bold italic">Cô Mai Phương</p>
-                            <p class="text-[10px] text-slate-400 italic">Xác thực: Giảng viên Anh ngữ</p>
-                        </div>
-                    </div>
-                    <h4 class="text-lg font-bold mb-3 italic leading-tight text-left">Lộ trình tự học IELTS 6.5 cho lớp 9</h4>
-                    <p class="text-xs text-slate-500 mb-6 italic leading-relaxed text-left">Chia sẻ lộ trình chi tiết và danh sách tài liệu học tập chọn lọc hoàn toàn miễn phí cho cộng đồng.</p>
-                    <div class="flex items-center justify-between border-t pt-4 mt-auto">
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic"><i class="ph-fill ph-download-simple mr-1"></i> 3.5k tải</span>
-                        <button onclick="handleDownload('IELTS 6.5')" class="text-brand-blue font-bold text-xs uppercase italic">Tải tài liệu</button>
-                    </div>
-                </div>
+    <section id="hocsinh" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="uppercase mb-2 italic">Trải nghiệm Cá nhân hóa Học tập</h2>
+                <p class="text-slate-400 font-bold italic">Bộ công cụ giúp học sinh làm chủ hành trình chinh phục tri thức số.</p>
+                <div class="w-16 h-1 aurora-bg mx-auto mt-4 rounded-full"></div>
+            </div>
 
-                <div class="bg-brand-blue rounded-[32px] p-8 text-white flex flex-col justify-between shadow-xl shadow-blue-200 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-box p-8 bg-white border border-slate-50 rounded-[32px] transition-all group shadow-sm">
+                    <div class="w-12 h-12 bg-slate-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl mb-6"><i class="ph-fill ph-calendar"></i></div>
+                    <h4 class="mb-3">Thời khóa biểu riêng</h4>
+                    <p class="text-slate-400 italic">Tự động đồng bộ lịch học, nhắc nhở bài tập qua AI cá nhân hóa.</p>
+                </div>
+                <div class="feature-box p-8 bg-white border border-slate-50 rounded-[32px] transition-all group shadow-sm">
+                    <div class="w-12 h-12 bg-slate-50 text-purple-500 rounded-2xl flex items-center justify-center text-2xl mb-6"><i class="ph-fill ph-users"></i></div>
+                    <h4 class="mb-3">Tương tác trực tuyến</h4>
+                    <p class="text-slate-400 italic">Phòng học ảo 4K, hỗ trợ bảng trắng số và trao đổi nhóm thực.</p>
+                </div>
+                <div class="feature-box p-8 bg-white border border-slate-50 rounded-[32px] transition-all group shadow-sm">
+                    <div class="w-12 h-12 bg-slate-50 text-pink-500 rounded-2xl flex items-center justify-center text-2xl mb-6"><i class="ph-fill ph-lightning"></i></div>
+                    <h4 class="mb-3">Tự học thông minh</h4>
+                    <p class="text-slate-400 italic">Hệ thống gợi ý bài tập dựa trên điểm yếu của học sinh.</p>
+                </div>
+                <div class="feature-box p-8 bg-white border border-slate-50 rounded-[32px] transition-all group shadow-sm">
+                    <div class="w-12 h-12 bg-slate-50 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mb-6"><i class="ph-fill ph-exam"></i></div>
+                    <h4 class="mb-3">Kiểm tra & Đánh giá</h4>
+                    <p class="text-slate-400 italic">Làm bài thi trực tuyến với giám thị AI chống gian lận.</p>
+                </div>
+                <div class="feature-box p-8 bg-white border border-slate-50 rounded-[32px] transition-all group shadow-sm">
+                    <div class="w-12 h-12 bg-slate-50 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mb-6"><i class="ph-fill ph-chart-line-up"></i></div>
+                    <h4 class="mb-3">Phân tích Kết quả</h4>
+                    <p class="text-slate-400 italic">Biểu đồ trực quan hóa sự tiến bộ qua từng học kỳ bằng dữ liệu.</p>
+                </div>
+                <div class="feature-box p-8 bg-white border border-slate-50 rounded-[32px] transition-all group shadow-sm">
+                    <div class="w-12 h-12 bg-slate-50 text-pink-400 rounded-2xl flex items-center justify-center text-2xl mb-6"><i class="ph-fill ph-devices"></i></div>
+                    <h4 class="mb-3">Đa nền tảng (Cloud)</h4>
+                    <p class="text-slate-400 italic">Học tập mọi lúc mọi nơi trên Web, Mobile App và Tablet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quanly" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="flex-1 space-y-8 text-left">
                     <div>
-                        <i class="ph-fill ph-rocket-launch text-4xl mb-6"></i>
-                        <h4 class="text-xl font-bold mb-4 italic leading-tight text-left">Bạn muốn chia sẻ tri thức?</h4>
-                        <p class="text-blue-100 text-sm leading-relaxed italic text-left">Nền tảng mở cho phép mọi giáo viên xây dựng thương hiệu cá nhân và chia sẻ kinh nghiệm không giới hạn.</p>
+                        <h2 class="uppercase mb-4 italic">Điều hành Chiến lược</h2>
+                        <p class="text-slate-400 font-bold italic">Hệ thống Dashboard dành riêng cho Ban giám hiệu và Đối tác.</p>
                     </div>
-                    <button onclick="openPostModal()" class="mt-8 py-3 bg-white text-brand-blue rounded-xl font-bold text-sm shadow-lg active:scale-95 transition-all text-center">Bắt đầu ngay</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="events" class="py-24 bg-white text-center">
-        <div class="max-w-7xl mx-auto px-6">
-            <p class="text-sub mb-4 italic text-center">02 • SỰ KIỆN CỘNG ĐỒNG</p>
-            <h2 class="text-4xl font-extrabold mb-4 text-slate-900 italic text-center">Sân chơi mở cho mọi đối tượng</h2>
-            <p class="text-slate-500 mb-16 italic text-sm text-center">Chỉ những sự kiện công khai và miễn phí mới xuất hiện tại đây.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                <div class="group relative overflow-hidden rounded-[40px] shadow-2xl min-h-[450px]">
-                    <img src="https://images.unsplash.com/photo-1514525253361-bee8718a7439?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-10 flex flex-col justify-end text-left">
-                        <div class="mb-4 flex gap-2">
-                            <span class="px-4 py-1 bg-white/20 backdrop-blur-md text-white rounded-full text-[10px] font-bold uppercase italic border border-white/30">Nổi bật</span>
-                            <span class="px-4 py-1 bg-emerald-500/80 backdrop-blur-md text-white rounded-full text-[10px] font-bold uppercase italic">Miễn phí</span>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <i class="ph-bold ph-shield-star text-blue-500 text-2xl mt-1"></i>
+                            <div>
+                                <h5 class="uppercase text-edunext-dark">Quản lý chuyên môn & Dữ liệu</h5>
+                                <p class="text-slate-400 italic">Kiểm soát phân quyền, theo dõi chất lượng qua KPI số.</p>
+                            </div>
                         </div>
-                        <h3 class="text-3xl font-black text-white mb-4 italic leading-tight text-left">Đêm nhạc hội "Giai điệu Hòa bình 2026"</h3>
-                        <p class="text-slate-300 text-sm mb-6 italic leading-relaxed text-left">Sự kiện giao lưu văn hóa nghệ thuật mở cửa tự do cho tất cả học sinh và cư dân tại địa bàn tham gia.</p>
-                        <div class="flex items-center gap-6">
-                            <button onclick="registerEvent('Đêm nhạc hội')" class="px-8 py-3 bg-white text-brand-dark rounded-full font-bold hover:bg-brand-blue hover:text-white transition-all">Đăng ký giữ chỗ</button>
-                            <span class="text-white text-[10px] font-bold uppercase tracking-widest italic"><i class="ph ph-calendar-blank mr-1"></i> 20/05/2026</span>
+                        <div class="flex gap-4">
+                            <i class="ph-bold ph-hard-drive text-purple-500 text-2xl mt-1"></i>
+                            <div>
+                                <h5 class="uppercase text-edunext-dark">Kiểm duyệt Tri thức mở</h5>
+                                <p class="text-slate-400 italic">Quy trình duyệt bài giảng trước khi công khai cộng đồng.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <i class="ph-bold ph-presentation-chart text-pink-500 text-2xl mt-1"></i>
+                            <div>
+                                <h5 class="uppercase text-edunext-dark">Báo cáo Thống kê Real-time</h5>
+                                <p class="text-slate-400 italic">Phân tích xu hướng học tập và tương tác API.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="flex flex-col gap-6 text-left">
-                    <div onclick="registerEvent('Hội chợ STEM')" class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 flex gap-6 items-center hover:border-brand-blue transition-all group cursor-pointer text-left">
-                        <div class="w-20 h-20 rounded-2xl bg-brand-blue flex flex-col items-center justify-center text-white shrink-0 group-hover:scale-105 transition-transform text-center">
-                            <span class="text-[10px] font-bold opacity-70 uppercase tracking-tighter">Tháng 6</span>
-                            <span class="text-2xl font-black tracking-tighter">15</span>
-                        </div>
-                        <div class="text-left">
-                            <h4 class="font-bold text-lg italic leading-tight mb-2 text-left">Hội chợ STEM & Robotics Trẻ</h4>
-                            <p class="text-xs text-slate-500 italic mb-3 text-left">Triển lãm các sản phẩm công nghệ sáng tạo của học sinh thành phố.</p>
-                            <span class="text-[10px] font-bold text-brand-blue uppercase italic tracking-widest underline">Đăng ký mở</span>
-                        </div>
-                    </div>
-
-                    <div onclick="registerEvent('Ngày hội Hướng nghiệp')" class="p-8 rounded-[32px] bg-slate-50 border border-slate-100 flex gap-6 items-center hover:border-brand-blue transition-all group cursor-pointer text-left">
-                        <div class="w-20 h-20 rounded-2xl bg-emerald-500 flex flex-col items-center justify-center text-white shrink-0 group-hover:scale-105 transition-transform text-center">
-                            <span class="text-[10px] font-bold opacity-70 uppercase tracking-tighter text-center">Tháng 6</span>
-                            <span class="text-2xl font-black tracking-tighter text-center">22</span>
-                        </div>
-                        <div class="text-left">
-                            <h4 class="font-bold text-lg italic leading-tight mb-2 text-left text-left">Ngày hội Hướng nghiệp Career Hub</h4>
-                            <p class="text-xs text-slate-500 italic mb-3 text-left text-left text-left">Tư vấn chọn nghề trực tiếp từ các chuyên gia và doanh nghiệp.</p>
-                            <span class="text-[10px] font-bold text-brand-blue uppercase italic tracking-widest underline text-left">Công khai • Miễn phí</span>
-                        </div>
-                    </div>
-
-                    <div onclick="Swal.fire('Tính năng đang phát triển', 'Chúng tôi sẽ sớm ra mắt cổng đăng ký cho đối tác bên thứ 3.', 'info')" class="p-8 rounded-[32px] bg-slate-900 text-white flex gap-6 items-center cursor-pointer hover:bg-brand-blue transition-all text-left">
-                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-2xl shrink-0"><i class="ph ph-plus"></i></div>
-                         <div class="text-left">
-                            <p class="font-bold italic text-left">Bên thứ 3 muốn tổ chức sự kiện?</p>
-                            <p class="text-[10px] text-slate-400 italic text-left">Nhấn để gửi yêu cầu hợp tác tổ chức ngay.</p>
-                         </div>
+                <div class="flex-1">
+                    <div class="bg-white p-4 rounded-3xl shadow-2xl border-4 border-white">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800" class="rounded-2xl" alt="Admin Dashboard">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="moderation" class="py-24 bg-brand-dark text-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10 text-left">
-            <div class="text-left">
-                <p class="text-brand-blue font-bold text-xs tracking-[4px] mb-4 italic uppercase text-left">Hệ thống tự vận hành</p>
-                <h2 class="text-4xl font-black mb-8 italic leading-tight text-left">Môi trường mở được bảo vệ bởi AI & Cộng đồng.</h2>
-                <div class="space-y-10 text-left">
-                    <div class="flex gap-4 text-left">
-                        <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-brand-blue text-2xl border border-white/10 shrink-0"><i class="ph ph-shield-check"></i></div>
-                        <div class="text-left">
-                            <h4 class="font-bold text-lg mb-1 italic text-left">AI Gatekeeper 24/7</h4>
-                            <p class="text-slate-400 text-sm italic leading-relaxed text-left">Tự động quét nội dung độc hại và phân loại chủ đề ngay khi người dùng nhấn Đăng.</p>
-                        </div>
-                    </div>
+    <section class="py-24 bg-edunext-dark text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 aurora-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center relative z-10">
+            <div>
+                <h2 class="mb-6 uppercase leading-tight italic text-gradient">Cầu nối Gia đình - Trường</h2>
+                <p class="text-slate-400 mb-10 italic font-light leading-relaxed">Chúng tôi tin rằng sự phát triển của học sinh cần có sự thấu hiểu từ con người. Phụ huynh có quyền kết nối trực tiếp chuyên gia thay vì chỉ dùng AI.</p>
+                <div class="flex flex-col gap-4">
+                    <button onclick="alert('Đang kết nối tới Văn phòng Tư vấn Phụ huynh...')" class="w-fit px-10 py-4 btn-aurora text-white font-bold rounded-2xl shadow-xl uppercase tracking-widest">Gặp chuyên gia tư vấn ngay</button>
+                    <p class="uppercase font-bold tracking-[0.2em] text-slate-500" style="font-size: 10px !important;">Hỗ trợ từ 7h30 - 21h00 mỗi ngày</p>
                 </div>
             </div>
-            <div class="bg-white/5 p-10 rounded-[40px] border border-white/10 backdrop-blur-xl text-left">
-                <h4 class="font-bold mb-8 italic flex items-center gap-2 text-left"><i class="ph ph-info text-brand-blue text-left"></i> Quy chuẩn cộng đồng</h4>
-                <div class="space-y-6 text-sm text-slate-400 italic text-left text-left">
-                    <div class="flex items-start gap-3 text-left">
-                        <i class="ph ph-check-circle text-emerald-500 text-xl"></i>
-                        <p class="text-left">Cho phép: Bài giảng chuyên môn, Kỹ năng sống, Hướng nghiệp, Sáng kiến dạy học.</p>
+            <div class="bg-white/5 border border-white/10 rounded-[40px] p-8 backdrop-blur-md text-left">
+                <h5 class="uppercase italic tracking-wider mb-6 text-gradient">Bảng tin Cộng đồng EduNext</h5>
+                <div id="activity-feed" class="space-y-4">
+                    <!-- Dữ liệu hoạt động sẽ được load từ API -->
+                    <p class="text-slate-500 italic">Đang tải hoạt động mới nhất...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="danh-gia" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="uppercase text-gradient mb-4 italic">Tiếng nói Cộng đồng</h2>
+                <p class="text-slate-400 font-bold italic uppercase tracking-widest">Chia sẻ trải nghiệm của bạn về EduNext</p>
+                <div class="w-24 h-1 aurora-bg mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-12 text-left">
+                <div class="lg:col-span-1">
+                    <div class="p-8 rounded-[32px] bg-slate-50/50 border border-slate-100 shadow-xl relative overflow-hidden group backdrop-blur-sm">
+                        <div class="absolute -top-10 -right-10 w-32 h-32 aurora-bg opacity-10 blur-2xl group-hover:opacity-20 transition-opacity"></div>
+                        <h4 class="uppercase mb-6 text-edunext-dark">Gửi nhận xét</h4>
+                        
+                        <form class="space-y-5">
+                            <div>
+                                <label class="font-bold uppercase text-slate-400 mb-2 block tracking-[0.2em]">Danh tính Người gửi</label>
+                                <input type="text" placeholder="Tên của bạn..." class="w-full px-5 py-2 rounded-xl bg-white border border-slate-100 focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all font-bold">
+                            </div>
+                            
+                            <div>
+                                <label class="font-bold uppercase text-slate-400 mb-2 block tracking-[0.2em]">Mức độ tin cậy</label>
+                                <div class="flex gap-2 text-2xl text-amber-400">
+                                    <i class="ph-fill ph-star cursor-pointer hover:scale-110 transition-transform"></i>
+                                    <i class="ph-fill ph-star cursor-pointer hover:scale-110 transition-transform"></i>
+                                    <i class="ph-fill ph-star cursor-pointer hover:scale-110 transition-transform"></i>
+                                    <i class="ph-fill ph-star cursor-pointer hover:scale-110 transition-transform"></i>
+                                    <i class="ph-bold ph-star cursor-pointer hover:scale-110 transition-transform"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="font-bold uppercase text-slate-400 mb-2 block tracking-[0.2em]">Nội dung đánh giá</label>
+                                <textarea rows="4" placeholder="Cảm nhận của bạn..." class="w-full px-5 py-2 rounded-xl bg-white border border-slate-100 focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all font-bold"></textarea>
+                            </div>
+
+                            <button type="button" onclick="alert('Đang thực hiện lệnh SQL: INSERT INTO evaluations... Dữ liệu đã được lưu!')" class="w-full py-4 btn-aurora text-white font-bold rounded-xl shadow-lg uppercase tracking-widest">
+                                Xác nhận gửi đánh giá
+                            </button>
+                        </form>
                     </div>
-                    <div class="flex items-start gap-3 text-left">
-                        <i class="ph ph-x-circle text-red-500 text-xl"></i>
-                        <p class="text-left">Nghiêm cấm: Nội dung thương mại sai lệch, chính trị, bạo lực hoặc trái thuần phong mỹ tục.</p>
+                </div>
+
+                <div class="lg:col-span-2 grid md:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-[28px] bg-white border border-slate-50 shadow-sm hover:border-purple-200 transition-all">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full aurora-bg p-0.5 shadow-md">
+                                <img src="https://i.pravatar.cc/100?u=mom" class="w-full h-full rounded-full border-2 border-white">
+                            </div>
+                            <div>
+                                <h5 class="uppercase tracking-tight">Phụ huynh Thu Hương</h5>
+                                <div class="flex text-amber-400 text-[10px] mt-1"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 italic leading-relaxed">"Rất ấn tượng với cách nhà trường công khai học liệu. Các bài giảng video loang màu tím hồng rất đẹp mắt."</p>
+                        <span class="text-slate-300 font-bold uppercase mt-4 block tracking-widest" style="font-size: 10px !important;">Ghi nhận SQL: 05/04/2026</span>
+                    </div>
+
+                    <div class="p-6 rounded-[28px] bg-white border border-slate-50 shadow-sm hover:border-purple-200 transition-all">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full aurora-bg p-0.5 shadow-md">
+                                <img src="https://i.pravatar.cc/100?u=student" class="w-full h-full rounded-full border-2 border-white">
+                            </div>
+                            <div>
+                                <h5 class="uppercase tracking-tight text-bold">Học sinh Minh Triết</h5>
+                                <div class="flex text-amber-400 text-[10px] mt-1"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-bold ph-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 italic leading-relaxed">"Trợ lý AI v4.0 cực kỳ thông minh! Em đã giải được bài toán khó nhờ sự gợi ý của AI."</p>
+                        <span class="text-slate-300 font-bold uppercase mt-4 block tracking-widest" style="font-size: 10px !important;">Ghi nhận SQL: Hôm qua</span>
+                    </div>
+
+                    <div class="p-6 rounded-[28px] bg-slate-900 text-white border-none shadow-2xl md:col-span-2 flex items-center gap-6">
+                        <div class="w-14 h-14 rounded-2xl aurora-bg flex items-center justify-center text-2xl shadow-lg shrink-0"><i class="ph-fill ph-brackets-curly"></i></div>
+                        <div>
+                            <h5 class="uppercase tracking-widest text-pink-400">Đánh giá từ Đối tác Công nghệ</h5>
+                            <p class="text-slate-400 mt-2 italic leading-relaxed">"Hệ thống Dataset giả lập của EduNext rất sạch và cấu trúc tốt. Đây là nguồn dữ liệu quý giá để nghiên cứu."</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="partner" class="bg-slate-50 border-t border-slate-200 pt-24 pb-12 text-left">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24 text-left">
-                <div class="col-span-1 text-left">
-                    <a href="#" class="flex items-center gap-2 mb-8 text-left">
-                        <div class="w-10 h-10 bg-brand-blue rounded-xl flex items-center justify-center text-white shadow-lg">
-                            <i class="ph-fill ph-graduation-cap text-2xl"></i>
-                        </div>
-                        <span class="text-2xl font-bold italic tracking-tight uppercase text-left">Edu<span class="text-brand-blue text-left">Next</span></span>
-                    </a>
-                    <p class="text-sm text-slate-500 leading-relaxed italic mb-8 text-left">Nền tảng tiên phong kiến tạo hệ sinh thái giáo dục mở tại Việt Nam.</p>
+    <footer class="bg-white pt-24 pb-12 border-t border-slate-100 text-left">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-2">
+                <div class="flex items-center gap-2 mb-6 text-xl font-black uppercase tracking-tighter">
+                    <div class="w-8 h-8 aurora-bg rounded-lg flex items-center justify-center text-white"><i class="ph-fill ph-graduation-cap"></i></div>
+                    EduNext THCS
                 </div>
-                <div>
-                    <h4 class="font-bold text-slate-900 mb-8 uppercase text-[10px] tracking-[4px] italic text-left">Địa chỉ & Liên hệ</h4>
-                    <ul class="space-y-5 text-xs text-slate-500 italic text-left">
-                        <li class="flex items-start gap-3 text-left"><i class="ph ph-map-pin text-brand-blue text-lg"></i> <span class="text-left">Công viên phần mềm Quang Trung, Q. 12, TP. HCM</span></li>
-                        <li class="flex items-center gap-3 text-left"><i class="ph ph-phone text-brand-blue text-lg"></i> <span>Tổng đài: 1900 8888</span></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-slate-900 mb-8 uppercase text-[10px] tracking-[4px] italic text-left">Khám phá</h4>
-                    <ul class="space-y-5 text-xs text-slate-600 font-bold italic underline text-left">
-                        <li><a href="#" class="hover:text-brand-blue">Thư viện bài giảng mở</a></li>
-                        <li><a href="#" class="hover:text-brand-blue">Cổng sự kiện cộng đồng</a></li>
-                    </ul>
-                </div>
-                <div class="text-center p-8 bg-white rounded-[32px] shadow-sm border border-slate-100 text-center">
-                    <h4 class="font-bold text-slate-900 mb-4 uppercase text-[10px] tracking-[3px] italic text-center">Hợp tác mở</h4>
-                    <a href="mailto:partner@edunext.vn" class="inline-block w-full py-4 bg-brand-dark text-white rounded-2xl font-black text-xs hover:bg-brand-blue transition-all shadow-xl italic uppercase tracking-widest text-center">Đăng ký ngay</a>
+                <div class="space-y-3 font-bold uppercase tracking-[0.2em] text-slate-400">
+                    <p class="flex items-center gap-3"><i class="ph-bold ph-map-pin text-purple-500"></i> Thành phố Binh Duong</p>
+                    <p class="flex items-center gap-3"><i class="ph-bold ph-envelope text-pink-500"></i> partner@edunext.edu.vn</p>
+                    <p class="flex items-center gap-3 font-mono tracking-normal">API-KEY: AIzaSyAUFOSGsKqVho6drwNd0EIIwIKy9xZIYrU</p>
                 </div>
             </div>
-            <div class="pt-10 border-t border-slate-200 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">
-                <p>© 2026 EduNext Platform. Mọi quyền được bảo lưu.</p>
+            <div>
+                <h5 class="uppercase mb-6 tracking-widest">Hệ sinh thái</h5>
+                <ul class="space-y-4 font-bold uppercase italic text-slate-400">
+                    <li><a href="#" class="hover:text-edunext-purple">Về chúng tôi</a></li>
+                    <li><a href="#" class="hover:text-edunext-purple">Học liệu mở</a></li>
+                    <li><a href="#" class="hover:text-edunext-purple">Developer API</a></li>
+                </ul>
             </div>
+            <div>
+                <h5 class="uppercase mb-6 tracking-widest">Cộng đồng</h5>
+                <ul class="space-y-4 font-bold uppercase italic text-slate-400">
+                    <li><a href="#" class="hover:text-edunext-purple">Góc phụ huynh</a></li>
+                    <li><a href="#" class="hover:text-edunext-purple">Bảo mật IT</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center pt-8 border-t border-slate-50 text-slate-300 font-bold uppercase tracking-[0.4em]" style="font-size: 10px !important;">
+            © 2026 EduNext Platform. Excellence in Digital Education.
         </div>
     </footer>
 
-    <div id="postModal" class="fixed inset-0 bg-black/60 z-[200] hidden items-center justify-center p-6 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-2xl rounded-[40px] overflow-hidden shadow-2xl">
-            <div class="bg-brand-blue p-6 text-white flex justify-between items-center">
-                <h3 class="font-bold uppercase italic">Đăng bài giảng cộng đồng</h3>
-                <button onclick="closePostModal()"><i class="ph ph-x text-2xl"></i></button>
-            </div>
-            <div class="p-8 grid grid-cols-2 gap-4 text-left">
-                <div class="col-span-1">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-1">HỌ VÀ TÊN</label>
-                    <input type="text" id="authorName" class="w-full bg-slate-50 rounded-xl px-4 py-3 outline-none text-sm italic" placeholder="Tên của bạn...">
+    <div id="ai-widget-container" class="fixed bottom-8 right-8 z-[1000] flex flex-col items-end">
+    
+    <div id="ai-chat-window" class="hidden mb-6 w-[350px] md:w-[420px] bg-white rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-slate-100 overflow-hidden flex flex-col animate-in slide-in-from-bottom-10 fade-in duration-300">
+        
+        <div class="aurora-bg p-6 text-white flex items-center justify-between shadow-lg">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/30">
+                    <i class="ph-fill ph-robot text-2xl"></i>
                 </div>
-                <div class="col-span-1">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-1">TRƯỜNG / ĐƠN VỊ</label>
-                    <input type="text" id="schoolName" class="w-full bg-slate-50 rounded-xl px-4 py-3 outline-none text-sm italic" placeholder="Tên trường...">
-                </div>
-                <div class="col-span-2">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-1">TIÊU ĐỀ BÀI GIẢNG</label>
-                    <input type="text" id="postTitle" class="w-full bg-slate-50 rounded-xl px-4 py-3 outline-none text-sm italic" placeholder="Nhập tiêu đề...">
-                </div>
-                <div class="col-span-2">
-                    <input type="file" id="fileInput" class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx">
-                    <div onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-slate-100 rounded-2xl p-8 text-center cursor-pointer hover:border-brand-blue transition-all">
-                        <i class="ph ph-cloud-arrow-up text-4xl text-slate-300"></i>
-                        <p id="fileNameLabel" class="text-xs text-slate-500 mt-2 italic">Chọn file tài liệu (PDF, Word, Powerpoint)</p>
+                <div>
+                    <p class="font-bold text-sm tracking-tight">EduNext AI Mentor</p>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                        <span class="text-[10px] uppercase font-black tracking-widest opacity-80">Trực tuyến</span>
                     </div>
                 </div>
-                <button onclick="submitPost()" class="col-span-2 py-4 btn-gradient text-white rounded-2xl font-bold text-xs uppercase tracking-widest mt-4 shadow-lg">Gửi bài & Kiểm duyệt AI</button>
             </div>
+            <button onclick="toggleAIChat()" class="w-10 h-10 rounded-xl hover:bg-white/20 transition-all flex items-center justify-center">
+                <i class="ph-bold ph-x text-white"></i>
+            </button>
         </div>
-    </div>
 
-    <div id="guest-chat-window" class="fixed bottom-24 right-8 z-[100] w-80 md:w-96 h-[500px] bg-white rounded-[32px] shadow-2xl border border-slate-100 flex flex-col overflow-hidden chat-animate transform scale-0 origin-bottom-right">
-        <div class="bg-brand-blue p-6 text-white shrink-0">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <i class="ph-fill ph-magic-wand text-2xl"></i>
-                    <p class="font-bold uppercase tracking-widest text-[11px]">EduNext AI</p>
+        <div id="ai-messages-list" class="h-[380px] overflow-y-auto p-6 bg-slate-50/50 space-y-5">
+            <div class="flex gap-3 animate-in fade-in slide-in-from-left duration-500">
+                <div class="w-8 h-8 rounded-lg aurora-bg flex-shrink-0 flex items-center justify-center shadow-md">
+                    <i class="ph-fill ph-sparkle text-white text-xs"></i>
                 </div>
-                <button onclick="toggleGuestChat()"><i class="ph-bold ph-x text-xl"></i></button>
+                <div class="bg-white p-4 rounded-3xl rounded-tl-none shadow-sm border border-slate-100 text-slate-700 leading-relaxed font-medium">
+                    EduNext AI v4.0 chào bạn! Tôi có thể giúp bạn tìm hiểu về chương trình đào tạo hay học liệu mở của trường không?
+                </div>
             </div>
         </div>
-        <div id="guest-chat-content" class="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50/30 custom-scrollbar italic text-[13px] text-left">
-             <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-100 shadow-sm">Dạ chào Anh/Chị! Em là AI hỗ trợ hệ sinh thái EduNext. Em có thể giúp gì cho mình ạ?</div>
+
+        <div class="p-5 bg-white border-t border-slate-100">
+            <form id="ai-widget-form" class="relative flex items-center gap-2">
+                <input type="text" id="ai-widget-input" placeholder="Hỏi AI về EduNext..." 
+                    class="w-full bg-slate-100 px-6 py-4 rounded-2xl border border-transparent focus:border-purple-400 focus:ring-4 focus:ring-purple-500/5 outline-none font-bold transition-all text-sm">
+                <button type="submit" class="w-14 h-14 btn-aurora text-white rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center shrink-0">
+                    <i class="ph-fill ph-paper-plane-right text-xl"></i>
+                </button>
+            </form>
+            <p class="text-[9px] text-center text-slate-400 mt-3 uppercase tracking-[0.2em] font-bold">Powered by Gemini 2.0 Flash</p>
         </div>
-        <form id="guest-chat-form" class="p-4 bg-white border-t border-slate-100 flex gap-2">
-            <input type="text" id="guest-input" placeholder="Nhập câu hỏi..." class="flex-1 bg-slate-100 border-none rounded-xl px-4 py-3 outline-none text-[13px]">
-            <button type="submit" class="w-12 h-12 bg-brand-blue text-white rounded-xl flex items-center justify-center"><i class="ph-fill ph-paper-plane-right"></i></button>
-        </form>
     </div>
 
-    <button onclick="toggleGuestChat()" class="fixed bottom-8 right-8 z-[100] w-16 h-16 bg-brand-blue text-white rounded-2xl flex items-center justify-center text-3xl shadow-xl active:scale-90 transition-all text-center">
-        <i class="ph-fill ph-chat-centered-dots text-center"></i>
-    </button>
+    <div class="relative group">
+        <div class="absolute inset-0 rounded-full aurora-bg animate-custom-ping opacity-75"></div>
+        <button onclick="toggleAIChat()" class="chat-ai-bubble w-16 h-16 text-white rounded-2xl flex items-center justify-center text-3xl relative z-10 transition-all hover:rotate-12 active:scale-90 shadow-2xl">
+            <i id="ai-toggle-icon" class="ph-fill ph-magic-wand"></i>
+        </button>
+    </div>
+</div>
 
     <script>
-        // ==========================================
-        // 1. CẤU HÌNH & KẾT NỐI
-        // ==========================================
-        const API_URL = "http://127.0.0.1:3000"; 
-        const socket = io(API_URL);
+        async function loadPlatformHighlights() {
+            try {
+                const response = await fetch('/api/platform/highlights');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 1. Cập nhật thống kê
+                    document.getElementById('stat-students').innerText = data.stats.students.toLocaleString() + '+';
+                    document.getElementById('stat-teachers').innerText = data.stats.teachers.toLocaleString() + '+';
+                    document.getElementById('stat-materials').innerText = data.stats.materials.toLocaleString() + '+';
 
-        // --- ĐĂNG KÝ SỰ KIỆN (GỬI MAIL THẬT) ---
-        function registerEvent(name) {
-            Swal.fire({
-                title: 'Nhận vé tham gia',
-                text: `Sự kiện: ${name}`,
-                input: 'email',
-                inputPlaceholder: 'Nhập Email của bạn để nhận vé thật',
-                showCancelButton: true,
-                confirmButtonText: 'Gửi vé cho tôi',
-                confirmButtonColor: '#0066FF',
-                showLoaderOnConfirm: true,
-                preConfirm: (email) => {
-                    if (!email || !email.includes('@')) {
-                        Swal.showValidationMessage('Vui lòng nhập Email hợp lệ!');
-                        return;
+                    // 2. Cập nhật Học liệu tiêu biểu
+                    const mContainer = document.getElementById('featured-materials');
+                    if (mContainer && data.materials.length > 0) {
+                        mContainer.innerHTML = data.materials.map(m => `
+                            <div class="feature-box p-6 bg-white rounded-[32px] border border-slate-100 shadow-sm transition-all group overflow-hidden relative">
+                                <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                    <i class="ph-fill ph-circles-three-plus text-5xl"></i>
+                                </div>
+                                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                                    <i class="ph-fill ph-notebook"></i>
+                                </div>
+                                <h4 class="mb-2 uppercase text-slate-800">${m.TenTaiLieu}</h4>
+                                <p class="text-slate-500 mb-4 italic text-xs leading-relaxed">${m.MoTa || 'Tài liệu giáo dục chất lượng cao.'}</p>
+                                <div class="flex items-center justify-between mt-auto">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">GV: ${m.TenGiaoVien || 'Hệ thống'}</span>
+                                    <button class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-edunext-primary hover:text-white transition-all">
+                                        <i class="ph-bold ph-download-simple"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('');
                     }
-                    return fetch(`${API_URL}/send-ticket`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: email, event_name: name })
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error("Server đang bận!");
-                        return response.json();
-                    })
-                    .catch(error => {
-                        Swal.showValidationMessage(`Lỗi: ${error}`);
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed && result.value.status === "success") {
-                    Swal.fire('Thành công!', 'Vé điện tử đã được gửi vào Email của bạn!', 'success');
+
+                    // 3. Cập nhật Bảng tin hoạt động
+                    const fContainer = document.getElementById('activity-feed');
+                    if (fContainer && data.activities.length > 0) {
+                        fContainer.innerHTML = data.activities.map(a => `
+                            <div class="flex gap-4 items-start p-4 hover:bg-white/5 transition-all cursor-pointer rounded-2xl border border-transparent hover:border-white/10">
+                                <i class="ph-bold ph-lightning text-amber-400 text-xl mt-1"></i>
+                                <div>
+                                    <p class="text-slate-200 font-bold text-sm">${a.TieuDe}</p>
+                                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">${new Date(a.NgayTao).toLocaleDateString('vi-VN')}</p>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
                 }
-            });
-        }
-
-        // --- ĐĂNG BÀI GIẢNG (HÀM ĐÃ ĐƯỢC SỬA ĐỔI ĐỂ GỬI DỮ LIỆU THẬT) ---
-        function openPostModal() { document.getElementById('postModal').classList.add('modal-active'); }
-        function closePostModal() { document.getElementById('postModal').classList.remove('modal-active'); }
-
-        // Logic hiển thị tên file khi chọn
-        document.getElementById('fileInput')?.addEventListener('change', function(e) {
-            const fileName = e.target.files[0]?.name || "Chưa chọn file";
-            document.getElementById('fileNameLabel').innerText = "Đã chọn: " + fileName;
-            document.getElementById('fileNameLabel').classList.add('text-brand-blue', 'font-bold');
-        });
-
-        function submitPost() {
-            const author = document.getElementById('authorName').value;
-            const school = document.getElementById('schoolName').value;
-            const title = document.getElementById('postTitle').value;
-            const file = document.getElementById('fileInput').files[0];
-
-            if (!author || !school || !title || !file) {
-                return Swal.fire('Thiếu thông tin', 'Vui lòng điền đầy đủ thông tin và chọn file bài giảng!', 'warning');
+            } catch (err) {
+                console.error("Lỗi fetch highlights:", err);
             }
-
-            const formData = new FormData();
-            formData.append('author', author);
-            formData.append('school', school);
-            formData.append('title', title);
-            formData.append('file', file);
-
-            Swal.fire({
-                title: 'Đang tải lên...',
-                html: 'AI đang kiểm duyệt nội dung và định danh giáo viên',
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
-
-            fetch(`${API_URL}/upload-lesson`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === "success") {
-                    Swal.fire('Thành công!', `Bài giảng của giáo viên ${author} (${school}) đã được đăng!`, 'success');
-                    closePostModal();
-                    // Reset form
-                    document.getElementById('authorName').value = '';
-                    document.getElementById('schoolName').value = '';
-                    document.getElementById('postTitle').value = '';
-                    document.getElementById('fileInput').value = '';
-                    document.getElementById('fileNameLabel').innerText = "Chọn file tài liệu (PDF, Word, Powerpoint)";
-                    document.getElementById('fileNameLabel').classList.remove('text-brand-blue', 'font-bold');
-                } else {
-                    Swal.fire('Lỗi', data.message, 'error');
-                }
-            })
-            .catch(err => Swal.fire('Lỗi', 'Không thể kết nối đến Server Backend!', 'error'));
         }
+        
+        // Chạy khi trang tải
+        document.addEventListener('DOMContentLoaded', loadPlatformHighlights);
+    
+    // --- LOGIC CHO CHAT AI WIDGET (Sử dụng SocketIO) ---
+const socket = io(); // Khởi tạo kết nối SocketIO tới Flask
 
-        // --- TẢI TÀI LIỆU ---
-        function handleDownload(name) {
-            Swal.fire({
-                title: 'Đang chuẩn bị...',
-                text: `Tài liệu "${name}" đang được tải về`,
-                timer: 1500,
-                showConfirmButton: false,
-                didOpen: () => { Swal.showLoading(); }
-            }).then(() => {
-                Swal.fire('Hoàn tất!', 'Tải về thành công.', 'success');
-            });
-        }
+function toggleAIChat() {
+    const windowChat = document.getElementById('ai-chat-window');
+    const icon = document.getElementById('ai-toggle-icon');
+    const isOpen = !windowChat.classList.contains('hidden');
 
-        // --- CHAT AI Realtime ---
-        const guestForm = document.getElementById('guest-chat-form');
-        const guestInput = document.getElementById('guest-input');
-        const guestContent = document.getElementById('guest-chat-content');
+    if (isOpen) {
+        windowChat.classList.add('hidden');
+        icon.classList.replace('ph-x', 'ph-magic-wand');
+    } else {
+        windowChat.classList.remove('hidden');
+        icon.classList.replace('ph-magic-wand', 'ph-x');
+        document.getElementById('ai-widget-input').focus();
+    }
+}
 
-        guestForm.onsubmit = (e) => {
-            e.preventDefault();
-            const question = guestInput.value.trim();
-            if (!question) return;
+document.getElementById('ai-widget-form').onsubmit = (e) => {
+    e.preventDefault();
+    const input = document.getElementById('ai-widget-input');
+    const container = document.getElementById('ai-messages-list');
+    const text = input.value.trim();
+    
+    if (!text) return;
 
-            appendMsg('user', question);
-            guestInput.value = '';
+    // Hiển thị tin nhắn người dùng
+    const userHtml = `
+        <div class="flex flex-row-reverse gap-3 animate-in fade-in slide-in-from-right duration-300">
+            <div class="bg-purple-600 text-white p-4 rounded-3xl rounded-tr-none shadow-lg text-sm font-bold leading-relaxed max-w-[85%]">
+                ${text}
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('beforeend', userHtml);
+    input.value = '';
+    container.scrollTop = container.scrollHeight;
 
-            const loadId = 'load-' + Date.now();
-            guestContent.insertAdjacentHTML('beforeend', `<div id="${loadId}" class="text-[10px] text-slate-400 italic px-2">AI đang trả lời...</div>`);
-            guestContent.scrollTop = guestContent.scrollHeight;
+    // Hiển thị hiệu ứng loading
+    const loadingId = 'loading-' + Date.now();
+    container.insertAdjacentHTML('beforeend', `
+        <div id="${loadingId}" class="flex gap-3 animate-pulse">
+            <div class="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center"><i class="ph-fill ph-robot text-slate-400"></i></div>
+            <div class="bg-slate-200 h-10 w-20 rounded-3xl rounded-tl-none border border-slate-100"></div>
+        </div>
+    `);
+    container.scrollTop = container.scrollHeight;
 
-            socket.emit('ask_guest_ai', { question: question });
-        };
+    // PHÁT TÍN HIỆU LÊN BACKEND (Thay vì fetch)
+    socket.emit('ask_clb_connect', { 
+        question: text,
+        platformContext: "Người dùng đang ở trang chủ EduNext.",
+        userContext: "Khách ghé thăm"
+    });
+};
 
-        socket.on('guest_ai_response', (data) => {
-            const loadingMsg = document.querySelector('[id^="load-"]');
-            if (loadingMsg) loadingMsg.remove();
-            appendMsg('ai', data.answer);
-        });
+// LẮNG NGHE PHẢN HỒI TỪ BACKEND
+socket.on('ai_response', (data) => {
+    const container = document.getElementById('ai-messages-list');
+    
+    // Xóa loading (tìm tất cả các div có id bắt đầu bằng loading-)
+    const loadings = container.querySelectorAll('[id^="loading-"]');
+    loadings.forEach(el => el.remove());
 
-        function appendMsg(role, text) {
-            const isAI = role === 'ai';
-            const html = `
-                <div class="flex ${isAI ? 'justify-start' : 'justify-end'} mb-2 italic">
-                    <div class="${isAI ? 'bg-white border border-slate-100 text-slate-700 rounded-tl-none' : 'bg-brand-blue text-white rounded-tr-none'} p-4 rounded-2xl shadow-sm max-w-[85%] text-[13px] font-medium leading-relaxed">
-                        ${isAI ? marked.parse(text) : text}
-                    </div>
-                </div>`;
-            guestContent.insertAdjacentHTML('beforeend', html);
-            guestContent.scrollTop = guestContent.scrollHeight;
-        }
-
-        function toggleGuestChat() {
-            const win = document.getElementById('guest-chat-window');
-            win.classList.toggle('scale-0'); win.classList.toggle('scale-100');
-        }
-
-        function handleAuth(type) {
-            Swal.fire(type, `Hệ thống xác thực EduID đang được kết nối...`, 'info');
-        }
+    const aiHtml = `
+        <div class="flex gap-3 animate-in fade-in slide-in-from-left duration-500">
+            <div class="w-8 h-8 rounded-lg aurora-bg flex items-center justify-center shadow-md">
+                <i class="ph-fill ph-sparkle text-white text-xs"></i>
+            </div>
+            <div class="bg-white p-4 rounded-3xl rounded-tl-none shadow-sm border border-slate-100 text-slate-700 font-medium leading-relaxed max-w-[85%]">
+                ${data.answer}
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('beforeend', aiHtml);
+    container.scrollTop = container.scrollHeight;
+});
     </script>
 </body>
 </html>

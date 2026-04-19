@@ -3,9 +3,9 @@ import urllib.parse
 
 # DB Config
 USERNAME = 'sa'
-PASSWORD = '123'
+PASSWORD = '123456'
 SERVER = '127.0.0.1'
-PORT = '1433' 
+PORT = '50667
 DATABASE = 'LopHocSo'
 DRIVER = 'ODBC Driver 17 for SQL Server' 
 

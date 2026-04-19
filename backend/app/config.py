@@ -1,49 +1,50 @@
+# -*- coding: utf-8 -*-
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base
+
+# 1. Xác định đường dẫn gốc (Root Directory)
+# Giả sử file này nằm trong app/config.py, ta cần lùi 1 cấp để ra thư mục chứa .env
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=BASE_DIR / ".env")
 
 class Config:
-    """Cấu hình các tham số hệ thống cho EduNext Platform"""
+    # --- AI CONFIG ---
+    GENAI_API_KEY = os.getenv("GEMINI_API_KEY")
+    GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
     
-    # 1. Khóa bí mật dùng cho Session và mã hóa Cookie
-    SECRET_KEY = "edunext_secret_key_2026_master"
+    # --- SECURITY CONFIG ---
+    SECRET_KEY = os.getenv("SECRET_KEY", "edunext_secret_key_default_123")
     
-    # 2. Cấu hình AI Gemini (Sử dụng Key mới nhất bạn cung cấp)
-    GENAI_API_KEY = "AIzaSyCHJAle_x1g9BmkCxQvogszAZIX3nAFM78"
-    
-    # 3. Cấu hình SQL Server (Sử dụng Driver ODBC 17)
-    # Cú pháp: mssql+pyodbc://[user]:[pass]@[host]/[database]?driver=ODBC+Driver+17+for+SQL+Server
-    # Nếu máy bạn dùng Windows Authentication, hãy thêm: &trusted_connection=yes
- # Sử dụng Windows Authentication (không cần user sa/mật khẩu)
-    DATABASE_URL = "mssql+pyodbc://HMINH\HA_MINH/LopHocSo?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes"
-    
-    # 4. Cấu hình Hệ thống Gửi Email (Sử dụng App Password của Gmail)
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = 'thcsedunext@gmail.com'
-    MAIL_PASSWORD = 'weyb mhnn lcwp lrlc'  # App Password 16 ký tự
-    MAIL_DEFAULT_SENDER = ('EduNext Platform', 'thcsedunext@gmail.com')
+    # --- DATABASE CONFIG ---
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    if not DATABASE_URL:
+        print("⚠️ [WARNING] DATABASE_URL không tồn tại trong .env!")
 
-# ==============================================================================
-# KHỞI TẠO CÁC ĐỐI TƯỢNG KẾT NỐI DATABASE
-# ==============================================================================
+    # --- MAIL CONFIG (Nạp hoàn toàn từ .env) ---
+    MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")
+    MAIL_PORT = int(os.getenv("MAIL_PORT", 587))
+    MAIL_USE_TLS = os.getenv("MAIL_USE_TLS", "True") == "True"
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD") # KHÔNG để password cứng ở đây
 
-# Tạo Engine kết nối
-try:
-    engine = create_engine(
-        Config.DATABASE_URL, 
-        pool_size=10, 
-        max_overflow=20,
-        pool_recycle=3600
-    )
-    # SessionLocal: Dùng để tạo ra các phiên truy vấn (session) trong Routes
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    
-    # Base: Lớp cha cho mô hình ORM (nếu bạn dùng Class-based Models)
-    Base = declarative_base()
-    
-    print("✅ Hệ thống kết nối Database đã sẵn sàng.")
-except Exception as e:
-    print(f"❌ Lỗi cấu hình kết nối Database: {e}")
+    # --- APP CONFIG ---
+    PORT = int(os.getenv("PORT", 3000))
+
+# 2. Khởi tạo Database với Connection Pooling tối ưu
+# pool_size: Số kết nối duy trì sẵn
+# max_overflow: Số kết nối tối đa có thể mở thêm khi quá tải
+engine = create_engine(
+    Config.DATABASE_URL, 
+    pool_size=10, 
+    max_overflow=20, 
+    pool_pre_ping=True, # Tự động kiểm tra kết nối "sống" trước khi dùng
+    pool_recycle=1800   # Tự động làm mới kết nối sau 30 phút
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+print(f"🚀 [CONFIG] System Ready | Model: {Config.GEMINI_MODEL}")

@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, request, jsonify, session, render_template
 from sqlalchemy import text
 from app.config import SessionLocal
@@ -7,7 +8,7 @@ from datetime import datetime
 common_bp = Blueprint('common', __name__)
 
 # ==============================================================================
-# 1. API TRANG CHỦ & HỆ THỐNG (DÙNG CHO GIAO DIỆN AURORA)
+# 1. API TRANG CHỦ & HỆ THỐNG
 # ==============================================================================
 
 @common_bp.route('/')
@@ -17,7 +18,7 @@ def home():
 
 @common_bp.route('/api/platform/highlights', methods=['GET'])
 def get_highlights():
-    """API lấy số liệu thống kê và học liệu nổi bật cho trang chủ"""
+    """API lấy số liệu thống kê thực tế để AI và Frontend sử dụng"""
     db = SessionLocal()
     try:
         # Thống kê thực tế từ Database
@@ -25,7 +26,7 @@ def get_highlights():
         total_teachers = db.execute(text("SELECT COUNT(*) FROM NguoiDung WHERE VaiTro = 'Teacher'")).scalar() or 0
         total_materials = db.execute(text("SELECT COUNT(*) FROM KhoHocLieu")).scalar() or 0
 
-        # Lấy 4 tài liệu mới nhất được công khai (TrangThai = 2)
+        # Lấy tài liệu mới nhất (TrangThai = 2 là Public)
         materials_query = db.execute(text("""
             SELECT TOP 4 kl.MaTaiLieu, kl.TenTaiLieu, kl.MoTa, nd.HoTen as TenGiaoVien
             FROM KhoHocLieu kl
@@ -34,46 +35,53 @@ def get_highlights():
             ORDER BY kl.NgayDang DESC
         """)).fetchall()
 
-        # Lấy 3 thông báo mới nhất
+        # Lấy thông báo mới nhất
         news_query = db.execute(text("""
             SELECT TOP 3 TieuDe, NgayDang 
             FROM ThongBao 
             ORDER BY NgayDang DESC
         """)).fetchall()
 
+        # Chuẩn hóa dữ liệu trả về
         return jsonify({
             "success": True,
             "stats": {
-                "students": total_students + 1500, # Cộng thêm số ảo cho đẹp giao diện
+                "students": total_students + 1500, # Giữ số liệu ảo cho đẹp Marketing
                 "teachers": total_teachers + 80,
                 "materials": total_materials + 250
             },
             "materials": [dict(m._mapping) for m in materials_query],
-            "activities": [{"TieuDe": n.TieuDe, "NgayTao": n.NgayDang.strftime("%Y-%m-%d")} for n in news_query]
+            "activities": [
+                {
+                    "TieuDe": n.TieuDe, 
+                    "NgayTao": n.NgayDang.strftime("%d/%m/%Y") if n.NgayDang else ""
+                } for n in news_query
+            ]
         })
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
     finally:
         db.close()
 
 # ==============================================================================
-# 2. HỆ THỐNG TIN NHẮN (CHAT GIỮA NGƯỜI VỚI NGƯỜI)
+# 2. HỆ THỐNG TIN NHẮN (GIỮA NGƯỜI VÀ NGƯỜI)
 # ==============================================================================
 
 @common_bp.route('/api/messages/history', methods=['GET'])
 def get_chat_history():
-    """Lấy lịch sử tin nhắn cá nhân hoặc tin nhắn nhóm lớp"""
     db = SessionLocal()
     current_user_id = session.get('user_id')
     other_user_id = request.args.get('with_user_id')
 
     if not current_user_id or not other_user_id:
-        return jsonify({"success": False, "message": "Thiếu thông tin người dùng"}), 400
+        return jsonify({"success": False, "message": "Phiên đăng nhập hết hạn"}), 401
 
     try:
         current_user_id = int(current_user_id)
         other_user_id = int(other_user_id)
 
         if other_user_id < 0:
-            # TIN NHẮN NHÓM (ID âm đại diện cho MaLop)
+            # TIN NHẮN NHÓM (Dùng ID âm cho MaLop)
             class_id = abs(other_user_id)
             query = text("""
                 SELECT t.*, n.HoTen as TenNguoiGui 
@@ -95,9 +103,17 @@ def get_chat_history():
             """)
             results = db.execute(query, {"c": current_user_id, "o": other_user_id}).fetchall()
 
+        # Format lại thời gian để Frontend hiển thị dễ hơn
+        data = []
+        for r in results:
+            msg = dict(r._mapping)
+            if msg['ThoiGian']:
+                msg['ThoiGianStr'] = msg['ThoiGian'].strftime("%H:%M - %d/%m")
+            data.append(msg)
+
         return jsonify({
             "success": True, 
-            "data": [dict(r._mapping) for r in results],
+            "data": data,
             "current_user_id": current_user_id
         })
     finally:
@@ -109,7 +125,6 @@ def get_chat_history():
 
 @common_bp.route('/api/teacher/schedule', methods=['GET'])
 def get_schedule():
-    """Lấy thời khóa biểu theo MaLop"""
     db = SessionLocal()
     class_id = request.args.get('class_id') or session.get('class_id')
     
@@ -124,18 +139,9 @@ def get_schedule():
             LEFT JOIN PhanCongGiangDay pc ON tkb.MaLop = pc.MaLop AND tkb.MaMonHoc = pc.MaMonHoc
             LEFT JOIN NguoiDung gv ON pc.MaGiaoVien = gv.MaNguoiDung
             WHERE tkb.MaLop = :cid
+            ORDER BY tkb.Thu ASC, tkb.Tiet ASC
         """)
         results = db.execute(query, {"cid": class_id}).fetchall()
-        return jsonify({"success": True, "data": [dict(r._mapping) for r in results]})
-    finally:
-        db.close()
-
-@common_bp.route('/api/subjects', methods=['GET'])
-def get_subjects():
-    """Lấy danh mục môn học toàn trường"""
-    db = SessionLocal()
-    try:
-        results = db.execute(text("SELECT MaMonHoc as id, TenMonHoc as name FROM MonHoc")).fetchall()
         return jsonify({"success": True, "data": [dict(r._mapping) for r in results]})
     finally:
         db.close()
